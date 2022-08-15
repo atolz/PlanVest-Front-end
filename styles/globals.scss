@@ -1,0 +1,84 @@
+@tailwind utilities;
+
+:root {
+  --color-primary-main: #137c4b;
+  --color-primary-light: #c2e3d4;
+  --color-primary-dark: #1d1d1d;
+  --color-primary-white: #fff;
+  --color-grey-label: #9999b4;
+  --color-grey-text: #666668;
+  --color-error: #c31331;
+  --color-error-light: rgba(195, 19, 48, 0.151);
+  --color-warn: #ff7115;
+  --color-warn-light: rgba(255, 114, 20, 0.199);
+  --color-bg: #f0f2f5;
+  --color-input: #f0f2f3;
+  --color-border: #ebebeb;
+
+  --border-radius-primary: 0.8rem;
+
+  --height-primary: 48px;
+}
+
+html {
+  font-size: 55.3%;
+}
+
+@media (min-width: 940px) {
+  html {
+    font-size: 62.5%;
+  }
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  line-height: 1.6;
+  color: var(--color-grey-text);
+  font-weight: 400;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  background-color: var(--color-bg);
+
+  /* font-family: -apple-system, BlinkMacSystemFont, sans-serif; */
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+.scroll_hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.scroll_hide {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+/* Change Autocomplete styles in Chrome*/
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  border: none;
+  -webkit-text-fill-color: unset;
+  -webkit-box-shadow: 0 0 0px 1000px transparent inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
