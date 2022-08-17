@@ -9,14 +9,16 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@emotion/react": "^11.10.0",
     "@emotion/cache": "latest",
+    "@emotion/react": "^11.10.0",
     "@emotion/server": "latest",
     "@emotion/styled": "^11.10.0",
+    "@mui/lab": "^5.0.0-alpha.94",
     "@mui/material": "^5.10.0",
-    "prop-types": "latest",
     "formik": "^2.2.9",
+    "framer-motion": "^7.1.1",
     "next": "12.2.5",
+    "prop-types": "latest",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "yup": "^0.32.11"

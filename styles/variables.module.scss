@@ -12,6 +12,9 @@ $color-bg: #f0f2f5;
 $color-input: #f0f2f3;
 $color-border: #ebebeb;
 
+$font-primary: "Rubik", sans-serif;
+$font-secondary: "Plus Jakarta Sans", sans-serif;
+
 $border-radius-primary: 0.8rem;
 
 $height-btn: 4.8rem;
@@ -32,6 +35,6 @@ $height-input: 5.6rem;
   heightInput: $height-input;
   heightBtn: $height-btn;
 
-  fontPrimary: "Rubik", sans-serif;
-  fontSecondary: "Plus Jakarta Sans", sans-serif;
+  fontPrimary: $font-secondary;
+  fontSecondary: $font-secondary;
 }

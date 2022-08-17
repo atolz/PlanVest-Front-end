@@ -15,8 +15,13 @@ module.exports = {
         pv_primary: "var(--color-primary-main)",
         pv_bg: "var(--color-bg)",
         pv_dark: "var(--color-primary-dark)",
+        label: "var(--color-label)",
+        text: "var(--color-text)",
       },
     },
+  },
+  corePlugins: {
+    preflight: false,
   },
   plugins: [],
 };

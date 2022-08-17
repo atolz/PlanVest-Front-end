@@ -40,12 +40,32 @@ const theme = createTheme({
       },
       styleOverrides: {
         root: ({ ownerState }) => ({
+          borderRadius: appVars.borderRadiusPrimary,
+          height: appVars.heightBtn,
+          fontSize: "1.5rem",
+          fontWeight: 600,
+          lineHeight: "24px",
+          // letterSpacing: 0.8,
+          textTransform: "unset",
           ...(ownerState.variant == "outlined" && {
-            border: "1.8px solid #C31331",
+            border: "1.8px solid",
           }),
         }),
       },
     },
+
+    MuiLoadingButton: {
+      defaultProps: {
+        // loadingPosition: "start",
+        sx: {
+          "&.MuiLoadingButton-loading": {
+            backgroundColor: appVars.colorPrimary,
+            // opacity: "90%",
+          },
+        },
+      },
+    },
+
     MuiInputLabel: {
       defaultProps: {
         sx: {
@@ -62,6 +82,7 @@ const theme = createTheme({
         },
       },
     },
+
     MuiTextField: {
       defaultProps: {
         fullWidth: true,
@@ -70,6 +91,13 @@ const theme = createTheme({
           overflow: "hidden",
         },
       },
+      // styleOverrides: {
+      //   fullWidth: true,
+      //   sx: {
+      //     borderRadius: appVars.borderRadiusPrimary,
+      //     overflow: "hidden",
+      //   },
+      // },
     },
     MuiFilledInput: {
       defaultProps: {
@@ -88,6 +116,40 @@ const theme = createTheme({
             fontWeight: 500,
             fontSize: "1.6rem",
             paddingLeft: "1.6rem",
+          },
+        },
+      },
+      // styleOverrides: {
+      //   fullWidth: true,
+      //   disableUnderline: true,
+      //   sx: {
+      //     borderRadius: appVars.borderRadiusPrimary,
+      //     height: appVars.heightInput,
+      //     border: `1px solid transparent`,
+      //     "&.Mui-focused": {
+      //       border: `1px solid ${appVars.colorPrimary}`,
+      //     },
+      //     "& .MuiFilledInput-input": {
+      //       color: appVars.colorPrimaryDark,
+      //       fontFamily: appVars.fontSecondary,
+      //       fontWeight: 500,
+      //       fontSize: "1.6rem",
+      //       paddingLeft: "1.6rem",
+      //     },
+      //   },
+      // },
+    },
+    MuiDialog: {
+      defaultProps: {
+        fullWidth: true,
+        scroll: "paper",
+        sx: {
+          "& .MuiDialog-container .MuiDialog-paper": {
+            borderRadius: appVars.borderRadiusPrimary,
+          },
+          "& .MuiDialog-container": {
+            maxWidth: "59.3rem",
+            margin: "auto",
           },
         },
       },

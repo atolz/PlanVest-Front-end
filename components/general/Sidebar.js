@@ -75,8 +75,8 @@ const Sidebar = () => {
     <div className=" w-[26.2rem] h-full overflow-y-scroll scroll_hide bg-pv_dark  pr-[1.6rem] py-[3.9rem]">
       {/* Head */}
       <section className="flex items-center pl-[3.2rem] mb-[5.2rem]">
-        <SvgIconWrapper className={"w-[2rem] h-[2rem] mr-[3rem]"} iconName={"menu"}></SvgIconWrapper>
-        <SvgIconWrapper className={"h-[2.2rem] w-[10.8rem]"} iconName={"planvest-logo"}></SvgIconWrapper>
+        <SvgIconWrapper className={"w-[2.1rem] h-[2rem] mr-[3rem]"} iconName={"menu"}></SvgIconWrapper>
+        <SvgIconWrapper className={" !h-[2.2rem] !w-[10.8rem]"} iconName={"planvest-logo"}></SvgIconWrapper>
       </section>
       {/* Navs */}
       <nav>

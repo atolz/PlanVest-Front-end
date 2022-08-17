@@ -9,7 +9,7 @@ const AppLayout = ({ children }) => {
       <Sidebar></Sidebar>
       <main style={{ width: "calc(100% - 26.2rem)" }} className=" bg-pv_bg overflow-y-scroll scroll_hide">
         <Header></Header>
-        <AppContainer>{children}</AppContainer>
+        <AppContainer className={"pt-[2rem]"}>{children}</AppContainer>
       </main>
     </div>
   );

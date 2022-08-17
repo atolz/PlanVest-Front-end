@@ -1,3 +1,4 @@
+@tailwind base;
 @tailwind utilities;
 
 :root {
@@ -5,8 +6,8 @@
   --color-primary-light: #c2e3d4;
   --color-primary-dark: #1d1d1d;
   --color-primary-white: #fff;
-  --color-grey-label: #9999b4;
-  --color-grey-text: #666668;
+  --color-label: #9999b4;
+  --color-text: #666668;
   --color-error: #c31331;
   --color-error-light: rgba(195, 19, 48, 0.151);
   --color-warn: #ff7115;
@@ -19,6 +20,12 @@
 
   --height-primary: 48px;
 }
+
+// html {
+//   -webkit-appearance: button;
+//   background-color: revert !important;
+//   background-image: revert !important;
+// }
 
 html {
   font-size: 55.3%;
