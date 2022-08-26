@@ -8,7 +8,7 @@ const Header = () => {
   return (
     <header className=" h-[7rem] flex items-center bg-white">
       <AppContainer>
-        <span>{page ?? "Dashboard"}</span>
+        <span className=" text-text font-semibold text-[1.6rem]">{page ?? "Dashboard"}</span>
       </AppContainer>
     </header>
   );

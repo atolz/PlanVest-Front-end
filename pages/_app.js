@@ -20,7 +20,7 @@ export default function MyApp(props) {
     <CacheProvider value={emotionCache}>
       <Head>
         <title>Planvest | Save, Invest, Grow ...</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.png" sizes="32x32" />
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <ThemeProvider theme={theme}>

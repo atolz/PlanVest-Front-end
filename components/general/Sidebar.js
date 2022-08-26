@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { AppContext } from "../../context/AppContextProvider";
 import SvgIconWrapper from "./SvgIconWrapper";
 
@@ -47,7 +47,7 @@ const Sidebar = () => {
     return router.pathname.includes(link);
   };
 
-  useEffect(() => {
+  useMemo(() => {
     let activeNav;
     // Check-Section and setActive Nav on Load
     if (isActive("/cooperative-members")) {

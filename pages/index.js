@@ -9,6 +9,11 @@ import ShowPassword from "../components/form-elements/ShowPassword";
 import PopupLayout from "../components/layouts/PopupLayout";
 import { LoadingButton } from "@mui/lab";
 import { useRouter } from "next/router";
+import PLVDatePicker from "../components/form-elements/DatePicker";
+import PLVDateTimePicker from "../components/form-elements/DateTimePicker";
+import PLVSelect from "../components/form-elements/Select";
+import CustomSelect from "../components/form-elements/CustomSelect";
+import PLVMenu from "../components/form-elements/PLVMenu";
 
 export default function Home() {
   const router = useRouter();
@@ -22,13 +27,24 @@ export default function Home() {
     setOpen(false);
   };
   return (
-    <div className=" max-w-[600px] mx-auto mt-[10px]">
+    <div className=" max-w-[700px] mx-auto mt-[10px] bg-white px-20 py-10">
       <h1 className="mb-2 text-gray-800">App Components</h1>
       <Button variant="contained">Sign In</Button>
+      <div> -----------------------</div>
+      <PLVDatePicker></PLVDatePicker>
+      <div> -----------------------</div>
+      <PLVDateTimePicker></PLVDateTimePicker>
       <div> -----------------------</div>
       <Button variant="outlined" color="error">
         Sign In
       </Button>
+      {/* <div className="h-[2rem] bg-blue-600 border-[10px] border-red-600 "> -----------------------</div> */}
+      <div> -----------------------</div>
+      <CustomSelect></CustomSelect>
+      <div> -----------------------</div>
+      <PLVMenu selectClassName=" !bg-input"></PLVMenu>
+      <div> -----------------------</div>
+      <PLVSelect></PLVSelect>
       <div> -----------------------</div>
       <LoadingButton
         endIcon={<span>End Icon</span>}

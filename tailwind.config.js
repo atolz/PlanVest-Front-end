@@ -6,17 +6,23 @@ module.exports = {
     extend: {
       borderRadius: {
         primary: "var(--border-radius-primary)",
+        secondary: "var(--border-radius-secondary)",
       },
       fontFamily: {
         // Add your custom fonts and enjoy.
-        Mont: ["Montserrat", "sans-serif"],
+        sans: ["'Plus Jakarta Sans'", "sans-serif"],
+        rubik: ["'Rubik'", "sans-serif"],
       },
       colors: {
         pv_primary: "var(--color-primary-main)",
         pv_bg: "var(--color-bg)",
         pv_dark: "var(--color-primary-dark)",
+        error: "var(--color-error)",
+        warn: "var(--color-warn)",
         label: "var(--color-label)",
         text: "var(--color-text)",
+        input: "var(--color-input)",
+        border: "var(--color-border)",
       },
     },
   },

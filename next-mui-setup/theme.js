@@ -89,6 +89,8 @@ const theme = createTheme({
         sx: {
           borderRadius: appVars.borderRadiusPrimary,
           overflow: "hidden",
+          bgcolor: `${appVars.colorInput} !important`,
+          // bgcolor: "red",
         },
       },
       // styleOverrides: {
@@ -107,6 +109,7 @@ const theme = createTheme({
           borderRadius: appVars.borderRadiusPrimary,
           height: appVars.heightInput,
           border: `1px solid transparent`,
+          bgcolor: `${appVars.colorInput} !important`,
           "&.Mui-focused": {
             border: `1px solid ${appVars.colorPrimary}`,
           },
@@ -152,6 +155,13 @@ const theme = createTheme({
             margin: "auto",
           },
         },
+      },
+    },
+    MuiPickersDay: {
+      styleOverrides: {
+        root: ({ ownerState }) => ({
+          borderRadius: appVars.borderRadiusPrimary,
+        }),
       },
     },
   },
