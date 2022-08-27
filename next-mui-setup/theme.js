@@ -64,6 +64,14 @@ const theme = createTheme({
           },
         },
       },
+      styleOverrides: {
+        root: ({ ownerState }) => ({
+          "&.MuiLoadingButton-loading": {
+            backgroundColor: appVars.colorPrimary,
+            // opacity: "90%",
+          },
+        }),
+      },
     },
 
     MuiInputLabel: {
@@ -149,12 +157,30 @@ const theme = createTheme({
         sx: {
           "& .MuiDialog-container .MuiDialog-paper": {
             borderRadius: appVars.borderRadiusPrimary,
+            boxShadow: "none",
           },
           "& .MuiDialog-container": {
             maxWidth: "59.3rem",
             margin: "auto",
           },
         },
+      },
+      styleOverrides: {
+        root: ({ ownerState }) => ({
+          "& .MuiBackdrop-root": {
+            // backgroundColor: "rgba(45, 45, 53, 0.8)",
+            // opacity: "0.5 !important",
+            // transition: "all !important",
+          },
+          "& .MuiDialog-container .MuiDialog-paper": {
+            borderRadius: appVars.borderRadiusPrimary,
+            boxShadow: "none",
+          },
+          "& .MuiDialog-container": {
+            maxWidth: "59.3rem",
+            margin: "auto",
+          },
+        }),
       },
     },
     MuiPickersDay: {

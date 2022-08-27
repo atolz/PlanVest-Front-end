@@ -5,6 +5,9 @@
     background: #3f3a5a !important;
     opacity: 1 !important;
   }
+  .checkbox-checked-style * {
+    opacity: 1 !important;
+  }
 }
 // @tailwind components;
 
@@ -46,6 +49,7 @@ html {
 }
 
 body {
+  outline-color: #137c4b;
   padding: 0;
   margin: 0;
   line-height: 1.6;

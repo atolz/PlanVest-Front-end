@@ -16,12 +16,12 @@ const LoanApplication = ({ className }) => {
         return (
           <div className=" flex items-center justify-between mt-[3.2rem]" key={i}>
             <div className="flex flex-col ml-[1.6rem]">
-              <p className=" text-[1.6rem] font-medium text-text ">{loan.name}</p>
-              <p className="text-label font-medium text-[1.6rem]">{loan.date}</p>
+              <p className=" text-[1.5rem] font-medium text-text ">{loan.name}</p>
+              <p className="text-label font-medium text-[1.4rem]">{loan.date}</p>
             </div>
             <div className="flex flex-col ml-[1.6rem]">
-              <p className=" text-[1.6rem] font-medium text-text mb-[.8rem]">{loan.amt}</p>
-              <TextLabel type={colorMap[loan.status]} text={loan.status}></TextLabel>
+              <p className=" text-[1.5rem] font-medium text-text mb-[.8rem]">{loan.amt}</p>
+              <TextLabel className={"text-[1.55rem]"} type={colorMap[loan.status]} text={loan.status}></TextLabel>
             </div>
           </div>
         );

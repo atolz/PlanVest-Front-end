@@ -5,7 +5,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import React from "react";
 import SvgIconWrapper from "../general/SvgIconWrapper";
 
-const PLVDateTimePicker = () => {
+const PLVMobileDateTimePicker = () => {
   const [value, setValue] = React.useState(new Date("2014-08-18T21:11:54"));
   const handleChange = (newValue) => {
     setValue(newValue);
@@ -39,4 +39,4 @@ const PLVDateTimePicker = () => {
   );
 };
 
-export default PLVDateTimePicker;
+export default PLVMobileDateTimePicker;

@@ -1,6 +1,6 @@
 import React from "react";
 
-const PLVRadio = ({ id, ariaLabel, name, isChecked, onChange }) => {
+const PLVRadio = ({ id, ariaLabel, name, isChecked, onChange = () => {} }) => {
   return (
     <div>
       {/* <style jsx>{`

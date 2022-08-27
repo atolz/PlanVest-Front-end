@@ -16,8 +16,8 @@ const InvestApplication = ({ className }) => {
           <div className=" flex items-center mt-[3.2rem]" key={i}>
             <img src={inv.img} className="w-[4.7rem] h-[4.7rem] rounded-full"></img>
             <div className="flex flex-col ml-[1.6rem] mr-auto">
-              <p className=" mt-2 text-[1.6rem] font-medium text-text">{inv.name}</p>
-              <p className="text-label font-medium text-[1.6rem]">{inv.date}</p>
+              <p className=" mt-2 text-[1.5rem] font-medium text-text">{inv.name}</p>
+              <p className="text-label font-medium text-[1.4rem]">{inv.date}</p>
             </div>
             <Label type={colorMap[inv.status]} text={inv.status}></Label>
           </div>

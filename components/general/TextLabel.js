@@ -18,7 +18,7 @@ const TextLabel = ({ className, text, color, type = "success", hasBg = true }) =
     }
   };
   return (
-    <span style={{ color: type ? getColor(type) : color }} className={` text-[1.6rem] font-medium`}>
+    <span style={{ color: type ? getColor(type) : color }} className={` text-[1.6rem] font-medium ${className}`}>
       {text}
     </span>
   );
