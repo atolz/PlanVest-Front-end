@@ -16,7 +16,7 @@ const Register = () => {
   const [agree, setAgree] = useState(false);
   return (
     <OnboardingLayout img="/register-img.png">
-      <div className="max-w-[49.2rem] w-full h-full flex flex-col justify-center  ">
+      <div className="max-w-[49.2rem] w-full h-full flex flex-col py-[10vh] ">
         <h2 className="mb-[1rem] text-[2.4rem] text-text">Registration</h2>
         <p className="mb-[3.2rem] text-label">Let’s know a bit about your company and get you setup.</p>
         <form className="grid gap-[1.9rem]">
