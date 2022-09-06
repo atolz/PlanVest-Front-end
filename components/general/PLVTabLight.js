@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 
-const SwitcherLight = ({ items = ["item1", "item2"], onChange = () => {} }) => {
+const SwitcherLight = ({ items = ["item1", "item2"], onChange = () => {}, className }) => {
   const [active, setActive] = useState(0);
   return (
-    <div className="flex items-center ">
+    <div className={`flex items-center ${className}`}>
       {items.map((item, i) => {
         return (
           <div
