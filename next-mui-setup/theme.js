@@ -28,6 +28,7 @@ const theme = createTheme({
       defaultProps: {
         disableElevation: true,
         fullWidth: true,
+        variant: "contained",
         sx: {
           borderRadius: appVars.borderRadiusPrimary,
           height: appVars.heightBtn,
@@ -47,7 +48,7 @@ const theme = createTheme({
           lineHeight: "24px",
           // letterSpacing: 0.8,
           textTransform: "unset",
-          ...(ownerState.variant == "outlined" && {
+          ...(ownerState?.variant == "outlined" && {
             border: "1.8px solid",
           }),
         }),
@@ -57,6 +58,7 @@ const theme = createTheme({
     MuiLoadingButton: {
       defaultProps: {
         // loadingPosition: "start",
+        variant: "contained",
         sx: {
           "&.MuiLoadingButton-loading": {
             backgroundColor: appVars.colorPrimary,
@@ -91,6 +93,27 @@ const theme = createTheme({
       },
     },
 
+    MuiInputBase: {
+      defaultProps: {
+        fullWidth: true,
+        sx: {
+          borderRadius: appVars.borderRadiusPrimary,
+          overflow: "hidden",
+          backgroundColor: `${appVars.colorInput} !important`,
+          // bgcolor: "red",
+        },
+      },
+
+      styleOverrides: {
+        root: ({ ownerState }) => ({
+          height: appVars.heightInput,
+          fullWidth: true,
+          backgroundColor: `${appVars.colorInput} !important`,
+          borderRadius: appVars.borderRadiusPrimary,
+          overflow: "hidden",
+        }),
+      },
+    },
     MuiTextField: {
       defaultProps: {
         fullWidth: true,
@@ -101,13 +124,15 @@ const theme = createTheme({
           // bgcolor: "red",
         },
       },
-      // styleOverrides: {
-      //   fullWidth: true,
-      //   sx: {
-      //     borderRadius: appVars.borderRadiusPrimary,
-      //     overflow: "hidden",
-      //   },
-      // },
+
+      styleOverrides: {
+        root: ({ ownerState }) => ({
+          fullWidth: true,
+          bgcolor: `${appVars.colorInput} !important`,
+          borderRadius: appVars.borderRadiusPrimary,
+          overflow: "hidden",
+        }),
+      },
     },
     MuiFilledInput: {
       defaultProps: {
@@ -128,27 +153,35 @@ const theme = createTheme({
             fontSize: "1.6rem",
             paddingLeft: "1.6rem",
           },
+          "& .MuiFilledInput-input.MuiInputBase-inputAdornedStart": {
+            paddingLeft: "0rem !important",
+          },
         },
       },
-      // styleOverrides: {
-      //   fullWidth: true,
-      //   disableUnderline: true,
-      //   sx: {
-      //     borderRadius: appVars.borderRadiusPrimary,
-      //     height: appVars.heightInput,
-      //     border: `1px solid transparent`,
-      //     "&.Mui-focused": {
-      //       border: `1px solid ${appVars.colorPrimary}`,
-      //     },
-      //     "& .MuiFilledInput-input": {
-      //       color: appVars.colorPrimaryDark,
-      //       fontFamily: appVars.fontSecondary,
-      //       fontWeight: 500,
-      //       fontSize: "1.6rem",
-      //       paddingLeft: "1.6rem",
-      //     },
-      //   },
-      // },
+      styleOverrides: {
+        root: ({ ownerState }) => ({
+          fullWidth: true,
+          disableUnderline: true,
+          sx: {
+            borderRadius: appVars.borderRadiusPrimary,
+            height: appVars.heightInput,
+            border: `1px solid transparent`,
+            "&.Mui-focused": {
+              border: `1px solid ${appVars.colorPrimary} !importatnt`,
+            },
+            "& .MuiFilledInput-input": {
+              color: appVars.colorPrimaryDark,
+              fontFamily: appVars.fontSecondary,
+              fontWeight: 500,
+              fontSize: "1.6rem",
+              paddingLeft: "1.6rem",
+            },
+            "& .MuiFilledInput-input.MuiInputBase-inputAdornedStart": {
+              paddingLeft: "0rem !important",
+            },
+          },
+        }),
+      },
     },
     MuiDialog: {
       defaultProps: {

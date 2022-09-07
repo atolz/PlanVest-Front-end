@@ -5,6 +5,7 @@ import PlainContainer from "../../../layouts/PlainContainer";
 import ActionsBox from "./ActionsBox";
 import Details from "./Details";
 import SavingsInfo from "./SavingsInfo";
+import StatActionBox from "./StatActionBox";
 import Transactions from "./Transactions";
 
 const SavingDetails = ({ title, onClose }) => {
@@ -17,11 +18,7 @@ const SavingDetails = ({ title, onClose }) => {
 
       <main className="mt-[4.2rem] grid grid-cols-[repeat(auto-fit,_minmax(350px,_1fr))] 2xl:grid-cols-[1.5fr,_1fr] gap-[2.4rem]">
         <div>
-          <PlainContainer className={" !p-[2rem] mb-[1.6rem]"}>
-            <StatCard className={"h-[15rem]"} title={"My balance"} value={"N200,000"} bgColor="linear-gradient(263.32deg, #051EA4 0.96%, #1A8EF0 100%)"></StatCard>
-            {/* Action Box */}
-            <ActionsBox></ActionsBox>
-          </PlainContainer>
+          <StatActionBox></StatActionBox>
           <Transactions></Transactions>
         </div>
         <div>

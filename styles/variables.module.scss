@@ -19,6 +19,7 @@ $border-radius-primary: 0.8rem;
 
 $height-btn: 4.8rem;
 $height-input: 5.6rem;
+// $height-input: var(--height-input);
 
 :export {
   colorPrimary: $color-primary-main;

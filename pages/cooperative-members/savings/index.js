@@ -1,21 +1,23 @@
 import { Button, Dialog, InputAdornment, TextField } from "@mui/material";
 import React, { useState } from "react";
-import PLVDesktopDatePicker from "../../components/form-elements/PLVDesktopDatePicker";
-import PLVMenu from "../../components/form-elements/PLVMenu";
+import PLVDesktopDatePicker from "../../../components/form-elements/PLVDesktopDatePicker";
+import PLVMenu from "../../../components/form-elements/PLVMenu";
 import Switch from "@mui/material/Switch";
-import ShowPassword from "../../components/form-elements/ShowPassword";
-import Hrule from "../../components/general/Hrule";
-import SwitcherLight from "../../components/general/PLVTabLight";
-import AppLayout from "../../components/layouts/AppLayout";
-import PopupLayout from "../../components/layouts/PopupLayout";
-import PLVSwitch from "../../components/general/PLVSwitch";
-import SavingsTypeCard from "../../components/pages/cooperative-members-section/savings/SavingsTypeCard";
-import SavingDetails from "../../components/pages/cooperative-members-section/savings/SavingDetails";
+import ShowPassword from "../../../components/form-elements/ShowPassword";
+import Hrule from "../../../components/general/Hrule";
+import SwitcherLight from "../../../components/general/PLVTabLight";
+import AppLayout from "../../../components/layouts/AppLayout";
+import PopupLayout from "../../../components/layouts/PopupLayout";
+import PLVSwitch from "../../../components/general/PLVSwitch";
+import SavingsTypeCard from "../../../components/pages/cooperative-members-section/savings/SavingsTypeCard";
+import SavingDetails from "../../../components/pages/cooperative-members-section/savings/SavingDetails";
+import { useRouter } from "next/router";
 
 const Savings = () => {
   const [open, setOpen] = useState(false);
   const [autoSave, setAutoSave] = useState(false);
   const [showSavingDetails, setShowSavingDetails] = useState(false);
+  const router = useRouter();
   const handleClose = () => {
     setOpen(false);
   };
@@ -38,7 +40,6 @@ const Savings = () => {
             <TextField
               InputProps={{
                 startAdornment: <InputAdornment position="start">&#8358;</InputAdornment>,
-                sx: { "&.MuiFilledInput-input": { paddingLeft: "0" } },
               }}
               name="id-amount"
               type={"number"}
@@ -63,7 +64,6 @@ const Savings = () => {
             <TextField
               InputProps={{
                 startAdornment: <InputAdornment position="start">&#8358;</InputAdornment>,
-                sx: { "&.MuiFilledInput-input": { paddingLeft: "0" } },
               }}
               name="Amount to save per time"
               type={"number"}
@@ -85,44 +85,41 @@ const Savings = () => {
         </PopupLayout>
       </Dialog>
 
-      {!showSavingDetails && (
-        <>
-          <div className="flex items-center justify-between">
-            <SwitcherLight items={["Goal Saving", "Fixed Saving", "Group Saving"]}></SwitcherLight>
-            <Button
-              onClick={() => {
-                setOpen(true);
-              }}
-              sx={{ maxWidth: "18.3rem" }}
-              variant="contained"
-            >
-              Create Plan
-            </Button>
-          </div>
+      <div className="flex items-center justify-between">
+        <SwitcherLight items={["Goal Saving", "Fixed Saving", "Group Saving"]}></SwitcherLight>
+        <Button
+          onClick={() => {
+            setOpen(true);
+          }}
+          sx={{ maxWidth: "18.3rem" }}
+          variant="contained"
+        >
+          Create Plan
+        </Button>
+      </div>
 
-          <div className="grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))] lg:grid-cols-[repeat(2,_minmax(300px,_1fr))] gap-[2.7rem] mt-[3.2rem]">
-            <SavingsTypeCard
-              onClick={() => {
-                setShowSavingDetails(true);
-              }}
-              amount={"N60,0000"}
-              type={"Agro-Allied"}
-              status={"Ongoing"}
-              className="bg-[rgba(181,72,198,0.26)] cursor-pointer"
-            ></SavingsTypeCard>
-            <SavingsTypeCard amount={"N40,0000"} type={"Agro-Allied"} status={"Ongoing"} className="bg-[rgba(58,117,236,0.24)]"></SavingsTypeCard>
-            <SavingsTypeCard amount={"N500,0000"} type={"Agro-Allied"} status={"Ongoing"} className="bg-[rgba(255,115,21,0.22)]"></SavingsTypeCard>
-          </div>
-        </>
-      )}
-      {showSavingDetails && (
+      <div className="grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))] lg:grid-cols-[repeat(2,_minmax(300px,_1fr))] gap-[2.7rem] mt-[3.2rem]">
+        <SavingsTypeCard
+          onClick={() => {
+            router.push("/cooperative-members/savings/Agro-Allied Savings");
+          }}
+          amount={"N60,0000"}
+          type={"Agro-Allied"}
+          status={"Ongoing"}
+          className="bg-[rgba(181,72,198,0.26)] cursor-pointer"
+        ></SavingsTypeCard>
+        <SavingsTypeCard amount={"N40,0000"} type={"Agro-Allied"} status={"Ongoing"} className="bg-[rgba(58,117,236,0.24)]"></SavingsTypeCard>
+        <SavingsTypeCard amount={"N500,0000"} type={"Agro-Allied"} status={"Ongoing"} className="bg-[rgba(255,115,21,0.22)]"></SavingsTypeCard>
+      </div>
+
+      {/* {showSavingDetails && (
         <SavingDetails
           onClose={() => {
             setShowSavingDetails(false);
           }}
           title={"Agro-Allied Savings"}
         ></SavingDetails>
-      )}
+      )} */}
     </AppLayout>
   );
 };
