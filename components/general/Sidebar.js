@@ -21,6 +21,20 @@ const Sidebar = () => {
     { name: "Support", link: `/cooperative-members/support`, icon: "gear", page: "admin" },
     { name: "Logout", link: `/cooperative-members/Logout`, icon: "logout", page: "admin" },
   ];
+  
+  const coopAdminNavs = [
+    { name: "Dashboard", link: `/cooperative-admin/dashboard`, icon: "blocks", page: "admin" },
+    { name: "Savings", link: `/cooperative-admin/savings`, icon: "note", page: "admin" },
+    { name: "Loan", link: `/cooperative-admin/loan`, icon: "note-folded", page: "admin" },
+    { name: "Investment", link: `/cooperative-admin/investment`, icon: "note", page: "admin" },
+    { name: "Members", link: `/cooperative-admin/members`, icon: "users", page: "admin" },
+    { name: "Wallet", link: `/cooperative-admin/wallet`, icon: "wallet", page: "admin" },
+    { name: "Transaction History", link: `/cooperative-admin/transaction-history`, icon: "wallet", page: "admin" },
+    { name: "Notification", link: `/cooperative-admin/notification`, icon: "notification", page: "admin" },
+    { name: "Account", link: `/cooperative-admin/account`, icon: "user", page: "admin" },
+    { name: "Support", link: `/cooperative-admin/support`, icon: "gear", page: "admin" },
+    { name: "Logout", link: `/cooperative-admin/Logout`, icon: "logout", page: "admin" },
+  ];
   const privateNavs = [
     { name: "Dashboard", link: `/private-members/dashboard`, icon: "blocks", page: "admin" },
     { name: "Savings", link: `/private-members/savings`, icon: "note", page: "admin" },
@@ -53,6 +67,10 @@ const Sidebar = () => {
     if (isActive("/cooperative-members")) {
       setActiveNav(userNavs);
       activeNav = userNavs;
+    }
+    if (isActive("/cooperative-admin")) {
+      setActiveNav(coopAdminNavs);
+      activeNav = coopAdminNavs;
     }
     if (isActive("/private-members")) {
       setActiveNav(privateNavs);
