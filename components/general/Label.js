@@ -5,6 +5,7 @@ const Label = ({ className, text, color, type = "success", hasBg = true }) => {
     warn: "",
     error: "",
     success: "",
+    active: "",
   };
   const getColor = (type) => {
     if (type == "success") {
@@ -16,10 +17,13 @@ const Label = ({ className, text, color, type = "success", hasBg = true }) => {
     if (type == "warn") {
       return "var(--color-warn)";
     }
+    if (type == "active") {
+      return "#B548C6";
+    }
   };
   return (
     <div className={`relative ${className}`}>
-      <span style={{ color: type ? getColor(type) : color }} className={` text-[1.4rem] font-medium absolute top-1/2 -translate-y-1/2 -translate-x-1/2 left-1/2`}>
+      <span style={{ color: type ? getColor(type) : color }} className={` text-[1.4rem] font-semibold absolute top-1/2 -translate-y-1/2 -translate-x-1/2 left-1/2`}>
         {text}
       </span>
 

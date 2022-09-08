@@ -28,7 +28,8 @@ export default function Components() {
   };
   return (
     <div className=" max-w-[700px] mx-auto mt-[10px] bg-white px-20 py-10">
-      <h1 className="mb-2 text-gray-800">App Components</h1>
+      <h1 className="mb-2 text-gray-800">App Components Usage</h1>
+      <PLVMenu className=" bg-input" items={["Zenith Bank - 23456543212"]}></PLVMenu>
       <Button variant="contained">Sign In</Button>
       <div> -----------------------</div>
       <PLVDatePicker></PLVDatePicker>

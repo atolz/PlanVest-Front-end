@@ -1,5 +1,5 @@
 import React from "react";
-import SwitcherLight from "../../../general/PLVTabLight";
+import TabLight from "../../../general/TabLight";
 import PlainContainerTitle from "../../../layouts/PlainContainerTitle";
 
 const Transactions = () => {
@@ -10,7 +10,7 @@ const Transactions = () => {
   return (
     <PlainContainerTitle title={"Transactions"}>
       <div className=" overflow-scroll scroll_hide">
-        <SwitcherLight className={"mt-[1rem]"} items={["All", "Credit", "Debit"]}></SwitcherLight>
+        <TabLight className={"mt-[1rem]"} items={["All", "Credit", "Debit"]}></TabLight>
         <main className="mt-[1.6rem] ">
           {transactions.map((trans, i) => {
             return (

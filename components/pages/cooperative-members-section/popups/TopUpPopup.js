@@ -19,7 +19,7 @@ const TopUpPopup = ({ onAction = () => {}, onClose = () => {}, onOpenAddCard = (
           // sx: { "&.MuiFilledInput-input": { paddingLeft: "0" } },
         }}
         name="Amount"
-        type={"number"}
+        type={"tel"}
         id="Amount to save per time"
         label="Amount"
         variant="filled"

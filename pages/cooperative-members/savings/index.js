@@ -2,16 +2,14 @@ import { Button, Dialog, InputAdornment, TextField } from "@mui/material";
 import React, { useState } from "react";
 import PLVDesktopDatePicker from "../../../components/form-elements/PLVDesktopDatePicker";
 import PLVMenu from "../../../components/form-elements/PLVMenu";
-import Switch from "@mui/material/Switch";
-import ShowPassword from "../../../components/form-elements/ShowPassword";
 import Hrule from "../../../components/general/Hrule";
-import SwitcherLight from "../../../components/general/PLVTabLight";
 import AppLayout from "../../../components/layouts/AppLayout";
 import PopupLayout from "../../../components/layouts/PopupLayout";
 import PLVSwitch from "../../../components/general/PLVSwitch";
 import SavingsTypeCard from "../../../components/pages/cooperative-members-section/savings/SavingsTypeCard";
 import SavingDetails from "../../../components/pages/cooperative-members-section/savings/SavingDetails";
 import { useRouter } from "next/router";
+import TabLight from "../../../components/general/TabLight";
 
 const Savings = () => {
   const [open, setOpen] = useState(false);
@@ -86,7 +84,7 @@ const Savings = () => {
       </Dialog>
 
       <div className="flex items-center justify-between">
-        <SwitcherLight items={["Goal Saving", "Fixed Saving", "Group Saving"]}></SwitcherLight>
+        <TabLight items={["Goal Saving", "Fixed Saving", "Group Saving"]}></TabLight>
         <Button
           onClick={() => {
             setOpen(true);
@@ -108,8 +106,24 @@ const Savings = () => {
           status={"Ongoing"}
           className="bg-[rgba(181,72,198,0.26)] cursor-pointer"
         ></SavingsTypeCard>
-        <SavingsTypeCard amount={"N40,0000"} type={"Agro-Allied"} status={"Ongoing"} className="bg-[rgba(58,117,236,0.24)]"></SavingsTypeCard>
-        <SavingsTypeCard amount={"N500,0000"} type={"Agro-Allied"} status={"Ongoing"} className="bg-[rgba(255,115,21,0.22)]"></SavingsTypeCard>
+        <SavingsTypeCard
+          onClick={() => {
+            router.push("/cooperative-members/savings/Agro-Allied Savings");
+          }}
+          amount={"N40,0000"}
+          type={"Agro-Allied"}
+          status={"Ongoing"}
+          className="bg-[rgba(58,117,236,0.24)] cursor-pointer"
+        ></SavingsTypeCard>
+        <SavingsTypeCard
+          onClick={() => {
+            router.push("/cooperative-members/savings/Agro-Allied Savings");
+          }}
+          amount={"N500,0000"}
+          type={"Agro-Allied"}
+          status={"Ongoing"}
+          className="bg-[rgba(255,115,21,0.22)] cursor-pointer"
+        ></SavingsTypeCard>
       </div>
 
       {/* {showSavingDetails && (

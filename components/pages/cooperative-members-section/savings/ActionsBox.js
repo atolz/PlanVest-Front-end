@@ -3,8 +3,11 @@ import React, { useState } from "react";
 import SvgIconWrapper from "../../../general/SvgIconWrapper";
 import AddCardPopUp from "../popups/AddCardPopUp";
 import EnterPinPopUp from "../popups/EnterPinPopUp";
+import IntrestBreakDownPopUp from "../popups/IntrestBreakDownPopUp";
 import SuccessPopUp from "../popups/SuccessPopUp";
 import TopUpPopup from "../popups/TopUpPopup";
+import TransferPopup from "../popups/TransferPopUp";
+import WithdrawPopUp from "../popups/WithdrawPopUp";
 
 const ActionIconContainer = ({ colorClassName, iconName, title, ...props }) => {
   return (
@@ -20,19 +23,32 @@ const ActionsBox = () => {
   const [open, setOpen] = useState(false);
   const [activeModal, setActiveModal] = useState("");
   const [openedTab, setOpenedTab] = useState(null);
+  const [prevModalAddCard, setPrevModalAddCard] = useState();
   const handleClose = () => {
     setOpen(false);
+  };
+  const openModal = (name) => {
+    setOpen(true);
+    setActiveModal(name);
   };
 
   // Modal functions
   const onTopUp = () => {
     setActiveModal("EnterPinTopup");
   };
-  const onOpenAddCard = () => {
+  const onOpenAddCard = (previousModal) => {
+    setPrevModalAddCard(previousModal);
     setActiveModal("AddCardPopUp");
   };
-  const onAddCard = () => {
-    setActiveModal("TopUpPopup");
+  const onAddCard = (previousModal) => {
+    setActiveModal(previousModal);
+    setOpenedTab("Bank cards");
+  };
+  const onWithdraw = () => {
+    setActiveModal("EnterPinTopup");
+  };
+  const onTransfer = () => {
+    setActiveModal("EnterPinTopup");
   };
   const onEnterPin = (actions) => {
     actions?.setLoading(true);
@@ -45,33 +61,75 @@ const ActionsBox = () => {
   return (
     <>
       <Dialog scroll="body" onClose={handleClose} open={open}>
-        {activeModal == "TopUpPopup" && <TopUpPopup onClose={handleClose} activeTopUpType={openedTab} onOpenAddCard={onOpenAddCard} onAction={onTopUp}></TopUpPopup>}
+        {activeModal == "TopUpPopup" && (
+          <TopUpPopup
+            onClose={handleClose}
+            activeTopUpType={openedTab}
+            onOpenAddCard={() => {
+              onOpenAddCard("TopUpPopup");
+            }}
+            onAction={onTopUp}
+          ></TopUpPopup>
+        )}
         {activeModal == "AddCardPopUp" && (
           <AddCardPopUp
             onBack={() => {
-              setActiveModal("TopUpPopup");
+              setActiveModal(prevModalAddCard);
               setOpenedTab("Bank cards");
             }}
-            onAddCard={onAddCard}
+            onAddCard={() => {
+              onAddCard(prevModalAddCard);
+            }}
           ></AddCardPopUp>
         )}
         {activeModal == "EnterPinTopup" && <EnterPinPopUp onAction={onEnterPin} actionText={"Top Up"}></EnterPinPopUp>}
         {activeModal == "SuccessTopup" && <SuccessPopUp onAction={handleClose} actionText={"Ok"} caption={"N300,000 was successfully added to your plan."}></SuccessPopUp>}
+        {activeModal == "TransferPopup" && <TransferPopup onAction={onTransfer} onClose={handleClose}></TransferPopup>}
+        {activeModal == "IntrestBreakDownPopUp" && <IntrestBreakDownPopUp onAction={onTransfer} onClose={handleClose}></IntrestBreakDownPopUp>}
+        {activeModal == "WithdrawPopUp" && (
+          <WithdrawPopUp
+            onAction={onWithdraw}
+            onOpenAddCard={() => {
+              onOpenAddCard("WithdrawPopUp");
+            }}
+            onClose={handleClose}
+          ></WithdrawPopUp>
+        )}
       </Dialog>
 
       <div className=" border-0 border-t border-border border-solid mt-[2.4rem] pt-[2.4rem] flex items-center overflow-scroll scroll_hide">
         <ActionIconContainer
           onClick={() => {
-            setOpen(true);
-            setActiveModal("TopUpPopup");
+            openModal("TopUpPopup");
           }}
           title={"Top Up"}
           colorClassName={" !bg-pv_primary_light"}
           iconName={"plus"}
         ></ActionIconContainer>
-        <ActionIconContainer title={"Withdraw"} colorClassName={" !bg-error_light"} iconName={"bank-building"}></ActionIconContainer>
-        <ActionIconContainer title={"Transfer"} colorClassName={" !bg-[rgba(192,190,48,0.17)]"} iconName={"transfer"}></ActionIconContainer>
-        <ActionIconContainer title={"Intrest"} colorClassName={" !bg-[rgba(58,117,236,0.16)]"} iconName={"intrest"}></ActionIconContainer>
+        <ActionIconContainer
+          onClick={() => {
+            openModal("WithdrawPopUp");
+          }}
+          title={"Withdraw"}
+          colorClassName={" !bg-error_light"}
+          iconName={"bank-building"}
+        ></ActionIconContainer>
+        <ActionIconContainer
+          onClick={() => {
+            openModal("TransferPopup");
+          }}
+          title={"Transfer"}
+          colorClassName={" !bg-[rgba(192,190,48,0.17)]"}
+          iconName={"transfer"}
+        ></ActionIconContainer>
+        <ActionIconContainer
+          onClick={() => {
+            openModal("IntrestBreakDownPopUp");
+          }}
+          title={"Intrest"}
+          colorClassName={" !bg-[rgba(58,117,236,0.16)]"}
+          iconName={"intrest"}
+        ></ActionIconContainer>
       </div>
     </>
   );
