@@ -2,7 +2,7 @@ import React from "react";
 
 const TabFilled = ({ items = [], onChange = () => {}, active, className, label, ...props }) => {
   return (
-    <div>
+    <div className=" overflow-x-scroll">
       {label && <span className=" mb-[1.6rem] text-label flex">{label}</span>}
       <div {...props} className={`grid gap-[1rem] grid-flow-col items-center overflow-x-scroll scroll_hide ${className}`}>
         {items.map((item, i) => {
