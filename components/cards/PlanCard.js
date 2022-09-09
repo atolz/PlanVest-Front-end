@@ -3,7 +3,9 @@ import Image from 'next/image';
 
 const PlanCard = ({amount, percentage, status, title, bg='', fixed, onClick}) => {
   return (
-    <div onClick={onClick} className={`${bg == "beige" ? 'bg-[#d9d7ae]' : "bg-[#cdd7e9]"} flex flex-col gap-[2rem] w-[450px] h-[190px]  rounded-xl p-[2rem] cursor-pointer `}> 
+
+    <div onClick={onClick} className={`${bg == "beige" ? 'bg-pv_bg' : "bg-[#cdd7e9]"} flex flex-col gap-[2rem] w-[450px] h-[190px] rounded-xl p-[2rem] cursor-pointer `}> 
+
          {fixed ? 
         <>
             <div className='flex flex-row justify-between'>

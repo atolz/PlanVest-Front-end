@@ -5,7 +5,9 @@ import { LoadingButton } from '@mui/lab';
 const LoanDetails = ({personal, corporate, unColoredBtnTitle='Decline', coloredBtnTitle='Approve', loading, coloredBtnClick, unColoredBtnClick,}) => {
   return (
     <div className='flex flex-col my-[3rem] gap-[2rem]'>
-        <div className='flex flex-row justify-between p-[3rem] bg-white rounded-xl'>
+
+        <div className='flex  flex-col md:flex-row justify-between p-[3rem] bg-white rounded-xl'>
+
             <div className='flex flex-row  gap-[2rem] items-center'>
             <Image src='/images/investor.svg' alt='investor' width='80px' height='80px' />
             <div className='flex flex-col gap-[1rem] my-[1rem]'>
@@ -17,7 +19,9 @@ const LoanDetails = ({personal, corporate, unColoredBtnTitle='Decline', coloredB
                 <p className='text-[#9999B4]  '>Location: <span className='ml-[0.3rem] text-[#666668]'> Abuja</span></p>
                 <p className='text-[#9999B4]  '>Business type: <span className='ml-[0.3rem] text-[#666668]'> Agriculture</span></p>
             </div>}
-           {personal && <div className='w-[40%] flex flex-col md:flex-row items-end gap-[1rem] my-[1rem]'>
+
+           {personal && <div className='w-[full] md:w-[40%] flex  md:flex-row md:items-end gap-[1rem] my-[1rem]'>
+
                 <div className='w-[48%]'>
                     <LoadingButton
                         onClick={coloredBtnClick}
@@ -42,7 +46,9 @@ const LoanDetails = ({personal, corporate, unColoredBtnTitle='Decline', coloredB
             </div>}
         </div>
         <div className='bg-white p-[3rem] rounded-xl flex flex-col my-[3rem] !min-h-[40rem]'>
-            <div className='flex flex-row justify-between'>
+
+            <div className='flex flex-col md:flex-row justify-between'>
+
                     <p className='items-start text-[#9999B4]  '>Date Needed: <span className='ml-[0.3rem] text-[#1D1D1D]'> 01/06/2022</span></p>
                     <p className='text-[#9999B4]  '>Loan Duration:  <span className='ml-[0.3rem] text-[#1D1D1D]'> 6 Months</span></p>
                     <p className='text-[#9999B4]  '>Proposed Repayment Date: <span className='ml-[0.3rem] text-[#1D1D1D]'> 23/05/2022</span></p>

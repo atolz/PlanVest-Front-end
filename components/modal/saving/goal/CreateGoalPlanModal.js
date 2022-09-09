@@ -13,8 +13,10 @@ const CreateGoalPlanModal = ({activeTab, toggle, name}) => {
     // const [passType, setPassType] = useState("password");
 
     return (
-      <Dialog onClose={()=>toggle("")} open={state}>
-          <div className="px-[2rem] pt-[2rem] pb-[3rem] rounded-[8px] md:w-[510px] w-full ">
+
+      <Dialog onClose={()=>toggle("")} open={state} scroll="body" sx={{ boxShadow: "none" }} className='scroll_hide'>
+          <div className="px-[2rem] pt-[2rem] pb-[3rem] rounded-[8px] md:w-[510px] w-full  ">
+
           <div className="flex px-[4rem] items-end mb-8 ">
               <p>Create Goal Plan</p>
               <span onClick={()=>toggle("")} className="text text-[28px] text-black ml-[auto] cursor-pointer">&#215;</span>

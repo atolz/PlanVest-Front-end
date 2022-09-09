@@ -7,16 +7,20 @@ import { LoadingButton } from '@mui/lab';
 const Header = ({title, withBack, withTitle='true', withRed, withTwoBtn, unColoredBtnTitle, coloredBtnTitle='Create Plan', loading, coloredBtnClick, unColoredBtnClick, className}) => {
     const router = useRouter();
     return (
-    <div className='flex flex-row justify-between '>
-        <div className='flex flex-row text-center gap-[2rem] items-center w-[40%]'>
+
+    <div className='flex flex-col md:flex-row justify-between '>
+        <div className='flex flex-row text-center gap-[2rem] items-center md:w-[40%]'>
+
             {withBack && <Image src='/images/go-back.svg' width='11px' height='17px' alt='back arrow' onClick={() => {
                router.back();
              }} />}
             {withTitle && <p className='font-extrabold text-[26px] '>{title}</p>}
         </div>  
-        <div className='flex flex-col md:flex-row gap-[2rem] w-[auto]'> 
+
+        <div className='flex md:flex-row mt-[2rem]  gap-[2rem] w-[auto]'> 
         {withTwoBtn && 
-        <div className='w-[200px]'>
+        <div className='w-[50%] md:w-[200px]'>
+
         <LoadingButton
             onClick={unColoredBtnClick}
             loading={loading}
@@ -25,7 +29,9 @@ const Header = ({title, withBack, withTitle='true', withRed, withTwoBtn, unColor
           >
             {unColoredBtnTitle}
           </LoadingButton> </div>}
-        <div className='w-[200px]'>
+
+        <div className='w-[50%] md:w-[200px]'>
+
         <LoadingButton
             onClick={coloredBtnClick}
             loading={loading}

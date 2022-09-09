@@ -17,8 +17,10 @@ const Dashboard = () => {
   const [emptyInvest, setEmptyInvest] =useState(true)
   return (
     <AppLayout>
-      <div className="flex items-center">
-        <div>
+
+      <div className="flex md:items-center md:flex-row flex-col">
+        <div className="flex flex-col ">
+
           <h2 className="h2 mb-[1.6rem]">Welcome Back Linda 👋🏼</h2>
           <p className="body_1">Your current status and analytics are here</p>
         </div>
@@ -30,22 +32,17 @@ const Dashboard = () => {
           <PLVMenu className="ml-auto bg-white max-w-[20.8rem] pl-[3.2rem]" items={["Monthly", "Weekly", "Daily"]}></PLVMenu>
       </div>
       </div>
-      {/* <div className=" gap-[1rem] my-[4rem] flex flex-row ">
-        <StatCard title='No of members' value='300' className=" bg-gradient-to-r from-[#2A9D8F] to-[#41C768]" />
-        <StatCard title='No of members' value='300' className=" bg-gradient-to-r from-cyan-500 to-blue-500" />
-        <StatCard title='No of Loan Applicant' value='40' className=" bg-gradient-to-r from-sky-500 to-indigo-500" />
-        <StatCard title='No of Investment Applicant' value='50' className=" bg-gradient-to-r from-[#E363D6] to-[#9811AD] " />
-        <StatCard title='No of Group Savings' value='10' className=" bg-gradient-to-r from-[#8B31CA] to-[#230B34] " />
-       
-      </div> */}
+
       <section className="grid grid-flow-col gap-[1.54rem] overflow-x-scroll  scroll_hide my-[3.2rem]">
         <StatCard className={"h-[13.7rem]"} bgColor="linear-gradient(263.28deg, #2A9D8F 1.44%, #2A9D8F 1.45%, #41C768 100%)" title='No of members' value='300'></StatCard>
         <StatCard bgColor="linear-gradient(263.32deg, #051EA4 0.96%, #1A8EF0 100%)" title='No of Loan Applicant' value='40'></StatCard>
         <StatCard bgColor="linear-gradient(263.39deg, #9811AD 0%, #E363D6 100%)" title='No of Investment Applicant' value='50'></StatCard>
         <StatCard bgColor="linear-gradient(263.39deg, #230B34 0%, #8B31CA 100%)" title='No of Group Savings' value='10'></StatCard>
       </section>
-      <div className="row gap-[24px]  flex flex-row mb-[3rem]">
-        <div  className="rounded-xl w-[49%] bg-white my-[0px] p-[3rem] h-[auto]"> 
+
+      <div className="row gap-[24px]  flex flex-col md:flex-row mb-[3rem]">
+        <div  className="rounded-xl w-[full] md:w-[49%] bg-white my-[0px] p-[3rem] h-[auto]"> 
+
           <p className="">saving analytics</p>
           <hr className="my-[1.5rem]" />
 
@@ -94,7 +91,9 @@ const Dashboard = () => {
         </div>
 
 
-        <div className="rounded-xl flex flex-col gap-[24px] w-[49%] ">
+
+        <div className="rounded-xl flex flex-col gap-[24px] w-[full] md:w-[49%] ">
+
           {emptyInvest ? <div className="h-[auto] rounded-xl mb-[2rem] bg-white p-[2rem]">
             <p className="">Investment  Applicants</p>
             <hr className="my-[2rem]" />
