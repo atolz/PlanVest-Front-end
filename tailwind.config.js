@@ -26,6 +26,10 @@ module.exports = {
         text: "var(--color-text)",
         input: "var(--color-input)",
         border: "var(--color-border)",
+        shadow: "var(--shadow-primary)",
+      },
+      boxShadow: {
+        DEFAULT: "8px 20px 30px rgba(26, 142, 240, 0.05)",
       },
     },
   },

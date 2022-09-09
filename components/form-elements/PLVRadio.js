@@ -16,6 +16,7 @@ const PLVRadio = ({ id, ariaLabel, name, isChecked, onChange = () => {} }) => {
         aria-labelledby={ariaLabel}
         onChange={(e) => {
           onChange(e);
+          console.log("radio change", e.target.value);
         }}
         type="radio"
         className="hidden peer"

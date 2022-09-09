@@ -18,9 +18,9 @@ const PLVMenu = ({ items = ["love", "and", "hate"], onChange = () => {}, classNa
     setAnchorEl(anchorEl ? null : event.currentTarget);
   };
 
-  const handleChange = (event) => {
-    console.log("Value change", event.target.value);
-    onChange(event.target.value);
+  const handleChange = (item) => {
+    console.log("Value change", item);
+    onChange(item);
     // setSelectedValue(event.target.value);
   };
   const handleClose = () => {
@@ -69,13 +69,14 @@ const PLVMenu = ({ items = ["love", "and", "hate"], onChange = () => {}, classNa
               onClick={(e) => {
                 console.log("List element clikced parent");
                 setSelectedValue(item);
+                handleChange(item);
                 handleClose();
               }}
               className="flex items-center justify-between px-8 py-[1.4rem] hover:bg-[#F0F3F9] cursor-pointer transition-all !border-b last:!border-b-0 border-border border-0 border-solid"
               key={i}
             >
               <span className=" text-[1.6rem] font-normal text-text mr-auto">{item}</span>
-              <PLVRadio ariaLabel={"All"} isChecked={selectedValue == item} onChange={handleChange} id={"All"} name="radio-buttons"></PLVRadio>
+              <PLVRadio ariaLabel={"All"} isChecked={selectedValue == item} id={"All"} name="radio-buttons"></PLVRadio>
             </MenuItem>
           );
         })}

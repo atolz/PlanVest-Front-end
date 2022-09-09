@@ -1,9 +1,10 @@
+import Link from "next/link";
 import React from "react";
 import Hrule from "../../../general/Hrule";
 import Label from "../../../general/Label";
 import PlainContainer from "../../../layouts/PlainContainer";
 
-const LoanCard = ({ loan }) => {
+const LoanCard = ({ loan, ...props }) => {
   const colorTypesStatusMap = {
     Completed: "success",
     Pending: "warn",
@@ -11,14 +12,16 @@ const LoanCard = ({ loan }) => {
     Active: "active",
   };
   return (
-    <PlainContainer>
+    <PlainContainer className={"shadow"}>
       <div className="flex items-center justify-between mb-[1.2rem]">
         <p className=" font-rubik font-medium text-[1.8rem]">{loan?.name}</p>
         <Label type={colorTypesStatusMap[loan?.status]} text={loan?.status}></Label>
       </div>
       <div className=" text-label text-[1.5rem] font-medium">
         <span>{loan?.desc} </span>
-        <span className=" text-pv_primary">Read More</span>
+        <Link href={`/cooperative-members/loan/${loan?.name}?status=${loan?.status}&label=${colorTypesStatusMap[loan?.status]}`}>
+          <a className=" text-pv_primary">Read More</a>
+        </Link>
       </div>
       <Hrule className={"my-[1.6rem]"}></Hrule>
       <div className="grid grid-cols-2 ">

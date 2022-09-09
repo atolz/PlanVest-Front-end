@@ -106,7 +106,7 @@ const theme = createTheme({
 
       styleOverrides: {
         root: ({ ownerState }) => ({
-          height: appVars.heightInput,
+          height: ownerState.multiline == true ? "auto" : appVars.heightInput,
           fullWidth: true,
           backgroundColor: `${appVars.colorInput} !important`,
           borderRadius: appVars.borderRadiusPrimary,
@@ -117,6 +117,7 @@ const theme = createTheme({
     MuiTextField: {
       defaultProps: {
         fullWidth: true,
+        variant: "filled",
         sx: {
           borderRadius: appVars.borderRadiusPrimary,
           overflow: "hidden",
@@ -140,7 +141,6 @@ const theme = createTheme({
         disableUnderline: true,
         sx: {
           borderRadius: appVars.borderRadiusPrimary,
-          height: appVars.heightInput,
           border: `1px solid transparent`,
           bgcolor: `${appVars.colorInput} !important`,
           "&.Mui-focused": {
@@ -164,7 +164,6 @@ const theme = createTheme({
           disableUnderline: true,
           sx: {
             borderRadius: appVars.borderRadiusPrimary,
-            height: appVars.heightInput,
             border: `1px solid transparent`,
             "&.Mui-focused": {
               border: `1px solid ${appVars.colorPrimary} !importatnt`,
@@ -208,6 +207,15 @@ const theme = createTheme({
           "& .MuiDialog-container .MuiDialog-paper": {
             borderRadius: appVars.borderRadiusPrimary,
             boxShadow: "none",
+          },
+          "& .MuiDialog-container.MuiDialog-scrollBody": {
+            // background: "red",
+            "-ms-overflow-style": "none",
+            /* IE and Edge */
+            scrollbarWidth: "none",
+          },
+          "& .MuiDialog-container.MuiDialog-scrollBody::-webkit-scrollbar": {
+            display: "none",
           },
           "& .MuiDialog-container": {
             maxWidth: "59.3rem",
