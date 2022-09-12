@@ -7,7 +7,7 @@ import SvgIconWrapper from "../general/SvgIconWrapper";
 
 import PLVRadio from "./PLVRadio";
 
-const PLVMenu = ({ items = ["love", "and", "hate"], onChange = () => {}, className = "bg-white" }) => {
+const PLVMenu = ({ items = ["love", "and", "hate"], onChange = () => {}, className = "bg-input" }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [selectedValue, setSelectedValue] = useState(items[0]);
   const open = Boolean(anchorEl);

@@ -20,6 +20,9 @@ const Label = ({ className, text, color, type = "success", hasBg = true }) => {
     if (type == "active") {
       return "#B548C6";
     }
+    if (type == "blue") {
+      return "#3A76EC";
+    }
   };
   return (
     <div className={`relative ${className}`}>

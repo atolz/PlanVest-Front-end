@@ -12,7 +12,7 @@ const Sidebar = () => {
     { name: "Dashboard", link: `/cooperative-members/dashboard`, icon: "blocks", page: "admin" },
     { name: "Savings", link: `/cooperative-members/savings`, icon: "note", page: "admin" },
     { name: "Loan", link: `/cooperative-members/loan`, icon: "note-folded", page: "admin" },
-    { name: "Investment", link: `/cooperative-members/investment`, icon: "note", page: "admin" },
+    { name: "Investment", link: `/cooperative-members/investment`, redirect: `/cooperative-members/investment/applications`, icon: "note", page: "admin" },
     { name: "Members", link: `/cooperative-members/members`, icon: "users", page: "admin" },
     { name: "Wallet", link: `/cooperative-members/wallet`, icon: "wallet", page: "admin" },
     { name: "Transaction History", link: `/cooperative-members/transaction-history`, icon: "wallet", page: "admin" },
@@ -21,7 +21,7 @@ const Sidebar = () => {
     { name: "Support", link: `/cooperative-members/support`, icon: "gear", page: "admin" },
     { name: "Logout", link: `/cooperative-members/Logout`, icon: "logout", page: "admin" },
   ];
-  
+
   const coopAdminNavs = [
     { name: "Dashboard", link: `/cooperative-admin/dashboard`, icon: "blocks", page: "admin" },
     { name: "Savings", link: `/cooperative-admin/savings`, icon: "note", page: "admin" },
@@ -101,7 +101,7 @@ const Sidebar = () => {
         <ul>
           {activeNav?.map((nav, i) => {
             return (
-              <Link key={i} href={nav.link}>
+              <Link key={i} href={nav?.redirect ?? nav.link}>
                 <li
                   onClick={() => {
                     setActivePage(nav.name);
