@@ -2,6 +2,7 @@ import Link from "next/link";
 import React from "react";
 import Hrule from "../../../general/Hrule";
 import Label from "../../../general/Label";
+import SvgIconWrapper from "../../../general/SvgIconWrapper";
 import PlainContainer from "../../../layouts/PlainContainer";
 
 const PlanCard = ({ plan, ...props }) => {
@@ -35,9 +36,11 @@ const PlanCard = ({ plan, ...props }) => {
           <p className="text-[1.6rem] text-text">{plan?.investors}</p>
         </div>
       </div>
-      <div className="mt-[1.6rem] flex items-center justify-between">
-        <Link href={`/cooperative-members/investment/plans/${plan?.name}?status=${plan?.status}&label=${colorTypesStatusMap[plan?.status]}`}>
-          <a className=" text-pv_primary font-semibold">View Details</a>
+      <div className="mt-[1.6rem] flex items-center ">
+        <Link href={`/cooperative-members/investment/plans/${plan?.name}?status=${plan?.status}&label=${colorTypesStatusMap[plan?.status]}&name=${plan?.name}`}>
+          <a className=" text-pv_primary font-semibold flex items-center w-full justify-between group">
+            View Details <SvgIconWrapper className={" !h-[1.5rem] group-hover:translate-x-2 transition-all"} iconName={"chevron-arrow"}></SvgIconWrapper>
+          </a>
         </Link>
       </div>
     </PlainContainer>

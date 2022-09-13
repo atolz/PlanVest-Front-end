@@ -1,9 +1,9 @@
 import React from "react";
 
-const StatCard = ({ title, value, bgColor = "linear-gradient(263.32deg, #230B34 0.96%, #8B31CA 100%)", className }) => {
+const StatCard = ({ title, value, bgColor = "linear-gradient(263.32deg, #230B34 0.96%, #8B31CA 100%)", className, titleClassName }) => {
   return (
     <div style={{ background: bgColor }} className={`w-full p-[2.2rem] px-[2.2rem] rounded-secondary relative overflow-hidden flex flex-col justify-center min-w-[25rem] ${className}`}>
-      <h2 className="mb-[1.6rem] leading-[19.4px] font-medium text-[1.5rem] text-white mt-2">{title}</h2>
+      <h2 className={`mb-[1.6rem] leading-[19.4px] font-medium text-[1.5rem] text-white mt-2 ${titleClassName}`}>{title}</h2>
       <p className=" font-medium text-[2.8rem] leading-[38px] text-white">{value}</p>
 
       <div className=" absolute top-0 right-0 h-full">

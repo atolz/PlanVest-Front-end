@@ -5,7 +5,7 @@ import Label from "../../../components/general/Label";
 import SvgIconWrapper from "../../../components/general/SvgIconWrapper";
 import AppLayout from "../../../components/layouts/AppLayout";
 import PlainContainer from "../../../components/layouts/PlainContainer";
-import DocBox from "../../../components/pages/cooperative-members-section/loan/DocBox";
+import DocBox from "../../../components/general/DocBox";
 import PaymentBreakDownTable from "../../../components/pages/cooperative-members-section/loan/PaymentBreakDownTable";
 
 const Title = ({ text, className }) => {
