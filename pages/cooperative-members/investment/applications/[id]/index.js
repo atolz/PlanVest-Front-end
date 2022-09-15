@@ -1,14 +1,15 @@
+import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
-import StatCard from "../../../../components/cards/StatCard";
-import CopyLink from "../../../../components/general/CopyLink";
-import DocBox from "../../../../components/general/DocBox";
-import GoBack from "../../../../components/general/GoBack";
-import Label from "../../../../components/general/Label";
-import AppLayout from "../../../../components/layouts/AppLayout";
-import PlainContainer from "../../../../components/layouts/PlainContainer";
-import PlainContainerTitle from "../../../../components/layouts/PlainContainerTitle";
-import ImpressionBox from "../../../../components/pages/cooperative-members-section/investment/ImpressionBox";
+import StatCard from "../../../../../components/cards/StatCard";
+import CopyLink from "../../../../../components/general/CopyLink";
+import DocBox from "../../../../../components/general/DocBox";
+import GoBack from "../../../../../components/general/GoBack";
+import Label from "../../../../../components/general/Label";
+import AppLayout from "../../../../../components/layouts/AppLayout";
+import PlainContainer from "../../../../../components/layouts/PlainContainer";
+import PlainContainerTitle from "../../../../../components/layouts/PlainContainerTitle";
+import ImpressionBox from "../../../../../components/pages/cooperative-members-section/investment/ImpressionBox";
 
 const Title = ({ text, className }) => {
   return <p className={` text-pv_dark text-[1.6rem] leading-[29px] font-medium mb-[1.6rem] ${className}`}>{text}</p>;
@@ -45,7 +46,20 @@ const ApplicationDetails = () => {
               </div>
             </PlainContainer>
             <PlainContainer className={" !p-[1.2rem] col-span-1 lg:col-span-2 grid md:!grid-cols-2 gap-[2.5rem]"}>
-              <StatCard titleClassName={" !mb-[.3rem]"} className={"!h-[11rem]"} bgColor="#F44771" title={"No of investors "} value={300}></StatCard>
+              <StatCard
+                rightContent={
+                  <Link href={`/cooperative-members/investment/applications/${router?.query?.id}/investors?status=${router?.query?.status}&label=${router?.query?.label}`}>
+                    <a className="w-[57px] h-[57px] rounded-full bg-white grid justify-center items-center cursor-pointer group">
+                      <img className="h-[14px] group-hover:translate-x-1" alt="arrow" src="/investors-arrow.svg"></img>
+                    </a>
+                  </Link>
+                }
+                titleClassName={" !mb-[.3rem]"}
+                className={"!h-[11rem]"}
+                bgColor="#F44771"
+                title={"No of investors "}
+                value={300}
+              ></StatCard>
               <StatCard titleClassName={" !mb-[.3rem]"} className={"!h-[11rem]"} bgColor="linear-gradient(263.32deg, #230B34 0.96%, #8B31CA 100%" title={"Raised Amount "} value={"300,000"}></StatCard>
             </PlainContainer>
           </div>

@@ -13,7 +13,7 @@ const Sidebar = () => {
     { name: "Savings", link: `/cooperative-members/savings`, icon: "note", page: "admin" },
     { name: "Loan", link: `/cooperative-members/loan`, icon: "note-folded", page: "admin" },
     { name: "Investment", link: `/cooperative-members/investment`, redirect: `/cooperative-members/investment/applications`, icon: "note", page: "admin" },
-    { name: "Members", link: `/cooperative-members/members`, icon: "users", page: "admin" },
+    // { name: "Members", link: `/cooperative-members/members`, icon: "users", page: "admin" },
     { name: "Wallet", link: `/cooperative-members/wallet`, icon: "wallet", page: "admin" },
     { name: "Transaction History", link: `/cooperative-members/transaction-history`, icon: "wallet", page: "admin" },
     { name: "Notification", link: `/cooperative-members/notification`, icon: "notification", page: "admin" },

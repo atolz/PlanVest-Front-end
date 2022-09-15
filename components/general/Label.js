@@ -1,6 +1,6 @@
 import React from "react";
 
-const Label = ({ className, text, color, type = "success", hasBg = true }) => {
+const Label = ({ className, text, color, type = "success", hasBg = true, ...props }) => {
   const colorTypes = {
     warn: "",
     error: "",
@@ -27,7 +27,7 @@ const Label = ({ className, text, color, type = "success", hasBg = true }) => {
   return (
     <div className={`relative ${className}`}>
       <span style={{ color: type ? getColor(type) : color }} className={` text-[1.4rem] font-semibold absolute top-1/2 -translate-y-1/2 -translate-x-1/2 left-1/2`}>
-        {text}
+        {text ?? props?.children}
       </span>
 
       <div
