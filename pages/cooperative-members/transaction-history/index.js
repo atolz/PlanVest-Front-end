@@ -6,7 +6,7 @@ import AppLayout from "../../../components/layouts/AppLayout";
 const index = () => {
   return (
     <AppLayout>
-      <main className=" mt-[5.6rem]">
+      <main className=" mt-[1.6rem]">
         <TabLight className={"mb-[2.8rem]"} items={["All (2000)", "Pending (400)", "Failed (200)", "Successful (1400)"]}></TabLight>
 
         <ReUseableTable></ReUseableTable>

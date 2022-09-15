@@ -31,7 +31,7 @@ const ReUseableTable = ({
               {Object.entries(row).map(([key, value], i) => {
                 if (key == "status") {
                   return (
-                    <div className="first:justify-self-start">
+                    <div key={i} className="first:justify-self-start">
                       <Label type={value}>{value}</Label>
                     </div>
                   );
