@@ -14,6 +14,7 @@ import PLVDateTimePicker from "../components/form-elements/PLVMobileDateTimePick
 import PLVSelect from "../components/form-elements/Select";
 import CustomSelect from "../components/form-elements/CustomSelect";
 import PLVMenu from "../components/form-elements/PLVMenu";
+import Upload from "../components/general/Upload";
 
 export default function Components() {
   const router = useRouter();
@@ -30,6 +31,7 @@ export default function Components() {
     <div className=" max-w-[700px] mx-auto mt-[10px] bg-white px-20 py-10">
       <h1 className="mb-2 text-gray-800">App Components Usage</h1>
       <PLVMenu className=" bg-input" items={["Zenith Bank - 23456543212"]}></PLVMenu>
+      <Upload showDisplayImgs className={"my-[3rem]"}></Upload>
       <Button variant="contained">Sign In</Button>
       <div> -----------------------</div>
       <PLVDatePicker></PLVDatePicker>

@@ -1,13 +1,16 @@
 import { TextField } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import PLVDesktopDatePicker from "../../../components/form-elements/PLVDesktopDatePicker";
 import PLVMenu from "../../../components/form-elements/PLVMenu";
 import GoBack from "../../../components/general/GoBack";
 import Hrule from "../../../components/general/Hrule";
+import Upload from "../../../components/general/Upload";
 import AppLayout from "../../../components/layouts/AppLayout";
 import PlainContainer from "../../../components/layouts/PlainContainer";
+import { motion } from "framer-motion";
 
 const Apply = () => {
+  const [uploadedImgsUrls, setUploadedImgsUrls] = useState([]);
   return (
     <AppLayout>
       <GoBack name={"Application"} link={"/cooperative-members/investment/applications"}></GoBack>
@@ -30,6 +33,32 @@ const Apply = () => {
           <TextField className=" col-span-3 md:col-span-3" rows={8} multiline={true} label="Description" name="Description" id="Description"></TextField>
         </div>
         <Hrule className={"my-[2.4rem]"}></Hrule>
+
+        {/* Upload Images */}
+        <p className="my-[2.4rem] text-pv_dark font-medium">Upload Images</p>
+        <div className="grid grid-cols-[repeat(auto-fill,_minmax(239px,_1fr))] gap-[1.6rem]">
+          {uploadedImgsUrls?.map((url, i) => {
+            return (
+              <motion.img
+                initial={{ x: "-10px" }}
+                animate={{ x: 0, transition: "all", animationDelay: "10s" }}
+                className="h-[23.9rem] w-full object-cover rounded-primary"
+                alt="uploads"
+                key={Math.random()}
+                src={url}
+              />
+            );
+          })}
+          <Upload
+            onUpload={(fileObjs, fileUrls) => {
+              setUploadedImgsUrls(fileUrls);
+            }}
+            boxClassName={"h-[23.9rem] !p-[6.7rem]"}
+          ></Upload>
+        </div>
+
+        {/* Document */}
+        <p className="my-[2.4rem] text-pv_dark font-medium">Document</p>
       </PlainContainer>
     </AppLayout>
   );
