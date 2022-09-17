@@ -16,7 +16,7 @@ const Sidebar = () => {
     // { name: "Members", link: `/cooperative-members/members`, icon: "users", page: "admin" },
     { name: "Wallet", link: `/cooperative-members/wallet`, icon: "wallet", page: "admin" },
     { name: "Transaction History", link: `/cooperative-members/transaction-history`, icon: "wallet", page: "admin" },
-    { name: "Notification", link: `/cooperative-members/notification`, icon: "notification", page: "admin" },
+    { name: "Notification", link: `/cooperative-members/notifications`, icon: "notification", page: "admin" },
     { name: "Account", link: `/cooperative-members/account`, icon: "user", page: "admin" },
     { name: "Support", link: `/cooperative-members/support`, icon: "gear", page: "admin" },
     { name: "Logout", link: `/cooperative-members/Logout`, icon: "logout", page: "admin" },
