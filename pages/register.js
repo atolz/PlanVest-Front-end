@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { LoadingButton } from "@mui/lab";
-import { TextField } from "@mui/material";
+import { FilledInput, TextField } from "@mui/material";
 import OnboardingLayout from "../components/layouts/OnboardingLayout";
 import ShowPassword from "../components/form-elements/ShowPassword";
 import { useRouter } from "next/router";
@@ -23,9 +23,9 @@ const Register = () => {
           <input name="email" type="email" className=" hidden" />
           <input name="password" type="password" className=" hidden" />
 
-          <TextField name="Full Name" type={"text"} id="Full Name" label="Full Name" variant="filled" />
-          <TextField name="id-Emaile" type={"email"} id="Email" label="Email" variant="filled" />
-          <TextField name="Phone Number" type={"text"} id="Phone Number11" label="Phone Number" variant="filled" />
+          <TextField placeholder="xxxxx" error={false} helperText={"This field is requeired"} name="Full Name" type={"text"} id="Full Name" label="Full Name" variant="filled" />
+          <TextField error={true} helperText={"This field is requeired"} name="id-Emaile" type={"email"} id="Email" label="Email" variant="standard" />
+          <TextField name="Phone Number" type={"text"} id="Phone Number11" label="Phone Number" />
 
           <TextField
             name="id-passwordd"

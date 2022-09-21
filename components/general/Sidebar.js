@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { AppContext } from "../../context/AppContextProvider";
+import Protect from "../utils/Protect";
 import SvgIconWrapper from "./SvgIconWrapper";
 
 const Sidebar = () => {
@@ -19,7 +20,7 @@ const Sidebar = () => {
     { name: "Notification", link: `/cooperative-members/notifications`, icon: "notification", page: "admin" },
     { name: "Account", link: `/cooperative-members/account`, icon: "user", page: "admin" },
     { name: "Support", link: `/cooperative-members/support`, icon: "gear", page: "admin" },
-    { name: "Logout", link: `/cooperative-members/Logout`, icon: "logout", page: "admin" },
+    { name: "Logout", link: `/cooperative-members/logout`, icon: "logout", page: "admin" },
   ];
 
   const coopAdminNavs = [
@@ -90,38 +91,40 @@ const Sidebar = () => {
   }, []);
 
   return (
-    <div className="  w-[262px] h-full overflow-y-scroll scroll_hide bg-pv_dark  pr-[1.6rem] py-[3.9rem]">
-      {/* hidden sm:block */}
-      {/* Head */}
-      <section className="flex items-center pl-[3.2rem] mb-[5.2rem]">
-        <SvgIconWrapper className={"w-[2.1rem] h-[2rem] mr-[3rem]"} iconName={"menu"}></SvgIconWrapper>
-        <SvgIconWrapper className={" !h-[2.2rem] !w-[10.8rem]"} iconName={"planvest-logo"}></SvgIconWrapper>
-      </section>
-      {/* Navs */}
-      <nav>
-        <ul>
-          {activeNav?.map((nav, i) => {
-            return (
-              <Link key={i} href={nav?.redirect ?? nav.link}>
-                <li
-                  onClick={() => {
-                    setActivePage(nav.name);
-                  }}
-                  className={`h-[5.8rem] px-[4.3rem] flex items-center rounded-r-primary cursor-pointer  ${isActive(nav.link) ? " bg-[#666668]" : ""}`}
-                >
-                  <a className="flex items-center ">
-                    <SvgIconWrapper className={"h-[2.35rem] w-[2.35rem]"} iconName={nav.icon}></SvgIconWrapper>
-                    <span title={nav.name} className="ml-[2.5rem] text-white whitespace-nowrap text-ellipsis overflow-hidden text-[1.4rem] font-normal ">
-                      {nav.name}
-                    </span>
-                  </a>
-                </li>
-              </Link>
-            );
-          })}
-        </ul>
-      </nav>
-    </div>
+    <Protect>
+      <div className="  w-[262px] h-full overflow-y-scroll scroll_hide bg-pv_dark  pr-[1.6rem] py-[3.9rem]">
+        {/* hidden sm:block */}
+        {/* Head */}
+        <section className="flex items-center pl-[3.2rem] mb-[5.2rem]">
+          <SvgIconWrapper className={"w-[2.1rem] h-[2rem] mr-[3rem]"} iconName={"menu"}></SvgIconWrapper>
+          <SvgIconWrapper className={" !h-[2.2rem] !w-[10.8rem]"} iconName={"planvest-logo"}></SvgIconWrapper>
+        </section>
+        {/* Navs */}
+        <nav>
+          <ul>
+            {activeNav?.map((nav, i) => {
+              return (
+                <Link key={i} href={nav?.redirect ?? nav.link}>
+                  <li
+                    onClick={() => {
+                      setActivePage(nav.name);
+                    }}
+                    className={`h-[5.8rem] px-[4.3rem] flex items-center rounded-r-primary cursor-pointer  ${isActive(nav.link) ? " bg-[#666668]" : ""}`}
+                  >
+                    <a className="flex items-center ">
+                      <SvgIconWrapper className={"h-[2.35rem] w-[2.35rem]"} iconName={nav.icon}></SvgIconWrapper>
+                      <span title={nav.name} className="ml-[2.5rem] text-white whitespace-nowrap text-ellipsis overflow-hidden text-[1.4rem] font-normal ">
+                        {nav.name}
+                      </span>
+                    </a>
+                  </li>
+                </Link>
+              );
+            })}
+          </ul>
+        </nav>
+      </div>
+    </Protect>
   );
 };
 

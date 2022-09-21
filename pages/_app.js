@@ -9,6 +9,8 @@ import createEmotionCache from "../next-mui-setup/createEmotionCache";
 import "../styles/globals.scss";
 import "../styles/typography.scss";
 import AppContextProvider from "../context/AppContextProvider";
+import toast, { Toaster } from "react-hot-toast";
+import AuthContextProvider from "../context/AuthContextProvider";
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -23,11 +25,29 @@ export default function MyApp(props) {
         <link rel="icon" href="/favicon.png" sizes="32x32" />
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
+      <Toaster
+        toastOptions={{
+          success: {
+            iconTheme: {
+              primary: "var(--color-primary-main)",
+              secondary: "white",
+            },
+          },
+          error: {
+            iconTheme: {
+              primary: "var(--color-error)",
+              secondary: "white",
+            },
+          },
+        }}
+      />
       <ThemeProvider theme={theme}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
         <AppContextProvider>
-          <Component {...pageProps} />
+          <AuthContextProvider>
+            <Component {...pageProps} />
+          </AuthContextProvider>
         </AppContextProvider>
       </ThemeProvider>
     </CacheProvider>

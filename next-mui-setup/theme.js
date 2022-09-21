@@ -62,6 +62,7 @@ const theme = createTheme({
         sx: {
           "&.MuiLoadingButton-loading": {
             backgroundColor: appVars.colorPrimary,
+            // color: "gainsboro",
             // opacity: "90%",
           },
         },
@@ -70,8 +71,13 @@ const theme = createTheme({
         root: ({ ownerState }) => ({
           "&.MuiLoadingButton-loading": {
             backgroundColor: appVars.colorPrimary,
+            // color: "gainsboro",
             // opacity: "90%",
           },
+          // "&.MuiLoadingButton-loading.Mui-disabled": {
+          //   backgroundColor: appVars.colorPrimary,
+          //   // opacity: "90%",
+          // },
         }),
       },
     },
@@ -84,6 +90,9 @@ const theme = createTheme({
           "&.Mui-focused.MuiInputLabel-shrink": {
             fontSize: "1.8rem",
           },
+          "&.MuiInputLabel-shrink.MuiFormLabel-filled.Mui-error": {
+            color: appVars.colorError,
+          },
           "&.MuiInputLabel-shrink.MuiFormLabel-filled": {
             fontSize: "1.8rem",
             color: appVars.colorPrimary,
@@ -93,13 +102,21 @@ const theme = createTheme({
       },
     },
 
+    MuiFormHelperText: {
+      defaultProps: {
+        sx: {
+          ml: 0,
+        },
+      },
+    },
+
     MuiInputBase: {
       defaultProps: {
-        fullWidth: true,
+        // fullWidth: true,
         sx: {
           borderRadius: appVars.borderRadiusPrimary,
-          overflow: "hidden",
-          backgroundColor: `${appVars.colorInput} !important`,
+          // overflow: "hidden",
+          // backgroundColor: `${appVars.colorInput} !important`,
           // bgcolor: "red",
         },
       },
@@ -107,10 +124,10 @@ const theme = createTheme({
       styleOverrides: {
         root: ({ ownerState }) => ({
           height: ownerState.multiline == true ? "auto" : appVars.heightInput,
-          fullWidth: true,
-          backgroundColor: `${appVars.colorInput} !important`,
+          // fullWidth: true,
+          // backgroundColor: `${appVars.colorInput} !important`,
           borderRadius: appVars.borderRadiusPrimary,
-          overflow: "hidden",
+          // overflow: "hidden",
         }),
       },
     },
@@ -119,25 +136,25 @@ const theme = createTheme({
         fullWidth: true,
         variant: "filled",
         sx: {
-          borderRadius: appVars.borderRadiusPrimary,
-          overflow: "hidden",
-          bgcolor: `${appVars.colorInput} !important`,
+          // borderRadius: appVars.borderRadiusPrimary,
+          // overflow: "hidden",
+          // backgroundColor: `${appVars.colorInput} !important`,
           // bgcolor: "red",
         },
       },
 
       styleOverrides: {
         root: ({ ownerState }) => ({
-          fullWidth: true,
-          bgcolor: `${appVars.colorInput} !important`,
-          borderRadius: appVars.borderRadiusPrimary,
-          overflow: "hidden",
+          // fullWidth: true,
+          // backgroundColor: `${appVars.colorInput} !important`,
+          // borderRadius: appVars.borderRadiusPrimary,
+          // overflow: "hidden",
         }),
       },
     },
     MuiFilledInput: {
       defaultProps: {
-        fullWidth: true,
+        // fullWidth: true,
         disableUnderline: true,
         sx: {
           borderRadius: appVars.borderRadiusPrimary,
@@ -145,6 +162,12 @@ const theme = createTheme({
           bgcolor: `${appVars.colorInput} !important`,
           "&.Mui-focused": {
             border: `1px solid ${appVars.colorPrimary}`,
+          },
+          "&.Mui-focused.Mui-error": {
+            border: `1px solid ${appVars.colorError} !important`,
+          },
+          "&.Mui-error": {
+            border: `1px solid ${appVars.colorError} !important`,
           },
           "& .MuiFilledInput-input": {
             color: appVars.colorPrimaryDark,
@@ -160,13 +183,19 @@ const theme = createTheme({
       },
       styleOverrides: {
         root: ({ ownerState }) => ({
-          fullWidth: true,
+          // fullWidth: true,
           disableUnderline: true,
           sx: {
             borderRadius: appVars.borderRadiusPrimary,
             border: `1px solid transparent`,
             "&.Mui-focused": {
-              border: `1px solid ${appVars.colorPrimary} !importatnt`,
+              border: `1px solid ${appVars.colorPrimary} !important`,
+            },
+            "&.Mui-focused.Mui-error": {
+              border: `1px solid ${appVars.colorError} !important`,
+            },
+            "&.Mui-error": {
+              border: `1px solid ${appVars.colorError} !important`,
             },
             "& .MuiFilledInput-input": {
               color: appVars.colorPrimaryDark,
@@ -179,6 +208,20 @@ const theme = createTheme({
               paddingLeft: "0rem !important",
             },
           },
+        }),
+      },
+    },
+    MuiSelect: {
+      defaultProps: {
+        sx: {
+          height: appVars.heightInput,
+        },
+      },
+      styleOverrides: {
+        root: ({ ownerState }) => ({
+          // height: appVars.heightInput,
+          // backgroundColor: "red !important",
+          overflow: "hidden",
         }),
       },
     },

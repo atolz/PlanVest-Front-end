@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import AppLayout from "../../components/layouts/AppLayout";
 import PLVMenu from "../../components/form-elements/PLVMenu";
 import PlainContainer from "../../components/layouts/PlainContainer";
@@ -7,6 +7,7 @@ import StatCard from "../../components/cards/StatCard";
 import SavingAnalytics from "../../components/pages/cooperative-members-section/dashboard/SavingAnalytics";
 import InvestApplication from "../../components/pages/cooperative-members-section/dashboard/InvestApplication";
 import LoanApplication from "../../components/pages/cooperative-members-section/dashboard/LoanApplication";
+import { AuthContext } from "../../context/AuthContextProvider";
 
 const Dashboard = () => {
   // let stats = [
@@ -14,11 +15,12 @@ const Dashboard = () => {
   //   { title: "Total Loan", value: "0" },
   //   { title: "Total Loan", value: "0" },
   // ];
+  const { user } = useContext(AuthContext);
   return (
     <AppLayout>
       <div className="flex items-center mb-[4rem]">
         <div>
-          <h2 className="h2 mb-[1.6rem]">Welcome Back Linda 👋🏼</h2>
+          <h2 className="h2 mb-[1.6rem]">Welcome Back {user?.cooperativeName?.split(" ")[0] ?? "Guest"} 👋🏼</h2>
           <p className="body_1">Your current status and analytics are here</p>
         </div>
         <PLVMenu className="ml-auto bg-white max-w-[20.8rem] pl-[3.2rem]" items={["Monthly", "Weekly"]}></PLVMenu>

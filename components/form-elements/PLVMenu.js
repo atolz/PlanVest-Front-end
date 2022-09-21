@@ -7,9 +7,9 @@ import SvgIconWrapper from "../general/SvgIconWrapper";
 
 import PLVRadio from "./PLVRadio";
 
-const PLVMenu = ({ items = ["love", "and", "hate"], onChange = () => {}, className = "bg-input" }) => {
+const PLVMenu = ({ items = ["love", "and", "hate"], onChange = () => {}, className = "bg-input", initText }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [selectedValue, setSelectedValue] = useState(items[0]);
+  const [selectedValue, setSelectedValue] = useState(initText ?? items[0]);
   const open = Boolean(anchorEl);
   const id = open ? "basic-menu" : undefined;
   const openerRef = useRef();
@@ -38,7 +38,7 @@ const PLVMenu = ({ items = ["love", "and", "hate"], onChange = () => {}, classNa
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
         type="button"
-        className={`flex items-center h-[var(--height-input)] justify-between rounded-primary p-[1.4rem] outline-none border-none w-full text-text ${className}`}
+        className={`flex items-center h-[var(--height-input)] justify-between rounded-primary p-[1.4rem]  border-none w-full text-text ${className}`}
       >
         <p className="text-[1.6rem] font-normal flex mr-[8rem]">{selectedValue}</p>
         <SvgIconWrapper className={` !w-[18px] ${open ? "rotate-180" : ""} transition-all`} iconName={"chevron-down"}></SvgIconWrapper>
