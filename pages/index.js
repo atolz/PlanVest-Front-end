@@ -19,7 +19,7 @@ export default function Home() {
   const router = useRouter();
   useEffect(() => {
     console.log("color is", primaryColor);
-    router.push("/register");
+    router.push("/cooperative-members/register");
   });
   const handleClose = () => {
     setOpen(false);
