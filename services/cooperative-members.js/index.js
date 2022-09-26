@@ -15,6 +15,17 @@ export const verifyToken = async (data = {}) => {
 };
 export const login = async (data = {}) => {
   const respData = await postData("/auth/login?type=coop", data);
-  console.log("register resp data", respData);
+  console.log("login resp data", respData);
+  return respData;
+};
+export const initiateForgotPassword = async (data = {}) => {
+  const respData = await postData("/auth/forgot-password?type=coop", data);
+  return respData;
+};
+export const resetPassword = async (data = {}, token) => {
+  const respData = await postData("/auth/reset-password?type=coop", data, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
   return respData;
 };

@@ -8,9 +8,9 @@ import { axiosBaseInstance } from "../axios";
 // }
 
 // status:false indicates a failed response
-export default async function postData(url, data) {
+export default async function postData(url, data, config) {
   try {
-    const resp = await axiosBaseInstance.post(url, data);
+    const resp = await axiosBaseInstance.post(url, data, config);
     return resp.data;
   } catch (error) {
     if (error.response) {
