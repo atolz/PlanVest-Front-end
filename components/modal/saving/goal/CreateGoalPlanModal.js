@@ -56,15 +56,15 @@ const CreateGoalPlanModal = ({activeTab, toggle, name}) => {
               <p>Create Goal Plan</p>
               <span onClick={()=>toggle("")} className="text text-[28px] text-black ml-[auto] cursor-pointer">&#215;</span>
           </div>
-          <div className='p-[4rem]'>
-                <select onChange={(e)=>setInputValue({...inputValue, savingType:e.target.value})} value={inputValue.savingType}  name="cars" id="cars">
+          <div className='p-[4rem] flex flex-col gap-[3rem]' >
+                <select onChange={(e)=>setInputValue({...inputValue, savingType:e.target.value})} value={inputValue.savingType}  name="cars" className="selectedType">
                     <option value="">Select Savings Type</option>
                     <option value="self-management">Self Management</option>
                     <option value="third-party">Third-Party Management</option>
                 </select>
                 <TextField name="id-title" onChange={(e)=>setInputValue({...inputValue, title:e.target.value})} value={inputValue.title} type={"text"} id="title" label="Title of Savings" variant="filled" />
                 
-          <MySelect  label="Select Savings Type" items={["Self Management", "Third-Party Management"]}></MySelect>
+          {/* <MySelect  label="Select Savings Type" items={["Self Management", "Third-Party Management"]}></MySelect> */}
             
           </div>
             <Stack gap={"3rem"} className=' w-[100%] px-[4rem] items-start flex flex-col'>
