@@ -1,11 +1,13 @@
 import { LoadingButton } from "@mui/lab";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import toast from "react-hot-toast";
+import React, { useEffect, useState } from "react";
 import Image from 'next/image';
 import AppLayout from "../../../components/layouts/AppLayout";
 import ManagerSwitcher from "../../../components/ManagerSwitcher";
 import FixedSavings from "./fixed/FixedSavings";
-import GoalSavings from "./goal/GoalSavings";
+import GoalSavings from "./GoalSavings";
+import { displayGoalSavings } from "../../../services/cooperative-admin.js"
 import CreateGoalPlanModal from "../../../components/modal/saving/goal/CreateGoalPlanModal";
 import CreateFixedPlanModal from "../../../components/modal/saving/fixed/CreateFixedPlanModal";
 
@@ -20,6 +22,35 @@ const Savings = () => {
   const [plan, setPlan] = useState("");
   const [emptySavings, setEmptySavings] =useState(true)
   const [loading, setLoading] = useState(false);
+  const [dataValue, setDataValue] =useState([])
+  // const dataValue= setDataValue(myData.data.data);
+
+  useEffect (() =>  {
+    const handleSubmit = async () => {
+    try {
+     const myData= await displayGoalSavings()
+     setDataValue(myData?.data?.data);
+      console.log(myData)
+      setInputValue({
+          title:"",
+          startDate: null,
+          endDate: null,
+          savingType: "",
+          targetAmount:"",
+          duration: "",
+          debitDate: null,
+          statusOfPlan:"",
+          frequencyOfSavings:"",
+      })
+  } catch (error) {
+      // toast.error(data?.message, { duration: 10000 });
+  }
+  }
+  handleSubmit()
+  }, [])
+   
+    
+
 
   return (
     <AppLayout>
@@ -60,8 +91,13 @@ const Savings = () => {
         <p className="items-center  mx-[auto]">No Saving plan</p>
       </div> : 
       <>
-      {activeTable === "GOAL_SAVING" && <GoalSavings/>}
-      {activeTable === "FIXED_SAVING" && <FixedSavings/>}
+      {activeTable === "GOAL_SAVING" && <>
+      {dataValue.map((item, index) => {
+        return (
+      <GoalSavings key={index} amount={item.targetAmount} statusOfPlan={item.statusOfPlan} percentage={item.interestAmount} title={item.title} />
+      );})}
+            </>}
+      {activeTable === "FIXED_SAVING" && <FixedSavings />}
       
       </>
       }

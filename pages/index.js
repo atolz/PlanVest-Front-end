@@ -19,7 +19,8 @@ export default function Home() {
   const router = useRouter();
   useEffect(() => {
     console.log("color is", primaryColor);
-    router.push("/cooperative-members/register");
+    // router.push("/cooperative-members/register");
+    router.push("/signin");
   });
   const handleClose = () => {
     setOpen(false);

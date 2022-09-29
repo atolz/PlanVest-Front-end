@@ -1,14 +1,14 @@
 import Image from 'next/image';
 import React, {useState} from 'react';
 import { useRouter } from "next/router";
-import Header from '../../../../../components/layouts/Header';
-import ErrorModal from '../../../../../components/modal/ErrorModal';
-import AppLayout from '../../../../../components/layouts/AppLayout';
-import SuccessModal from '../../../../../components/modal/SuccessModal';
-import SavingsCard from '../../../../../components/pages/savings/SavingsCard';
-import AddMemberModal from '../../../../../components/modal/saving/goal/AddMember';
-import LogPaymentModal from '../../../../../components/modal/saving/goal/LogPayment';
-import PaymentTransaction from '../../../../../components/tables/savings/goal/PaymentTransactions';
+import Header from '../../../../components/layouts/Header';
+import ErrorModal from '../../../../components/modal/ErrorModal';
+import AppLayout from '../../../../components/layouts/AppLayout';
+import SuccessModal from '../../../../components/modal/SuccessModal';
+import SavingsCard from '../../../../components/pages/savings/SavingsCard';
+import AddMemberModal from '../../../../components/modal/saving/goal/AddMember';
+import LogPaymentModal from '../../../../components/modal/saving/goal/LogPayment';
+import PaymentTransaction from '../../../../components/tables/savings/goal/PaymentTransactions';
 
 
 // const GOALSAVINGS = [

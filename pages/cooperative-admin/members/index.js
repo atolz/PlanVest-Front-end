@@ -7,9 +7,11 @@ import MembersTable from '../../../components/tables/members/MembersTable';
 import PersonalDetailsModal from '../../../components/modal/member/PersonalDetailsModal';
 import ModeOfIdentificationModal from '../../../components/modal/member/ModeOfIdentificationModal';
 import NextOfKinInfoModal from '../../../components/modal/member/NextOfKinInfoModal';
+import MemberTypeModal from '../../../components/modal/member/MemberTypeModal';
 
 const View = () => {
   const router = useRouter();
+  const [memberType, setMemberType] = useState(false);
   const [personalDetails, setPersonalDetails] = useState(false);
   const [indentityMode, setIndentityMode] = useState(false);
   const [kin, setKin] = useState(false);
@@ -19,6 +21,10 @@ const View = () => {
   }
   function editPage(){
     router.push("/cooperative-admin/members/edit");
+  }
+  function viewNewMember(){
+    setMemberType(false)
+    setPersonalDetails(true)
   }
   function viewId(){
     setPersonalDetails(false)
@@ -40,14 +46,21 @@ const View = () => {
   
   return (
     <AppLayout>
-        {/* { P Modal */}
+        {/* { member type Modal */}
+        { memberType && <MemberTypeModal
+          onClose={()=>setPersonalDetails(false)}
+          existingMember 
+          newMember={viewNewMember}
+         />}
+
+        {/* { Personal details Modal */}
         { personalDetails && <PersonalDetailsModal
         toggle={()=>setPersonalDetails(false)}
         open={()=>setPersonalDetails(true)} 
         onClick={viewId} />}
 
 
-        {/* {Transfer to wallet SUCCESS modal} */}
+        {/* {Mode of Identification modal} */}
         { indentityMode && <ModeOfIdentificationModal
         toggle={()=>setIndentityMode(false)}
         open={()=>setIndentityMode(true)} 
@@ -55,7 +68,7 @@ const View = () => {
         onClickBack={backtoViewPersonalDetails}
         />}
         
-        {/* {Transfer to wallet SUCCESS modal} */}
+        {/* {Next of kin modal} */}
         { kin && <NextOfKinInfoModal
         toggle={()=>setKin(false)}
         open={()=>setKin(true)} 
@@ -66,7 +79,7 @@ const View = () => {
           <div className='w-[78%] '><Search /> </div>
           <div className='w-[20%] m-[0px] '>
             <LoadingButton
-                onClick={setPersonalDetails}
+                onClick={setMemberType}
                 // loading={loading}
                 variant="contained"
               >

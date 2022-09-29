@@ -11,7 +11,7 @@ const Header = ({title, withBack, withTitle='true', withRed, withTwoBtn, unColor
     <div className='flex flex-col md:flex-row justify-between '>
         <div className='flex flex-row text-center gap-[2rem] items-center md:w-[40%]'>
 
-            {withBack && <Image src='/images/go-back.svg' width='11px' height='17px' alt='back arrow' onClick={() => {
+            {withBack && <Image src='/images/go-back.svg' width='30px' height='25px' alt='back arrow' onClick={() => {
                router.back();
              }} />}
             {withTitle && <p className='font-extrabold text-[26px] '>{title}</p>}

@@ -5,12 +5,12 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import React from "react";
 import SvgIconWrapper from "../general/SvgIconWrapper";
 
-const PLVDesktopDatePicker = ({ label = "Date desktop", className }) => {
+const PLVDesktopDatePicker = ({ label = "Date desktop", className , value, onChange }) => {
   // const [value, setValue] = React.useState(new Date("2014-08-18T21:11:54"));
-  const [value, setValue] = React.useState(null);
-  const handleChange = (newValue) => {
-    setValue(newValue);
-  };
+  // const [value, setValue] = React.useState(null);
+  // const handleChange = (newValue) => {
+  //   setValue(newValue);
+  // };
   return (
     <LocalizationProvider dateAdapter={AdapterMoment}>
       <DesktopDatePicker
@@ -33,7 +33,7 @@ const PLVDesktopDatePicker = ({ label = "Date desktop", className }) => {
         }}
         inputFormat="MM/dd/yyyy"
         value={value}
-        onChange={handleChange}
+        onChange={onChange}
       />
     </LocalizationProvider>
   );

@@ -1,7 +1,8 @@
 import axios from "axios";
 
 export const axiosBaseInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_DEVELOPMENT_URL,
+  // baseURL: process.env.NEXT_PUBLIC_DEVELOPMENT_URL,
+  baseURL: 'https://staging-api.planvest.africa/v1/',
   headers: { "Content-Type": "application/json" },
 });
 

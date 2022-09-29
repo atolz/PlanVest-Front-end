@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { LoadingButton } from "@mui/lab";
-import { TextField } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import OnboardingLayout from "../components/layouts/OnboardingLayout";
 import ShowPassword from "../components/form-elements/ShowPassword";
 import { useRouter } from "next/router";
@@ -37,10 +37,20 @@ const Signin = () => {
       toast.error(data?.message, { duration: 10000 });
     }
   };
+  function logCoop(){
+    router.push('/cooperative-admin/signin')
+  }
+  function logUser(){
+    router.push('/cooperative-members/register')
+  }
 
   return (
     <OnboardingLayout>
       <div className="max-w-[49.2rem] w-full  h-full flex flex-col justify-center overflow-scroll scroll_hide ">
+      <div className="flex flex-row gap-[2rem] mb-[2rem]">
+        <Button onClick={logCoop} className="bg-black w-[250px] hover:bg-gray-400">Cooperative</Button>
+        <Button onClick={logUser} variant='outlined'  className="border border-1-black bg-white hover:bg-gray-400 text-black w-[250px]">User</Button>
+        </div>
         <h2 className="mb-[1rem] text-[2.4rem] text-text">Sign In</h2>
         <p className="mb-[3.2rem] text-label">Let’s know a bit about your company and get you setup.</p>
         <Formik
