@@ -56,7 +56,8 @@ const Register = () => {
             initialValues={{
               email: "",
               password: "",
-              cooperativeName: "",
+              firstName: "",
+              lastName: "",
               phoneNumber: "",
               transactionPin: "",
               agree: false,
@@ -76,12 +77,22 @@ const Register = () => {
 
                   <Field
                     as={TextField}
-                    error={touched.cooperativeName && errors.cooperativeName}
-                    helperText={touched.cooperativeName && errors.cooperativeName}
-                    name="cooperativeName"
+                    error={touched.firstName && errors.firstName}
+                    helperText={touched.firstName && errors.firstName}
+                    name="firstName"
                     type={"text"}
-                    id="cooperativeName"
-                    label="Full Name"
+                    id="firstName"
+                    label="First Name"
+                    variant="filled"
+                  />
+                  <Field
+                    as={TextField}
+                    error={touched.lastName && errors.lastName}
+                    helperText={touched.lastName && errors.lastName}
+                    name="lastName"
+                    type={"text"}
+                    id="lastName"
+                    label="Last Name"
                     variant="filled"
                   />
                   <Field as={TextField} error={touched.email && errors.email} helperText={touched.email && errors.email} name="email" type={"email"} id="Email" label="Email" />

@@ -89,7 +89,7 @@ const SignUp = () => {
                     name="cooperativeName"
                     type={"text"}
                     id="cooperativeName"
-                    label="Full Name"
+                    label="Cooperative Name"
                     variant="filled"
                   />
                   <Field as={TextField} error={touched.email && errors.email} helperText={touched.email && errors.email} name="email" type={"email"} id="Email" label="Email" />
