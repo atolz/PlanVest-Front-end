@@ -11,6 +11,9 @@ const theme = createTheme({
     secondary: {
       main: "#19857b",
     },
+    black: {
+      main: "#1D1D1D",
+    },
     error: {
       main: appVars.colorError,
     },

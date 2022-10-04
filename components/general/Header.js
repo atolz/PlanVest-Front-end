@@ -11,6 +11,7 @@ const Header = () => {
   const AppData = useContext(AppContext);
   const page = AppData.activePage;
   const { user } = useContext(AuthContext);
+  console.log("user", user?.cooperativeName);
   return (
     <header className=" h-[7rem] flex items-center justify-between bg-white">
       <AppContainer className="flex items-center justify-between">
@@ -21,7 +22,7 @@ const Header = () => {
           <Link href={"/cooperative-members/account"}>
             <a className=" flex items-center cursor-pointer">
               <Avatar className="mr-[2rem]" src="/images/avataRR.png"></Avatar>
-              <span className=" text-text text-[1.6rem] font-medium mr-5 capitalize">{user?.cooperativeName ?? user?.firstName + " " + user?.lastName ?? "Guest"}</span>
+              <span className=" text-text text-[1.6rem] font-medium mr-5 capitalize">{user?.cooperativeName ?? user?.firstName ? user?.firstName + " " + user?.lastName : "Guest"}</span>
             </a>
           </Link>
         </div>

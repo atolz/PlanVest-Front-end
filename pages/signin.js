@@ -9,11 +9,13 @@ import SignupWIthButton from "../components/form-elements/SignupWIthButton";
 import Hrule from "../components/general/Hrule";
 import { Formik, Field, Form } from "formik";
 import * as yup from "yup";
-import { login } from "../services/cooperative-members.js";
+import { login as userLogin } from "../services/cooperative-members.js";
 import toast from "react-hot-toast";
 import { AuthContext } from "../context/AuthContextProvider";
+import { adminLogin } from "../services/cooperative-admin.js";
 
 const Signin = () => {
+  const [activeType, setActiveType] = useState("Cooperative");
   const [passType, setPassType] = useState("password");
   const router = useRouter();
   const [open, setOpen] = useState(false);
@@ -26,32 +28,40 @@ const Signin = () => {
   });
 
   const onLogin = async (values) => {
-    const data = await login(values);
+    const data = activeType == "User" ? await userLogin(values) : await adminLogin(values);
     if (data.status) {
       localStorage?.setItem("token", data.accessToken);
       setUser(data?.data);
       setExpiresOnLogIn(data?.accessToken);
-      toast.success(data?.message ?? "Login successful!");
+      toast.success(data?.message ?? "Login successful!", { duration: 3000, id: "status" });
       router.push("cooperative-members/dashboard");
     } else {
-      toast.error(data?.message, { duration: 10000 });
+      toast.error(data?.message, { duration: 8000, id: "status" });
     }
   };
-  function logCoop(){
-    router.push('/cooperative-admin/signin')
-  }
-  function logUser(){
-    router.push('/cooperative-members/register')
-  }
 
   return (
     <OnboardingLayout>
       <div className="max-w-[49.2rem] w-full  h-full flex flex-col justify-center overflow-scroll scroll_hide ">
-      <div className="flex flex-row gap-[2rem] mb-[2rem]">
-        <Button onClick={logCoop} className="bg-black w-[250px] hover:bg-gray-400">Cooperative</Button>
-        <Button onClick={logUser} variant='outlined'  className="border border-1-black bg-white hover:bg-gray-400 text-black w-[250px]">User</Button>
+        <div className="flex flex-row gap-[2rem] mb-[5rem] max-w-[350px] overflow-x-scroll scroll_hide h-max">
+          <button
+            className={`h-[5.1rem] w-[153px] rounded-primary font-rubik font-medium  px-[3.5rem] border-0  cursor-pointer ${
+              activeType == "Cooperative" ? "text-white bg-black" : " border border-black  text-black bg-white"
+            }`}
+            onClick={() => setActiveType("Cooperative")}
+          >
+            Cooperative
+          </button>
+          <button
+            className={`h-[5.1rem] w-[153px] rounded-primary font-rubik font-medium  px-[3.5rem] border-0  cursor-pointer ${
+              activeType != "Cooperative" ? "text-white bg-black" : " border border-black  text-black bg-white"
+            }`}
+            onClick={() => setActiveType("User")}
+          >
+            User
+          </button>
         </div>
-        <h2 className="mb-[1rem] text-[2.4rem] text-text">Sign In</h2>
+        <h2 className="mb-[1rem] text-[2.4rem] text-text">{activeType} Sign In</h2>
         <p className="mb-[3.2rem] text-label">Let’s know a bit about your company and get you setup.</p>
         <Formik
           initialValues={{
@@ -98,7 +108,7 @@ const Signin = () => {
                 </LoadingButton>
                 <p className=" text-pv_dark font-medium">
                   Don’t have an account?
-                  <Link href={"cooperative-members/register"}>
+                  <Link href={activeType == "coop" ? "cooperative-admin/register" : "cooperative-members/register"}>
                     <a className=" text-pv_primary cursor-pointer"> Register</a>
                   </Link>
                 </p>

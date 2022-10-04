@@ -23,10 +23,10 @@ const RegisterVerificationPopUp = ({ email, onAction, onCancel = () => {}, onReg
     setLoading(false);
 
     if (data.status) {
-      toast.success(data?.message, { duration: 10000 });
+      toast.success(data?.message, { duration: 10000, id: "status" });
       router.push("/signin");
     } else {
-      toast.error(data?.message, { duration: 10000 });
+      toast.error(data?.message, { duration: 10000, id: "status" });
     }
   };
   return (

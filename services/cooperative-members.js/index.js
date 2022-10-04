@@ -30,3 +30,13 @@ export const resetPassword = async (data = {}, token) => {
 
   return respData;
 };
+
+// Savings
+export const createPersonalFixedSavings = async (data = {}) => {
+  const respData = await postData("/personal-fixed-savings/", data);
+  return respData;
+};
+export const createPersonalGoalSavings = async (data = {}) => {
+  const respData = await postData("/personal-goal-savings/", data);
+  return respData;
+};
