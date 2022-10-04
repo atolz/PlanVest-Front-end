@@ -15,6 +15,18 @@ export const verifyToken = async (data = {}) => {
 };
 export const login = async (data = {}) => {
   const respData = await postData("/auth/login?type=user", data);
-  console.log("register resp data", respData);
+
+  console.log("login resp data", respData);
+  return respData;
+};
+export const initiateForgotPassword = async (data = {}) => {
+  const respData = await postData("/auth/forgot-password?type=user", data);
+  return respData;
+};
+export const resetPassword = async (data = {}, token) => {
+  const respData = await postData("/auth/reset-password?type=user", data, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
   return respData;
 };

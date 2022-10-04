@@ -21,7 +21,7 @@ const Header = () => {
           <Link href={"/cooperative-members/account"}>
             <a className=" flex items-center cursor-pointer">
               <Avatar className="mr-[2rem]" src="/images/avataRR.png"></Avatar>
-              <span className=" text-text text-[1.6rem] font-medium mr-5 capitalize">{user?.cooperativeName ?? "Guest"}</span>
+              <span className=" text-text text-[1.6rem] font-medium mr-5 capitalize">{user?.cooperativeName ?? user?.firstName + " " + user?.lastName ?? "Guest"}</span>
             </a>
           </Link>
         </div>

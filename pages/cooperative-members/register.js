@@ -23,7 +23,9 @@ const Register = () => {
     email: yup.string("Enter your email").email("Enter a valid email").required("Email is required"),
     password: yup.string("Enter your password").min(8, "Password should be of minimum 8 characters length").required("Password is required"),
     phoneNumber: yup.string().required("Phone number is required"),
-    cooperativeName: yup.string("Enter your fullname").required("Fullname is required"),
+    firstName: yup.string("Enter your firstName").required("Firstname is required"),
+    lastName: yup.string("Enter your lastName").required("Lastname is required"),
+    // cooperativeName: yup.string("Enter your fullname").required("Fullname is required"),
     agree: yup.bool().oneOf([true], "Field must be checked"),
   });
 
@@ -101,7 +103,7 @@ const Register = () => {
                     error={touched.phoneNumber && errors.phoneNumber}
                     helperText={touched.phoneNumber && errors.phoneNumber}
                     name="phoneNumber"
-                    type={"text"}
+                    type={"number"}
                     id="phoneNumber"
                     label="Phone Number"
                   />

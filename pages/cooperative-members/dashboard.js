@@ -20,7 +20,7 @@ const Dashboard = () => {
     <AppLayout>
       <div className="flex items-center mb-[4rem]">
         <div>
-          <h2 className="h2 mb-[1.6rem]">Welcome Back {user?.cooperativeName?.split(" ")[0] ?? "Guest"} 👋🏼</h2>
+          <h2 className="h2 mb-[1.6rem]">Welcome Back {user?.cooperativeName?.split(" ")[0] ?? user?.firstName ?? "Guest"} 👋🏼</h2>
           <p className="body_1">Your current status and analytics are here</p>
         </div>
         <PLVMenu className="ml-auto bg-white max-w-[20.8rem] pl-[3.2rem]" items={["Monthly", "Weekly"]}></PLVMenu>
