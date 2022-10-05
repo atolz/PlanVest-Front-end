@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import ViewTop from '../../../../../components/layouts/ViewTop';
-import AppLayout from '../../../../../components/layouts/AppLayout';
-import ManagerSwitcher from '../../../../../components/ManagerSwitcher';
-import AllTransaction from '../../../../../components/tables/savings/goal/AllTransactions';
-import PendingTransaction from "../../../../../components/tables/savings/goal/PendingTransaction";
-import FailedTransaction from "../../../../../components/tables/savings/goal/FailedTransaction";
-import SuccessTransaction from "../../../../../components/tables/savings/goal/SuccessfulTransaction";
+import ViewTop from '../../../../components/layouts/ViewTop';
+import AppLayout from '../../../../components/layouts/AppLayout';
+import ManagerSwitcher from '../../../../components/ManagerSwitcher';
+import AllTransaction from '../../../../components/tables/savings/goal/AllTransactions';
+import PendingTransaction from "../../../../components/tables/savings/goal/PendingTransaction";
+import FailedTransaction from "../../../../components/tables/savings/goal/FailedTransaction";
+import SuccessTransaction from "../../../../components/tables/savings/goal/SuccessfulTransaction";
 
 
 const SAVINGS = [

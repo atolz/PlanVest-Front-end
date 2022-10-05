@@ -51,7 +51,7 @@ const Register = () => {
   return (
     <>
       <OnboardingLayout img="/register-img.png">
-        <div className="max-w-[49.2rem] w-full h-full flex flex-col py-[10vh] ">
+        <div className="md:max-w-[49.2rem] w-full h-full flex flex-col py-[10vh] ">
           <h2 className="mb-[1rem] text-[2.4rem] text-text">Registration</h2>
           <p className="mb-[3.2rem] text-label">Let’s know a bit about your company and get you setup.</p>
           <Formik
@@ -128,7 +128,7 @@ const Register = () => {
                   />
 
                   <div>
-                    <div onClick={() => setAgree(!agree)} className="flex items-center mt-[.4rem] mb-[.5rem]">
+                    <div onClick={() => setAgree(!agree)} className="flex items-center mt-[.4rem] mb-[.5rem] text-left">
                       <PLVCheckBox onChange={handleChange} name="agree" id={"agree"} isChecked={values.agree}></PLVCheckBox>
                       <label htmlFor="agree" className=" font-medium text-[1.6rem] text-text ml-[1.4rem] ">
                         I agree to all the <a className=" text-pv_primary cursor-pointer">Terms</a>, <a className=" text-pv_primary cursor-pointer">Privacy Policy</a> and{" "}
@@ -146,7 +146,7 @@ const Register = () => {
                   >
                     Create Account
                   </LoadingButton>
-                  <p className=" font-medium text-[1.6rem] text-text">
+                  <p className=" font-medium text-[1.6rem] text-text ">
                     Already have an account?{" "}
                     <Link href={"/signin"}>
                       <a className=" text-pv_primary">Log in</a>
@@ -161,7 +161,7 @@ const Register = () => {
             <div className=" flex-1 border-border border-0 border-b bg-transparent border-solid"></div> <p className="mx-[1.2rem] text-text font-medium text-[1.6rem] ">Or</p>
             <div className=" flex-1 border-border border-0 border-b bg-transparent border-solid"></div>
           </div>
-          <div className=" grid gap-[2.5rem] grid-flow-col">
+          <div className=" grid gap-[2.5rem] grid-flow-row sm:grid-flow-col ">
             <SignupWIthButton img={"/fb.png"} type={"Facebook"}></SignupWIthButton>
             <SignupWIthButton img={"/google.png"} type={"Google"}></SignupWIthButton>
           </div>

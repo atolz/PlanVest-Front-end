@@ -11,6 +11,7 @@ import SavingDetails from "../../../components/pages/cooperative-members-section
 import { useRouter } from "next/router";
 import TabLight from "../../../components/general/TabLight";
 import CreateSavingsPopup from "../../../components/pages/cooperative-members-section/popups/CreateSavingsPopUp";
+import EmptyState from "../../../components/general/EmptyState";
 
 const Savings = () => {
   const [open, setOpen] = useState(false);
@@ -38,6 +39,7 @@ const Savings = () => {
           Create Plan
         </Button>
       </div>
+      {/* <EmptyState className={"min-h-[75vh]"} caption={"No Saving plan."} img={"/empty-savings.png"}></EmptyState> */}
 
       <div className="grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))] lg:grid-cols-[repeat(2,_minmax(300px,_1fr))] gap-[2.7rem] mt-[3.2rem]">
         <SavingsTypeCard

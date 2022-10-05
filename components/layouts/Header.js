@@ -1,7 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
 import { useRouter } from "next/router";
-import BtnOutlined from '../buttons/BtnOutlined';
 import { LoadingButton } from '@mui/lab';
 
 const Header = ({title, withBack, withTitle='true', withRed, withTwoBtn, unColoredBtnTitle, coloredBtnTitle='Create Plan', loading, coloredBtnClick, unColoredBtnClick, className}) => {
@@ -56,4 +55,4 @@ const Header = ({title, withBack, withTitle='true', withRed, withTwoBtn, unColor
   )
 }
 
-export default Header
+export default Header;

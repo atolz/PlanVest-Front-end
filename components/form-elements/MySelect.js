@@ -4,7 +4,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-export default function SelectVariants({ label, items = [1, 2, 3, 4], placeholder}) {
+export default function SelectVariants({ label, items = [1, 2, 3, 4], placeholder, onChange}) {
   const [age, setAge] = React.useState('');
 
   const handleChange = (event) => {
@@ -19,15 +19,15 @@ export default function SelectVariants({ label, items = [1, 2, 3, 4], placeholde
           labelId="demo-simple-select-filled-label"
           id="demo-simple-select-filled"
           value={age}
-        //   onChange={handleChange}
-        onChange={(e) => {
-                      if (e.target.value == items[0]) {
-                        handleChange("");
-                      } else {
-                        handleChange(e.target.value);
-                      }
-                      // setValue(e.target.value);
-                    }}
+          onChange={onChange}
+        // onChange={(e) => {
+        //               if (e.target.value == items[0]) {
+        //                 handleChange("");
+        //               } else {
+        //                 handleChange(e.target.value);
+        //               }
+        //               // setValue(e.target.value);
+        //             }}
         >
             {items.map((el, i) => {
           return (

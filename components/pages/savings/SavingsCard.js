@@ -1,56 +1,86 @@
 import React from 'react'
 
-const SavingsCard = () => {
+const SavingsCard = ({
+    startDate,
+    endDate,
+    amountSaved,
+    statusOfPlan,
+    targetAmount,
+    interestEarned,
+    interestPercent,
+    amountPaid,
+    debitDate,
+    frequencyOfSavings,
+}) => {
+    // setInputValue({
+    //     title:"",
+    //     startDate,
+    //     endDate: null,
+    //     amountTobeSaved:"",
+    //   })
+    //   ({
+    //     title:"",
+    //     startDate: null,
+    //     endDate: null,
+    //     savingType,
+    //     targetAmount:"",
+    //     duration: "",
+    //     debitDate: null,
+    //     frequencyOfSavings:"",
+    // });
   return (
-    <div className='bg-white p-[3rem] rounded-xl flex flex-wrap md:flex-row my-[3rem] '>
+    <div className='w-full bg-white p-[3rem] rounded-xl flex flex-col md:flex-row my-[3rem] '>
 
-            <div className='flex flex-col gap-[1rem] mt-[1git rem] '>
+            <div className='md:w-[30%] flex flex-col gap-[1rem] mt-[1rem] '>
                 <div className='flex flex-row md:flex-col gap-[1rem] md:gap-0'>
                     <p className='text-[#9999B4]'>Target Amount</p>
-                    <p>N800m</p>
+                    <p>{targetAmount}</p>
                 </div>
                 <div className='flex flex-row md:flex-col gap-[1rem] md:gap-0'>
                     <p className='text-[#9999B4]'>Amount saved </p>
-                    <p>N30,000</p>
+                    <p>{amountSaved}</p>
                 </div>
                 <div className='flex flex-row md:flex-col gap-[1rem] md:gap-0'>
 
                     <p className='text-[#9999B4]'>Status of the plan </p>
-                    <p>Ongoing</p>
+                    <p>{statusOfPlan}</p>
                 </div>
             </div>
-            <hr className=' hidden md:block border border-solid border-[#EBEBEB]  mx-[8rem]' />
+            <hr className=' hidden md:block border border-solid border-[#EBEBEB]  mx-[2rem] md:mx-[4rem]' />
 
-            <div className='flex flex-col gap-[1rem] mt-[1git rem] border-r border-gray-200'>
+            <div className='md:w-[30%] flex flex-col gap-[1rem] mt-[1rem] border-r border-gray-200'>
                 <div className='flex flex-row md:flex-col gap-[1rem] md:gap-0'>
-                    <p className='text-[#9999B4]'>Interest Earned - 10%</p>
-                    <p>N400</p>
+                    <p className='text-[#9999B4]'>Interest Earned - {interestPercent}%</p>
+                    <p>N{interestEarned}</p>
                 </div>
                 <div className='flex flex-row md:flex-col gap-[1rem] md:gap-0'>
                     <p className='text-[#9999B4]'>Start Date </p>
-                    <p>30/09/2021</p>
+                    <p>{startDate}</p>
                 </div>
                 <div className='flex flex-row md:flex-col gap-[1rem] md:gap-0'>
 
                     <p className='text-[#9999B4]'>End Date </p>
-                    <p>30/11/2021</p>
+                    <p>{endDate}</p>
+                    {/* <p>30/11/2021</p> */}
                 </div>
             </div>
-            <hr className=' hidden md:block border border-solid border-[#EBEBEB]  mx-[8rem]' />
+            <hr className=' hidden md:block border border-solid border-[#EBEBEB]  mx-[2rem] md:mx-[4rem]' />
 
-            <div className='flex flex-col gap-[1rem] mt-[1git rem] border-r border-gray-200'>
+            <div className='md:w-[40%] flex flex-col gap-[1rem] mt-[1rem] border-r border-gray-200'>
                 <div className='flex flex-row md:flex-col gap-[1rem] md:gap-0'>
                     <p className='text-[#9999B4]'>Frequency of Savings</p>
-                    <p>Monthly</p>
+                    {/* <p>Monthly</p> */}
+                    <p>{frequencyOfSavings}</p>
                 </div>
                 <div className='flex flex-row md:flex-col gap-[1rem] md:gap-0'>
                     <p className='text-[#9999B4]'>Debit Date/Time</p>
-                    <p>21st of every month by 4pm</p>
+                    {/* <p>21st of every month by 4pm</p> */}
+                    <p>{debitDate}</p>
                 </div>
                 <div className='flex flex-row md:flex-col gap-[1rem] md:gap-0'>
 
                     <p className='text-[#9999B4]'>Amount to be paid</p>
-                    <p>N100,000</p>
+                    <p>{amountPaid}</p>
                 </div>
                 
             </div>

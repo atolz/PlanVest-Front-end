@@ -4,7 +4,7 @@ const EmptyState = ({ img, caption, className }) => {
   return (
     <div className={`w-full h-full grid justify-center content-center justify-items-center ${className}`}>
       <img height={111} className={"h-[11.1rem] w-auto"} alt="empty-state-img" src={img}></img>
-      <span className="text-text text-[1.6rem] mt-[1.2rem]">{caption}</span>
+      <span className="text-text font-medium text-[1.6rem] mt-[1.2rem]">{caption}</span>
     </div>
   );
 };

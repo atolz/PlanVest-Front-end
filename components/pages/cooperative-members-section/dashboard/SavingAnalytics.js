@@ -4,7 +4,7 @@ import PlainContainerTitle from "../../../layouts/PlainContainerTitle";
 const SavingAnalytics = ({ className }) => {
   let savings = [
     { type: "Goal Savings", "Created Plans": 3, "Tot. Amt Saved": "N200,000", "Tot. Interest Earned": "N20,000" },
-    { type: "Fixed Savings", "Created Plans": 3, "Tot. Amt Saved": "N200,000", "Tot. Interest Earned": "N20,000" },
+    { type: "Fixed Savings", "Created Plans": 3, "Tot. Amt Saved": "N200,000,000,000,0000", "Tot. Interest Earned": "N20,000" },
     { type: "Group Savings", "Created Plans": 3, "Tot. Amt Saved": "N200,000", "Tot. Interest Earned": "N20,000" },
   ];
   return (
@@ -18,9 +18,11 @@ const SavingAnalytics = ({ className }) => {
                 .filter((el) => el[0] != "type")
                 .map(([key, value], i) => {
                   return (
-                    <div key={i} className="flex items-center justify-between flex-wrap mb-[1.8rem] last:mb-0">
-                      <span className=" text-[1.4rem] text-[#666668] opacity-[.6] font-medium">{key}</span>
-                      <span className=" font-medium text-[1.6rem] text-[#666668] text-left min-w-[16rem]">{value}</span>
+                    <div key={i} className="grid grid-cols-[repeat(auto-fit,_minmax(16rem,_1fr))] items-center justify-between flex-wrap mb-[1.8rem] last:mb-0">
+                      <span className=" text-[1.4rem] text-[#666668] opacity-[.6] font-medium  min-w-[16rem]">{key}</span>
+                      <span title={value} className=" cursor-pointer font-medium text-[1.6rem] text-[#666668] text-left min-w-[18rem] max-w-[18rem] text-ellipsis overflow-hidden lg:justify-self-end">
+                        {value}
+                      </span>
                     </div>
                   );
                 })}

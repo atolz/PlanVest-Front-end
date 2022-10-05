@@ -3,8 +3,6 @@ import Image from 'next/image';
 import toast from "react-hot-toast";
 import { useRouter } from "next/router";
 import { LoadingButton } from "@mui/lab";
-import { Field, Form, Formik } from "formik";
-import MySelect from '../../../form-elements/MySelect';
 import PillOnSelect from '../../../form-elements/PillOnSelect';
 import { Button, Dialog, Select, Stack, TextField } from '@mui/material';
 import {createGoalSavings} from '../../../../services/cooperative-admin.js';
@@ -14,8 +12,7 @@ const CreateGoalPlanModal = ({activeTab, toggle, name}) => {
     const router = useRouter();
     // alaf state and activetab
     const state= (activeTab === name);
-    const [buttonValue, setButtonValue] =useState();
-
+    const [loading, setLoading] = useState(false);
     const [inputValue, setInputValue] =useState({
           title:"",
           startDate: null,
@@ -26,8 +23,13 @@ const CreateGoalPlanModal = ({activeTab, toggle, name}) => {
           debitDate: null,
           frequencyOfSavings:"",
       });
+    //   calculate duration by diff of end n start divided by 30 in months n round up with ceil to nearest whole
+    const myDateDiff= (inputValue.endDate- inputValue.startDate);
+    const myMonthlyDuration= (myDateDiff / 30);
+    const myDuration= Math.ceil(myMonthlyDuration );
 
-        const handleSubmit = async () => {
+    const handleSubmit = async () => {
+            
         try {
             await createGoalSavings(inputValue);
             console.log('this is goal savings?')
@@ -38,12 +40,15 @@ const CreateGoalPlanModal = ({activeTab, toggle, name}) => {
                 endDate: null,
                 savingType: "",
                 targetAmount:"",
-                duration: "",
+                duration: myDuration,
                 debitDate: null,
                 frequencyOfSavings:"",
             })
+            // setLoading(true);
+            // window.location.reload();
+            
         } catch (error) {
-            toast.error(data?.message, { duration: 10000 });
+            toast.error(inputValue?.message, { duration: 10000 });
         }
         
       }
@@ -57,14 +62,14 @@ const CreateGoalPlanModal = ({activeTab, toggle, name}) => {
               <span onClick={()=>toggle("")} className="text text-[28px] text-black ml-[auto] cursor-pointer">&#215;</span>
           </div>
           <div className='p-[4rem] flex flex-col gap-[3rem]' >
-                <select onChange={(e)=>setInputValue({...inputValue, savingType:e.target.value})} value={inputValue.savingType}  name="cars" className="selectedType">
+                <select onChange={(e)=>setInputValue({...inputValue, savingType:e.target.value})} value={inputValue.savingType}  className="selectedType">
                     <option value="">Select Savings Type</option>
                     <option value="self-management">Self Management</option>
                     <option value="third-party">Third-Party Management</option>
                 </select>
                 <TextField name="id-title" onChange={(e)=>setInputValue({...inputValue, title:e.target.value})} value={inputValue.title} type={"text"} id="title" label="Title of Savings" variant="filled" />
                 
-          {/* <MySelect  label="Select Savings Type" items={["Self Management", "Third-Party Management"]}></MySelect> */}
+          {/* <MySelect onChange={(e)=>setInputValue({...inputValue, savingType:e.target.value})} value={inputValue.savingType} label="Select Savings Type" items={["Self Management", "Third-Party Management"]}></MySelect> */}
             
           </div>
             <Stack gap={"3rem"} className=' w-[100%] px-[4rem] items-start flex flex-col'>
@@ -75,9 +80,9 @@ const CreateGoalPlanModal = ({activeTab, toggle, name}) => {
                 <hr className='w-full border-solid border-gray-200' />
                 <p className='text-[#9999B4]  '>Frequency of savings</p>
                 <div className=' w-full flex flex-row gap-[2rem] justify-between'>
-                    <Button onClick={(e)=>setInputValue({...inputValue, frequencyOfSavings:e.target.value})} value='daily'  className='bg-[#E7EBED] text-[#666668]'>Daily</Button>
-                    <Button onClick={(e)=>setInputValue({...inputValue, frequencyOfSavings:e.target.value})} value='weekly' className='bg-[#E7EBED] text-[#666668]'>Weekly</Button>
-                    <Button onClick={(e)=>setInputValue({...inputValue, frequencyOfSavings:e.target.value})} value='monthly' className='bg-[#E7EBED] text-[#666668]'>Monthly</Button>
+                    <Button onClick={(e)=>setInputValue({...inputValue, frequencyOfSavings:e.target.value})} value='daily'  className='bg-[#E7EBED] focus:bg-[#137C4B] focus:text-white text-[#666668]'>Daily</Button>
+                    <Button onClick={(e)=>setInputValue({...inputValue, frequencyOfSavings:e.target.value})} value='weekly' className='bg-[#E7EBED] focus:bg-[#137C4B] focus:text-white text-[#666668]'>Weekly</Button>
+                    <Button onClick={(e)=>setInputValue({...inputValue, frequencyOfSavings:e.target.value})} value='monthly' className='bg-[#E7EBED] focus:bg-[#137C4B] focus:text-white text-[#666668]'>Monthly</Button>
                 </div>
                  <PLVDesktopDatePicker onChange={(e)=>setInputValue({...inputValue, debitDate:e._d})} value={inputValue.debitDate}  label="Select debit date" />
                  <hr className='w-full border-solid border-gray-200' />
