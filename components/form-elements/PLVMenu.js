@@ -28,7 +28,7 @@ const PLVMenu = ({ items = ["love", "and", "hate"], onChange = () => {}, classNa
   };
 
   return (
-    <div>
+    <>
       <button
         tabIndex={1}
         ref={openerRef}
@@ -40,7 +40,7 @@ const PLVMenu = ({ items = ["love", "and", "hate"], onChange = () => {}, classNa
         type="button"
         className={`flex items-center h-[var(--height-input)] justify-between rounded-primary p-[1.4rem]  border-0 w-full text-text ${className} ${error ? " !border border-error" : ""}`}
       >
-        <p className="text-[1.6rem] font-normal flex mr-[8rem]">{selectedValue}</p>
+        <p className={`"text-[1.6rem] font-normal flex mr-[8rem]  ${error ? " !text-error" : ""}`}>{selectedValue}</p>
         <SvgIconWrapper className={` !w-[18px] ${open ? "rotate-180" : ""} transition-all`} iconName={"chevron-down"}></SvgIconWrapper>
       </button>
       {error && <p className="text-error text-[1.2rem]">*{error}</p>}
@@ -82,7 +82,7 @@ const PLVMenu = ({ items = ["love", "and", "hate"], onChange = () => {}, classNa
           );
         })}
       </Menu>
-    </div>
+    </>
   );
 };
 
