@@ -13,8 +13,8 @@ import PLVMenu from "../../components/form-elements/PLVMenu";
 import StatCard from "../../components/cards/StatCard";
 
 const Dashboard = () => {
-  const [emptyLoan, setEmptyLoan] =useState(true)
-  const [emptyInvest, setEmptyInvest] =useState(true)
+  const [empty, setEmpty] =useState(true);
+  // const [emptyInvest, setEmptyInvest] =useState(true);
   return (
     <AppLayout>
 
@@ -40,8 +40,8 @@ const Dashboard = () => {
         <StatCard bgColor="linear-gradient(263.39deg, #230B34 0%, #8B31CA 100%)" title='No of Group Savings' value='10'></StatCard>
       </section>
 
-      <div className="row gap-[24px]  flex flex-col md:flex-row mb-[3rem]">
-        <div  className="rounded-xl w-[full] md:w-[49%] bg-white my-[0px] p-[3rem] h-[auto]"> 
+      <div className="row gap-[24px] flex flex-col md:flex-row mb-[3rem]">
+        <div  className="rounded-xl flex flex-col w-[full] md:w-[49%] bg-white my-[0px] p-[3rem] h-[auto]"> 
 
           <p className="">saving analytics</p>
           <hr className="my-[1.5rem]" />
@@ -94,10 +94,10 @@ const Dashboard = () => {
 
         <div className="rounded-xl flex flex-col gap-[24px] w-[full] md:w-[49%] ">
 
-          {emptyInvest ? <div className="h-[auto] rounded-xl mb-[2rem] bg-white p-[2rem]">
+          {empty ? <div className="h-[auto] rounded-xl mb-[2rem] bg-white p-[2rem]">
             <p className="">Investment  Applicants</p>
             <hr className="my-[2rem]" />
-            <Image onClick={()=>setEmptyInvest(!emptyInvest)} src='/images/empty.svg' alt='empty state' height='200px' width='350px' />
+            <Image onClick={()=>setEmpty(!empty)} src='/images/empty.svg' alt='empty state' height='200px' width='350px' />
             <p className="my-[2rem] text-center">No Applications</p>
             </div> :
             <div className="h-[auto] rounded-xl mb-[2rem] bg-white p-[2rem]">
@@ -123,10 +123,10 @@ const Dashboard = () => {
               <LabelTag text='Pending' status='warn'></LabelTag> 
             </div>
           </div>}
-          {emptyLoan ? <div className="h-[auto] rounded-xl mb-[2rem] bg-white p-[2rem]">
+          {empty ? <div className="h-[auto] rounded-xl mb-[2rem] bg-white p-[2rem]">
             <p className="">Loan Applicants</p>
             <hr className="my-[2rem]" />
-            <Image onClick={()=>setEmptyLoan(!emptyLoan)} src='/images/empty.svg' alt='empty state' height='200px' width='350px' />
+            <Image onClick={()=>setEmpty(!empty)} src='/images/empty.svg' alt='empty state' height='200px' width='350px' />
             <p className="my-[2rem] text-center">No Applications</p>
             </div> :
           <div className="h-[auto] rounded-xl pb-[2rem] bg-white p-[2rem]">
