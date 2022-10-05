@@ -55,15 +55,17 @@ const CreateSavingsPopup = ({ onClose = () => {}, onAddCard = () => {} }) => {
         {({ isSubmitting, errors, touched, handleChange, values, setFieldValue }) => {
           return (
             <Form className="grid gap-[1.6rem]">
-              <PLVMenu
-                onChange={(val) => {
-                  setFieldValue("savingType", val);
-                }}
-                error={errors.savingType}
-                initText={"Select Savings Type"}
-                items={["Goal Savings", "Fixed Savings"]}
-                className=" bg-input"
-              ></PLVMenu>
+              <div>
+                <PLVMenu
+                  onChange={(val) => {
+                    setFieldValue("savingType", val);
+                  }}
+                  error={errors.savingType}
+                  initText={"Select Savings Type"}
+                  items={["Goal Savings", "Fixed Savings"]}
+                  className=" bg-input"
+                ></PLVMenu>
+              </div>
               <Field as={TextField} error={touched.title && errors.title} helperText={touched.title && errors.title} name="title" type={"text"} id="title" label="Title of Savings" variant="filled" />
               <PLVDesktopDatePicker
                 error={errors?.startDate}
