@@ -5,7 +5,7 @@ import { AppContext } from "../../context/AppContextProvider";
 import Protect from "../utils/Protect";
 import SvgIconWrapper from "./SvgIconWrapper";
 
-const Sidebar = () => {
+const Sidebar = ({ setIsMobileNavOpened, isMobileNavOpened }) => {
   const router = useRouter();
   const { setActivePage } = useContext(AppContext);
   const [activeNav, setActiveNav] = useState([]);
@@ -34,7 +34,7 @@ const Sidebar = () => {
     { name: "Notification", link: `/cooperative-admin/notification`, icon: "notification", page: "admin" },
     { name: "Account", link: `/cooperative-admin/account`, icon: "user", page: "admin" },
     { name: "Support", link: `/cooperative-admin/support`, icon: "gear", page: "admin" },
-    { name: "Logout", link: `/cooperative-admin/Logout`, icon: "logout", page: "admin" },
+    { name: "Logout", link: `/cooperative-admin/logout`, icon: "logout", page: "admin" },
   ];
   const privateNavs = [
     { name: "Dashboard", link: `/private-members/dashboard`, icon: "blocks", page: "admin" },
@@ -55,7 +55,7 @@ const Sidebar = () => {
     { name: "Loan", link: `/admin/loan`, icon: "note-folded", page: "admin" },
     { name: "Investment", link: `/admin/investment`, icon: "note", page: "admin" },
 
-    { name: "Logout", link: `/admin/Logout`, icon: "logout", page: "admin" },
+    { name: "Logout", link: `/admin/logout`, icon: "logout", page: "admin" },
   ];
 
   const isActive = (link) => {
@@ -92,11 +92,15 @@ const Sidebar = () => {
 
   return (
     <Protect>
-      <div className="  w-[262px] h-full overflow-y-scroll scroll_hide bg-pv_dark  pr-[1.6rem] py-[3.9rem]">
+      <div
+        className={` w-screen  md:w-[262px] h-full overflow-y-scroll scroll_hide bg-pv_dark  pr-[1.6rem] py-[3.9rem] md:py-[3.9rem]  md:block ${
+          isMobileNavOpened ? "block fixed top-0 left-0 z-[10000000]" : "hidden"
+        }`}
+      >
         {/* hidden sm:block */}
         {/* Head */}
         <section className="flex items-center pl-[3.2rem] mb-[5.2rem]">
-          <SvgIconWrapper className={"w-[2.1rem] h-[2rem] mr-[3rem]"} iconName={"menu"}></SvgIconWrapper>
+          <SvgIconWrapper action={() => setIsMobileNavOpened(!isMobileNavOpened)} className={"w-[2.1rem] h-[2rem] mr-[3rem] cursor-pointer"} iconName={"menu"}></SvgIconWrapper>
           <SvgIconWrapper className={" !h-[2.2rem] !w-[10.8rem]"} iconName={"planvest-logo"}></SvgIconWrapper>
         </section>
         {/* Navs */}

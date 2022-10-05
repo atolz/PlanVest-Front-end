@@ -15,7 +15,7 @@ import { AuthContext } from "../context/AuthContextProvider";
 import { adminLogin } from "../services/cooperative-admin.js";
 
 const Signin = () => {
-  const [activeType, setActiveType] = useState("Cooperative");
+  const [activeType, setActiveType] = useState("User");
   const [passType, setPassType] = useState("password");
   const router = useRouter();
   const [open, setOpen] = useState(false);
@@ -34,7 +34,7 @@ const Signin = () => {
       setUser(data?.data);
       setExpiresOnLogIn(data?.accessToken);
       toast.success(data?.message ?? "Login successful!", { duration: 3000, id: "status" });
-      router.push("cooperative-members/dashboard");
+      activeType == "User" ? router.push("cooperative-members/dashboard") : router.push("cooperative-admin/dashboard");
     } else {
       toast.error(data?.message, { duration: 8000, id: "status" });
     }
@@ -42,16 +42,8 @@ const Signin = () => {
 
   return (
     <OnboardingLayout>
-      <div className="max-w-[49.2rem] w-full  h-full flex flex-col justify-center overflow-scroll scroll_hide ">
-        <div className="flex flex-row gap-[2rem] mb-[5rem] max-w-[350px] overflow-x-scroll scroll_hide h-max">
-          <button
-            className={`h-[5.1rem] w-[153px] rounded-primary font-rubik font-medium  px-[3.5rem] border-0  cursor-pointer ${
-              activeType == "Cooperative" ? "text-white bg-black" : " border border-black  text-black bg-white"
-            }`}
-            onClick={() => setActiveType("Cooperative")}
-          >
-            Cooperative
-          </button>
+      <div className="md:max-w-[49.2rem] w-full h-full flex flex-col py-[10vh]">
+        <div className=" h-[5.1rem] grid grid-flow-col gap-[2rem] mb-[5rem] max-w-[350px] scroll_hide min-h-max">
           <button
             className={`h-[5.1rem] w-[153px] rounded-primary font-rubik font-medium  px-[3.5rem] border-0  cursor-pointer ${
               activeType != "Cooperative" ? "text-white bg-black" : " border border-black  text-black bg-white"
@@ -59,6 +51,14 @@ const Signin = () => {
             onClick={() => setActiveType("User")}
           >
             User
+          </button>
+          <button
+            className={`h-[5.1rem] w-[153px] rounded-primary font-rubik font-medium  px-[3.5rem] border-0  cursor-pointer ${
+              activeType == "Cooperative" ? "text-white bg-black" : " border border-black  text-black bg-white"
+            }`}
+            onClick={() => setActiveType("Cooperative")}
+          >
+            Cooperative
           </button>
         </div>
         <h2 className="mb-[1rem] text-[2.4rem] text-text">{activeType} Sign In</h2>
@@ -100,7 +100,7 @@ const Signin = () => {
                     variant="filled"
                   />
                   <Link href={"/forgot-password"}>
-                    <a className=" text-text text-[1.5rem] mt-2 cursor-pointer">Forgot Password?</a>
+                    <a className=" text-text text-[1.5rem] mt-2 cursor-pointer text-left block">Forgot Password?</a>
                   </Link>
                 </div>
                 <LoadingButton type="submit" loading={isSubmitting} variant="contained" sx={{ marginTop: "14px" }}>
@@ -108,7 +108,7 @@ const Signin = () => {
                 </LoadingButton>
                 <p className=" text-pv_dark font-medium">
                   Don’t have an account?
-                  <Link href={activeType == "coop" ? "cooperative-admin/register" : "cooperative-members/register"}>
+                  <Link href={activeType == "Cooperative" ? "cooperative-admin/register" : "cooperative-members/register"}>
                     <a className=" text-pv_primary cursor-pointer"> Register</a>
                   </Link>
                 </p>
@@ -169,7 +169,7 @@ const Signin = () => {
           <div className=" flex-1 border-border border-0 border-b bg-transparent border-solid"></div> <p className="mx-[1.2rem] text-text font-medium text-[1.6rem] ">Or</p>
           <Hrule></Hrule>
         </div>
-        <div className=" grid gap-[2.5rem] grid-flow-col">
+        <div className=" grid gap-[2.5rem] grid-flow-row md:grid-flow-col">
           <SignupWIthButton img={"/fb.png"} type={"Facebook"}></SignupWIthButton>
           <SignupWIthButton img={"/google.png"} type={"Google"}></SignupWIthButton>
         </div>

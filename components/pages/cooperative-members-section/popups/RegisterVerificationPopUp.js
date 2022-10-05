@@ -33,7 +33,7 @@ const RegisterVerificationPopUp = ({ email, onAction, onCancel = () => {}, onReg
     <PopupLayout onClose={onCancel} withBorder={false} title="">
       <div className="grid place-items-center mx-auto max-w-[326px] -translate-y-9">
         <p className=" text-center text-text font-rubik text-[1.8rem]">Enter 4 digit verification code sent to your email ({values.email})</p>
-        <img height={222} className="mt-[1.2rem] mb-[.7rem]  " src={"/key-lock.png"}></img>
+        <img height={222} className="mt-[1.2rem] mb-[.7rem] w-full object-contain h-[17rem] md:h-auto " src={"/key-lock.png"}></img>
         <PinInput
           onChange={(val) => {
             setPin(val);
