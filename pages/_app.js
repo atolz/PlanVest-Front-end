@@ -11,6 +11,7 @@ import "../styles/typography.scss";
 import AppContextProvider from "../context/AppContextProvider";
 import toast, { Toaster } from "react-hot-toast";
 import AuthContextProvider from "../context/AuthContextProvider";
+import MembersContextProvider from "../context/MembersProvider";
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -46,7 +47,9 @@ export default function MyApp(props) {
         <CssBaseline />
         <AppContextProvider>
           <AuthContextProvider>
-            <Component {...pageProps} />
+            <MembersContextProvider>
+              <Component {...pageProps} />
+            </MembersContextProvider>
           </AuthContextProvider>
         </AppContextProvider>
       </ThemeProvider>

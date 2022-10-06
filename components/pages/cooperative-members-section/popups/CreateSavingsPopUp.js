@@ -9,6 +9,7 @@ import SvgIconWrapper from "../../../general/SvgIconWrapper";
 import PopupLayout from "../../../layouts/PopupLayout";
 import { createFixedSavings, createGoalSavings, createPersonalFixedSavings, createPersonalGoalSavings } from "../../../../services/cooperative-members.js";
 import toast from "react-hot-toast";
+import { SavingsTypes } from "../../../../pages/cooperative-members/savings";
 
 const CreateValidationSchema = yup.object({
   savingType: yup.string("Select saving type").required("Select saving type"),
@@ -19,7 +20,7 @@ const CreateValidationSchema = yup.object({
   //   amountTobeSaved: yup.number().min(100, "Min amount 100.").required("Pls enter an amount").typeError("Enter a valid number"),
 });
 
-const CreateSavingsPopup = ({ onClose = () => {}, onAddCard = () => {} }) => {
+const CreateSavingsPopup = ({ onClose = () => {}, onAddCard = () => {}, onCreateSavings = () => {} }) => {
   const [loading, setLoading] = useState(false);
 
   const onCreate = async (values) => {
@@ -33,6 +34,7 @@ const CreateSavingsPopup = ({ onClose = () => {}, onAddCard = () => {} }) => {
     console.log("Data", data);
     if (data.status) {
       toast.success(data?.message, { duration: 8000, id: "status" });
+      values.savingType == "Goal Savings" ? onCreateSavings(SavingsTypes.GOAL) : onCreateSavings(SavingsTypes.FIXED);
     } else {
       toast.error(data?.message, { duration: 8000, id: "status" });
     }
@@ -52,7 +54,7 @@ const CreateSavingsPopup = ({ onClose = () => {}, onAddCard = () => {} }) => {
         validationSchema={CreateValidationSchema}
         onSubmit={onCreate}
       >
-        {({ isSubmitting, errors, touched, handleChange, values, setFieldValue }) => {
+        {({ isSubmitting, errors, touched, handleChange, values, setFieldValue, submitCount }) => {
           return (
             <Form className="grid gap-[1.6rem]">
               <div>
@@ -68,16 +70,16 @@ const CreateSavingsPopup = ({ onClose = () => {}, onAddCard = () => {} }) => {
               </div>
               <Field as={TextField} error={touched.title && errors.title} helperText={touched.title && errors.title} name="title" type={"text"} id="title" label="Title of Savings" variant="filled" />
               <PLVDesktopDatePicker
-                error={errors?.startDate}
-                helperText={errors?.startDate}
+                error={errors?.startDate && submitCount >= 1}
+                helperText={submitCount >= 1 && errors?.startDate}
                 onChange={(date) => {
                   setFieldValue("startDate", date);
                 }}
                 label="Start date"
               ></PLVDesktopDatePicker>
               <PLVDesktopDatePicker
-                error={errors?.endDate}
-                helperText={errors?.endDate}
+                error={errors?.endDate && submitCount >= 1}
+                helperText={submitCount >= 1 && errors?.endDate}
                 onChange={(date) => {
                   setFieldValue("endDate", date);
                 }}

@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import TabLight from "../../../components/general/TabLight";
 import TabLightV2 from "../../../components/general/TabLightV2";
 import AppLayout from "../../../components/layouts/AppLayout";
+import MobileContainer from "../../../components/layouts/MobileContainer";
 import LoanCard from "../../../components/pages/cooperative-members-section/loan/LoanCard";
 import ApplyLoanPopUp from "../../../components/pages/cooperative-members-section/popups/ApplyLoanPopUp";
 import EligibilityPopUp from "../../../components/pages/cooperative-members-section/popups/EligibilityPopUp";
@@ -41,13 +42,23 @@ const Loan = () => {
       dateRequested: "23/05/2022",
     },
   ];
-  const [filteredLoans, setFilteredLoans] = useState(loans);
   const filterLoans = (status) => {
     return loans?.filter((loan) => {
       return loan?.status?.includes(status);
     });
   };
+  const [tabs, setTabs] = useState([
+    `All (${loans?.length})`,
+    `Pending (${filterLoans("Pending")?.length})`,
+    `Active (${filterLoans("Active")?.length})`,
+    `Declined (${filterLoans("Declined")?.length})`,
+    `Completed (${filterLoans("Completed")?.length})`,
+  ]);
+  const [filteredLoans, setFilteredLoans] = useState(loans);
+  const [activeTab, setActiveTab] = useState(tabs[0]);
+
   const onLoanTypeChange = (item) => {
+    setActiveTab(item);
     if (item.includes("All")) {
       return setFilteredLoans(loans);
     }
@@ -97,32 +108,25 @@ const Loan = () => {
         {activeModal == "SuccessTopup" && <SuccessPopUp onAction={handleClose} actionText={"Ok"} caption={"Application successfully sent and waiting approval."}></SuccessPopUp>}
       </Dialog>
       <AppLayout>
-        <div className="flex items-center flex-wrap justify-between mb-[3rem]">
-          <TabLightV2 items={["Personal Loans", "Corporate Loans"]}></TabLightV2>
-          <Button
-            onClick={() => {
-              openModal("EligibilityPopUp");
-            }}
-            sx={{ maxWidth: "18.3rem" }}
-          >
-            Check Eligibility
-          </Button>
-        </div>
-        <TabLight
-          onChange={onLoanTypeChange}
-          items={[
-            `All (${loans?.length})`,
-            `Pending (${filterLoans("Pending")?.length})`,
-            `Active (${filterLoans("Active")?.length})`,
-            `Declined (${filterLoans("Declined")?.length})`,
-            `Completed (${filterLoans("Completed")?.length})`,
-          ]}
-        ></TabLight>
-        <div className="mt-[3.2rem] grid grid-cols-[repeat(auto-fill,_minmax(330px,_1fr))] gap-[1.6rem]">
-          {filteredLoans?.map((loan, i) => {
-            return <LoanCard loan={loan} key={i}></LoanCard>;
-          })}
-        </div>
+        <MobileContainer>
+          <div className="flex items-center flex-wrap justify-between mb-[3rem]">
+            <TabLightV2 items={["Personal Loans", "Corporate Loans"]}></TabLightV2>
+            <Button
+              onClick={() => {
+                openModal("EligibilityPopUp");
+              }}
+              sx={{ maxWidth: "18.3rem" }}
+            >
+              Check Eligibility
+            </Button>
+          </div>
+          <TabLight onChange={onLoanTypeChange} active={activeTab} items={tabs}></TabLight>
+          <div className="mt-[3.2rem] grid grid-cols-[repeat(auto-fill,_minmax(330px,_1fr))] gap-[1.6rem]">
+            {filteredLoans?.map((loan, i) => {
+              return <LoanCard loan={loan} key={i}></LoanCard>;
+            })}
+          </div>
+        </MobileContainer>
       </AppLayout>
     </>
   );

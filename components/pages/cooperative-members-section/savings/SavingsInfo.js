@@ -14,7 +14,7 @@ const SavingsInfo = () => {
       <Dialog scroll="body" onClose={handleClose} open={open}>
         <AutoSavePopUp onClose={handleClose}></AutoSavePopUp>
       </Dialog>
-      <PlainContainer className={" !p-[2.4rem] mb-[1.6rem]"}>
+      <PlainContainer isStrechedMobile={false} className={" !p-[2.4rem] mb-[1.6rem]"}>
         <header className="flex items-center justify-between mb-[1rem]">
           <h3 className=" text-pv_dark font-medium">Savings Info</h3>
           <span className=" text-text text-[1.4rem] font-semibold">Autosave is OFF</span>

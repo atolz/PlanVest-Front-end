@@ -1,5 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import jwt_decode from "jwt-decode";
+import { getUserProfile } from "../services/cooperative-members.js";
+import toast from "react-hot-toast";
 
 export const AuthContext = createContext({ setExpiresOnLogIn: () => {}, user: {}, isLoggedIn: () => {}, setUser: () => {}, logOut: () => {} });
 
@@ -28,6 +30,20 @@ const AuthContextProvider = ({ children }) => {
       console.log("expires in refresh", exp * 1000);
     } else {
       localStorage.setItem("exp", null);
+    }
+  }, []);
+
+  useEffect(() => {
+    const getUser = async () => {
+      const respData = await getUserProfile();
+      if (respData?.status) {
+        setUser(respData?.data);
+      } else {
+        toast.error("Error Loading User Data");
+      }
+    };
+    if (!user) {
+      getUser();
     }
   }, []);
 
