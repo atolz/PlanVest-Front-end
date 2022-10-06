@@ -39,7 +39,7 @@ const AuthContextProvider = ({ children }) => {
       if (respData?.status) {
         setUser(respData?.data);
       } else {
-        toast.error("Error Loading User Data");
+        // toast.error("Error Loading User Data");
       }
     };
     if (!user) {
