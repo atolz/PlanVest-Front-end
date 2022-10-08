@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Label from "../../../components/general/Label";
 import SvgIconWrapper from "../../../components/general/SvgIconWrapper";
 import AppLayout from "../../../components/layouts/AppLayout";
@@ -9,6 +9,9 @@ import DocBox from "../../../components/general/DocBox";
 import PaymentBreakDownTable from "../../../components/pages/cooperative-members-section/loan/PaymentBreakDownTable";
 import { MembersContext } from "../../../context/MembersProvider";
 import formatDate from "../../../utils/formatDate";
+import formatNumberWithCommas from "../../../utils/addCommas";
+import CurrencySymbol from "../../../components/general/CurrencySymbol";
+import { getSingleLoan } from "../../../services/cooperative-members.js";
 
 const Title = ({ text, className }) => {
   return <p className={` text-pv_dark text-[1.6rem] leading-[29px] font-medium mb-[1.6rem] ${className}`}>{text}</p>;
@@ -25,8 +28,27 @@ const TextValue = ({ text, value, className }) => {
 
 const LoanDetails = () => {
   const router = useRouter();
-  const { loans } = useContext(MembersContext);
+  const { loans, setLoans } = useContext(MembersContext);
   const loan = loans?.hash[router?.query?.id];
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchLoan = async () => {
+      const respData = await getSingleLoan(router?.query?.id);
+      if (respData?.status) {
+        setLoans((val) => ({ ...val, hash: { ...val?.hash, [router?.query?.id]: respData?.data } }));
+      }
+    };
+
+    if (router?.isReady) {
+      if (!loan) {
+        setLoading(true);
+      }
+
+      fetchLoan();
+      setLoading(false);
+    }
+  }, [router?.isReady]);
 
   return (
     <AppLayout>
@@ -47,7 +69,16 @@ const LoanDetails = () => {
           </div>
           <div className="grid gap-[3.4rem] justify-self-start">
             <TextValue text={"Next Repayment Date"} value={"08/06/2022"}></TextValue>
-            <TextValue text={"Amount applied for"} value={"N600,000"}></TextValue>
+            <TextValue
+              text={"Amount applied for"}
+              value={
+                <span>
+                  <CurrencySymbol />
+                  &nbsp;
+                  {formatNumberWithCommas(loan?.loanAmount)}`
+                </span>
+              }
+            ></TextValue>
           </div>
           <div className="grid gap-[3.4rem] justify-self-start">
             <TextValue text={"Interest to be paid"} value={"6%"}></TextValue>

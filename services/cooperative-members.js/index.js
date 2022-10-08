@@ -91,3 +91,8 @@ export const getAllLoans = async () => {
   const respData = await postData("/loan/all?page=1&size=10000");
   return respData;
 };
+
+export const getSingleLoan = async (id) => {
+  const respData = await fetchData(`/loan/single?id=${id}`);
+  return respData;
+};

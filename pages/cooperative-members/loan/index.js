@@ -134,9 +134,10 @@ const Loan = () => {
   };
 
   useEffect(() => {
-    if (!loans.data) {
-      fetchBuildStoreLoans();
-    }
+    fetchBuildStoreLoans();
+    // if (!loans.data) {
+    //   fetchBuildStoreLoans();
+    // }
   }, []);
   useEffect(() => {
     setFilteredLoans(filterLoans("All"));
@@ -172,7 +173,9 @@ const Loan = () => {
           </div>
 
           <TabLight onChange={onLoanTypeChange} active={activeTab} items={tabs}></TabLight>
-          {(!filteredLoans || filteredLoans?.length < 1) && <EmptyState className={"min-h-[75vh]"} caption={`No ${activeTab?.split(" ")[0]} plan.`} img={"/empty-savings.png"}></EmptyState>}
+          {(!filteredLoans || filteredLoans?.length < 1) && (
+            <EmptyState className={"min-h-[75vh]"} caption={`No ${activeTab?.includes("All") ? "" : activeTab?.split(" ")[0] ?? ""} loan.`} img={"/empty-savings.png"}></EmptyState>
+          )}
           {filteredLoans && filteredLoans?.length > 0 && (
             <div className="mt-[3.2rem] grid grid-cols-[repeat(auto-fill,_minmax(330px,_1fr))] gap-[1.6rem]">
               {filteredLoans?.map((loan, i) => {
