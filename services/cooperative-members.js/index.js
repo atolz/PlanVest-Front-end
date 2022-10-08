@@ -71,3 +71,23 @@ export const buildSavingsHash = (savings) => {
 
   return savingsIdHash;
 };
+export const buildDataIdHash = (data) => {
+  const dataIdHash = {};
+
+  data.forEach((item) => {
+    dataIdHash[item.id] = item;
+  });
+
+  return dataIdHash;
+};
+
+// Loans
+export const createLoan = async (data = {}) => {
+  const respData = await postData("/loan/", data);
+  return respData;
+};
+
+export const getAllLoans = async () => {
+  const respData = await postData("/loan/all?page=1&size=10000");
+  return respData;
+};

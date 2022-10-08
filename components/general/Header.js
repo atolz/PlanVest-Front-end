@@ -18,18 +18,19 @@ const Header = ({ setIsMobileNavOpened, isMobileNavOpened }) => {
         <SvgIconWrapper action={() => setIsMobileNavOpened(!isMobileNavOpened)} className={"w-[2.1rem] h-[2rem] md:hidden cursor-pointer"} iconName={"menu"}></SvgIconWrapper>
         <span className=" md:text-text font-semibold text-[1.6rem] text-white">{page ?? "Dashboard"}</span>
         <SvgIconWrapper className={" !h-[3rem] !w-[3rem] md:hidden"} iconName={"message-notification-mobile"}></SvgIconWrapper>
-        <div className=" items-center hidden md:flex">
-          <SvgIconWrapper className={" !h-[3rem] !w-[3rem]"} iconName={"message-notification"}></SvgIconWrapper>
-          <Hrule className={"w-[2.3rem] rotate-90 mx-[2rem] !border-label"}></Hrule>
-          {user && (
+        {user && (
+          <div className=" items-center hidden md:flex">
+            <SvgIconWrapper className={" !h-[3rem] !w-[3rem]"} iconName={"message-notification"}></SvgIconWrapper>
+            <Hrule className={"w-[2.3rem] rotate-90 mx-[2rem] !border-label"}></Hrule>
+
             <Link href={"/cooperative-members/account"}>
               <a className=" flex items-center cursor-pointer">
                 <Avatar className="mr-[2rem]" src="/images/avataRR.png"></Avatar>
                 <span className=" text-text text-[1.6rem] font-medium mr-5 capitalize">{user?.cooperativeName ?? (user?.firstName ? user?.firstName + " " + user?.lastName : "Guest")}</span>
               </a>
             </Link>
-          )}
-        </div>
+          </div>
+        )}
       </AppContainer>
     </header>
   );

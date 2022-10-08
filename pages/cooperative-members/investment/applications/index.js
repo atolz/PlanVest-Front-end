@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import TabLight from "../../../../components/general/TabLight";
 import TabLightV2 from "../../../../components/general/TabLightV2";
 import AppLayout from "../../../../components/layouts/AppLayout";
+import MobileContainer from "../../../../components/layouts/MobileContainer";
 import ApplicationCard from "../../../../components/pages/cooperative-members-section/investment/ApplicationCard";
 import LoanCard from "../../../../components/pages/cooperative-members-section/loan/LoanCard";
 
@@ -59,38 +60,40 @@ const Applications = () => {
   return (
     <>
       <AppLayout>
-        <div className="flex items-center flex-wrap justify-between mb-[3rem]">
-          <TabLightV2
-            onChange={(item) => {
-              item != "Applications" && router.push("/cooperative-members/investment/plans");
-            }}
-            active={page}
-            items={["Applications", "Investment Plans"]}
-          ></TabLightV2>
-          <Button
-            onClick={() => {
-              router.push("/cooperative-members/investment/apply");
-            }}
-            sx={{ maxWidth: "18.3rem" }}
-          >
-            Apply
-          </Button>
-        </div>
-        <TabLight
-          onChange={onApplicationTypeChange}
-          items={[
-            `All (${applications?.length})`,
-            `Pending (${filterLoans("Pending")?.length})`,
-            `Active (${filterLoans("Active")?.length})`,
-            `Declined (${filterLoans("Declined")?.length})`,
-            `Completed (${filterLoans("Completed")?.length})`,
-          ]}
-        ></TabLight>
-        <div className="mt-[3.2rem] grid grid-cols-[repeat(auto-fill,_minmax(330px,_1fr))] gap-[1.6rem]">
-          {filteredApplications?.map((application, i) => {
-            return <ApplicationCard application={application} key={i}></ApplicationCard>;
-          })}
-        </div>
+        <MobileContainer>
+          <div className="flex items-center flex-wrap justify-between mb-[3rem]">
+            <TabLightV2
+              onChange={(item) => {
+                item != "Applications" && router.push("/cooperative-members/investment/plans");
+              }}
+              active={page}
+              items={["Applications", "Investment Plans"]}
+            ></TabLightV2>
+            <Button
+              onClick={() => {
+                router.push("/cooperative-members/investment/apply");
+              }}
+              sx={{ maxWidth: "18.3rem" }}
+            >
+              Apply
+            </Button>
+          </div>
+          <TabLight
+            onChange={onApplicationTypeChange}
+            items={[
+              `All (${applications?.length})`,
+              `Pending (${filterLoans("Pending")?.length})`,
+              `Active (${filterLoans("Active")?.length})`,
+              `Declined (${filterLoans("Declined")?.length})`,
+              `Completed (${filterLoans("Completed")?.length})`,
+            ]}
+          ></TabLight>
+          <div className="mt-[3.2rem] grid grid-cols-[repeat(auto-fill,_minmax(230px,_1fr))] md:grid-cols-[repeat(auto-fill,_minmax(330px,_1fr))] gap-[1.6rem]">
+            {filteredApplications?.map((application, i) => {
+              return <ApplicationCard application={application} key={i}></ApplicationCard>;
+            })}
+          </div>
+        </MobileContainer>
       </AppLayout>
     </>
   );

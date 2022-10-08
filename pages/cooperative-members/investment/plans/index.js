@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import TabLight from "../../../../components/general/TabLight";
 import TabLightV2 from "../../../../components/general/TabLightV2";
 import AppLayout from "../../../../components/layouts/AppLayout";
+import MobileContainer from "../../../../components/layouts/MobileContainer";
 import PlanCard from "../../../../components/pages/cooperative-members-section/investment/PlanCard";
 import LoanCard from "../../../../components/pages/cooperative-members-section/loan/LoanCard";
 
@@ -67,38 +68,40 @@ const Plans = () => {
   return (
     <>
       <AppLayout>
-        <div className="flex items-center flex-wrap justify-between mb-[3rem]">
-          <TabLightV2
-            onChange={(item) => {
-              item != "Investment Plans" && router.push("/cooperative-members/investment/applications");
-            }}
-            active={page}
-            items={["Applications", "Investment Plans"]}
-          ></TabLightV2>
-          <Button
-            onClick={() => {
-              router.push("/cooperative-members/investment/apply");
-            }}
-            sx={{ maxWidth: "18.3rem" }}
-          >
-            Apply
-          </Button>
-        </div>
-        <TabLight
-          onChange={onPlanTypeChange}
-          items={[
-            `All (${plans?.length})`,
-            `Fixed Income (${filterPlans("Fixed Income")?.length})`,
-            `Real Estate (${filterPlans("Real Estate")?.length})`,
-            `Agriculture (${filterPlans("Agriculture")?.length})`,
-            `Transportation (${filterPlans("Transportation")?.length})`,
-          ]}
-        ></TabLight>
-        <div className="mt-[3.2rem] grid grid-cols-[repeat(auto-fill,_minmax(330px,_1fr))] gap-[1.6rem]">
-          {filteredPlans?.map((plan, i) => {
-            return <PlanCard plan={plan} key={i}></PlanCard>;
-          })}
-        </div>
+        <MobileContainer>
+          <div className="flex items-center flex-wrap justify-between mb-[3rem]">
+            <TabLightV2
+              onChange={(item) => {
+                item != "Investment Plans" && router.push("/cooperative-members/investment/applications");
+              }}
+              active={page}
+              items={["Applications", "Investment Plans"]}
+            ></TabLightV2>
+            <Button
+              onClick={() => {
+                router.push("/cooperative-members/investment/apply");
+              }}
+              sx={{ maxWidth: "18.3rem" }}
+            >
+              Apply
+            </Button>
+          </div>
+          <TabLight
+            onChange={onPlanTypeChange}
+            items={[
+              `All (${plans?.length})`,
+              `Fixed Income (${filterPlans("Fixed Income")?.length})`,
+              `Real Estate (${filterPlans("Real Estate")?.length})`,
+              `Agriculture (${filterPlans("Agriculture")?.length})`,
+              `Transportation (${filterPlans("Transportation")?.length})`,
+            ]}
+          ></TabLight>
+          <div className="mt-[3.2rem] grid grid-cols-[repeat(auto-fill,_minmax(230px,_1fr))] md:grid-cols-[repeat(auto-fill,_minmax(330px,_1fr))] gap-[1.6rem]">
+            {filteredPlans?.map((plan, i) => {
+              return <PlanCard plan={plan} key={i}></PlanCard>;
+            })}
+          </div>
+        </MobileContainer>
       </AppLayout>
     </>
   );

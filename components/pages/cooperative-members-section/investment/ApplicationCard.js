@@ -12,7 +12,7 @@ const ApplicationCard = ({ application, ...props }) => {
     Active: "active",
   };
   return (
-    <PlainContainer className={"shadow"}>
+    <PlainContainer isStrechedMobile={false} className={"shadow"}>
       <div className="flex items-center justify-between mb-[1.2rem]">
         <p className=" font-rubik font-medium text-[1.8rem]">{application?.name}</p>
         <Label type={colorTypesStatusMap[application?.status]} text={application?.status}></Label>

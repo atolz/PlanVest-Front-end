@@ -1,7 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
 import SvgIconWrapper from "./SvgIconWrapper";
 
-const Upload = ({ caption = "Click this area to upload image ", specCaption, onUpload = (fileObjs = [], fileBlobUrls = []) => {}, className, boxClassName, showDisplayImgs = false }) => {
+const Upload = ({
+  caption = "Click this area to upload image ",
+  multiple = true,
+  accept = "image/png, image/gif, image/jpeg",
+  specCaption,
+  onUpload = (fileObjs = [], fileBlobUrls = []) => {},
+  className,
+  boxClassName,
+  displayImgContClass,
+  showDisplayImgs = false,
+}) => {
   const fileInputRef = useRef(null);
   const [fileUrls, setFileUrls] = useState([]);
   const [fileObjs, setFileObjs] = useState([]);
@@ -39,7 +49,7 @@ const Upload = ({ caption = "Click this area to upload image ", specCaption, onU
   }, []);
   return (
     <div className={`${className}`}>
-      <input ref={fileInputRef} className=" hidden" multiple={true} onChange={handleFileUpload} id={"file-upload"} type={"file"}></input>
+      <input ref={fileInputRef} accept={accept} className=" hidden" multiple={multiple} onChange={handleFileUpload} id={"file-upload"} type={"file"}></input>
       <div
         onClick={accessibilityClick}
         className={`grid justify-items-center justify-center content-center items-center p-[3.7rem] bg-pv_bg rounded-primary cursor-pointer  mb-[2rem] ${boxClassName}`}
@@ -56,7 +66,7 @@ const Upload = ({ caption = "Click this area to upload image ", specCaption, onU
 
       {/* Display purpose only */}
       {showDisplayImgs && (
-        <div onClick={releaseObjUrls} className="grid grid-cols-[repeat(auto-fill,_minmax(100px,_1fr))] gap-5 mb-5">
+        <div onClick={releaseObjUrls} className={`grid grid-cols-[repeat(auto-fill,_minmax(100px,_1fr))] gap-5 mb-5 mt-[2rem] ${displayImgContClass}`}>
           {fileUrls.map((url, i) => {
             return (
               <div className=" cursor-pointer" title={fileObjs[i].name} key={i}>

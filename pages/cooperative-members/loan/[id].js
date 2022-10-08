@@ -1,12 +1,14 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useContext } from "react";
 import Label from "../../../components/general/Label";
 import SvgIconWrapper from "../../../components/general/SvgIconWrapper";
 import AppLayout from "../../../components/layouts/AppLayout";
 import PlainContainer from "../../../components/layouts/PlainContainer";
 import DocBox from "../../../components/general/DocBox";
 import PaymentBreakDownTable from "../../../components/pages/cooperative-members-section/loan/PaymentBreakDownTable";
+import { MembersContext } from "../../../context/MembersProvider";
+import formatDate from "../../../utils/formatDate";
 
 const Title = ({ text, className }) => {
   return <p className={` text-pv_dark text-[1.6rem] leading-[29px] font-medium mb-[1.6rem] ${className}`}>{text}</p>;
@@ -23,6 +25,8 @@ const TextValue = ({ text, value, className }) => {
 
 const LoanDetails = () => {
   const router = useRouter();
+  const { loans } = useContext(MembersContext);
+  const loan = loans?.hash[router?.query?.id];
 
   return (
     <AppLayout>
@@ -30,7 +34,7 @@ const LoanDetails = () => {
         <Link href={"/cooperative-members/loan/"}>
           <a className=" items-center cursor-pointer inline-flex">
             <SvgIconWrapper className={"!h-[1.2rem]"} iconName={"arrow-filled "}></SvgIconWrapper>
-            <p className=" font-rubik text-pv_dark text-[2.2rem] ml-[2.7rem]">{router?.query?.id}</p>
+            <p className=" font-rubik text-pv_dark text-[2.2rem] ml-[2.7rem]">{loan?.companyName ?? "Personal Loan"}</p>
           </a>
         </Link>
         <Label type={router?.query?.label} text={router?.query?.status}></Label>
@@ -38,8 +42,8 @@ const LoanDetails = () => {
       <main className="mt-[2.4rem] grid gap-[1rem]">
         <PlainContainer className={"grid grid-cols-3"}>
           <div className="grid gap-[3.4rem]">
-            <TextValue text={"Date Needed"} value={"01/06/2022"}></TextValue>
-            <TextValue text={"Loan Term"} value={"6 Months"}></TextValue>
+            <TextValue text={"Date Needed"} value={formatDate(loan?.dateNeeded)}></TextValue>
+            <TextValue text={"Loan Term"} value={loan?.loanDuration}></TextValue>
           </div>
           <div className="grid gap-[3.4rem] justify-self-start">
             <TextValue text={"Next Repayment Date"} value={"08/06/2022"}></TextValue>
@@ -47,7 +51,7 @@ const LoanDetails = () => {
           </div>
           <div className="grid gap-[3.4rem] justify-self-start">
             <TextValue text={"Interest to be paid"} value={"6%"}></TextValue>
-            <TextValue text={"Installment"} value={"Weekly"}></TextValue>
+            <TextValue text={"Installment"} value={loan?.repayment}></TextValue>
           </div>
         </PlainContainer>
 
@@ -65,11 +69,13 @@ const LoanDetails = () => {
         <PlainContainer>
           <Title text="Reason"></Title>
           <p className=" text-label font-medium text-[1.4rem] leading-[26px]">
+            {loan?.reasonForLoan || loan?.businessDesc}
+            {/* <br></br>
             Velit, egestas non proin sed elementum, a, molestie eu. Ut donec eget adipiscing nullam lectus egestas. Purus a congue metus, vulputate ut enim. Rhoncus ultricies volutpat faucibus
             pretium, tortor scelerisque. Ut cursus proin cursus sit pretium nulla. Tincidunt nunc, tristique dolor vulputate id suspendisse pharetra nibh. Lorem scelerisque adipiscing donec facilisi
             aliquam. Commodo lacus vehicula ultricies interdum euismod massa mattis mus sapien. Sagittis risus, amet, tortor in neque fringilla tellus hac. Leo elit in tortor sit mi viverra sed
             adipiscing. Mi habitant arcu semper quisque. Felis potenti turpis commodo fames orci. Sed nullam elementum at donec aliquam orci cursus lorem. Mattis et morbi fermentum suspendisse viverra
-            elit fermentum pellentesque adipiscing. Vestibulum, vitae orci netus nisl. Ornare lobortis nunc vulputate nulla. Ultricies lectus.
+            elit fermentum pellentesque adipiscing. Vestibulum, vitae orci netus nisl. Ornare lobortis nunc vulputate nulla. Ultricies lectus. */}
           </p>
         </PlainContainer>
 

@@ -6,9 +6,9 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import React from "react";
 import SvgIconWrapper from "../general/SvgIconWrapper";
 
-const PLVDesktopDatePicker = ({ label = "Date desktop", className, helperText, onChange = () => {}, error, name }) => {
+const PLVDesktopDatePicker = ({ label = "Date desktop", className, helperText, onChange = () => {}, error, name, initialDate = null }) => {
   // const [value, setValue] = React.useState(new Date("2014-08-18T21:11:54"));
-  const [value, setValue] = React.useState(null);
+  const [value, setValue] = React.useState(initialDate);
   // const handleChange = (newValue) => {
   //   setValue(newValue);
   // };

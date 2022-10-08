@@ -1,5 +1,7 @@
 import { Button, Dialog } from "@mui/material";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import EmptyState from "../../../components/general/EmptyState";
 import TabLight from "../../../components/general/TabLight";
 import TabLightV2 from "../../../components/general/TabLightV2";
 import AppLayout from "../../../components/layouts/AppLayout";
@@ -10,58 +12,70 @@ import EligibilityPopUp from "../../../components/pages/cooperative-members-sect
 import EnterPinPopUp from "../../../components/pages/cooperative-members-section/popups/EnterPinPopUp";
 import LoanSummaryPopUp from "../../../components/pages/cooperative-members-section/popups/LoanSummaryPopUp";
 import SuccessPopUp from "../../../components/pages/cooperative-members-section/popups/SuccessPopUp";
+import { MembersContext } from "../../../context/MembersProvider";
+import { buildDataIdHash, createLoan, getAllLoans } from "../../../services/cooperative-members.js";
 
 const Loan = () => {
-  const loans = [
-    {
-      name: "Business Loan",
-      desc: "Sambara farms is a livestock farm. We rear cows, goats, sheeps and have a poultry.",
-      status: "Active",
-      amountRequested: "N300,000",
-      dateRequested: "23/05/2022",
-    },
-    {
-      name: "Company Loan",
-      desc: "Sambara farms is a livestock farm. We rear cows, goats, sheeps and have a poultry.",
-      status: "Pending",
-      amountRequested: "N300,000",
-      dateRequested: "23/05/2022",
-    },
-    {
-      name: "KFC Loan",
-      desc: "Sambara farms is a livestock farm. We rear cows, goats, sheeps and have a poultry.",
-      status: "Completed",
-      amountRequested: "N300,000",
-      dateRequested: "23/05/2022",
-    },
-    {
-      name: "Sony Loan",
-      desc: "Sambara farms is a livestock farm. We rear cows, goats, sheeps and have a poultry.",
-      status: "Declined",
-      amountRequested: "N300,000",
-      dateRequested: "23/05/2022",
-    },
-  ];
+  // const loans = [
+  //   {
+  //     name: "Business Loan",
+  //     desc: "Sambara farms is a livestock farm. We rear cows, goats, sheeps and have a poultry.",
+  //     status: "Active",
+  //     amountRequested: "N300,000",
+  //     dateRequested: "23/05/2022",
+  //   },
+  //   {
+  //     name: "Company Loan",
+  //     desc: "Sambara farms is a livestock farm. We rear cows, goats, sheeps and have a poultry.",
+  //     status: "Pending",
+  //     amountRequested: "N300,000",
+  //     dateRequested: "23/05/2022",
+  //   },
+  //   {
+  //     name: "KFC Loan",
+  //     desc: "Sambara farms is a livestock farm. We rear cows, goats, sheeps and have a poultry.",
+  //     status: "Completed",
+  //     amountRequested: "N300,000",
+  //     dateRequested: "23/05/2022",
+  //   },
+  //   {
+  //     name: "Sony Loan",
+  //     desc: "Sambara farms is a livestock farm. We rear cows, goats, sheeps and have a poultry.",
+  //     status: "Declined",
+  //     amountRequested: "N300,000",
+  //     dateRequested: "23/05/2022",
+  //   },
+  // ];
+  const { loans, setLoans } = useContext(MembersContext);
+  console.log("loan render", loans);
+  const [activeLoanType, setActiveLoanType] = useState("Personal Loans");
+
   const filterLoans = (status) => {
-    return loans?.filter((loan) => {
-      return loan?.status?.includes(status);
+    if (status.includes("All")) {
+      return loans.data?.filter((loan) => {
+        return activeLoanType?.toLocaleLowerCase().includes(loan?.loanType?.toLocaleLowerCase());
+      });
+    }
+    return loans.data?.filter((loan) => {
+      return loan?.coopApprovalStatus?.includes(status?.toLocaleLowerCase()) && activeLoanType?.toLocaleLowerCase().includes(loan?.loanType?.toLocaleLowerCase());
     });
   };
-  const [tabs, setTabs] = useState([
-    `All (${loans?.length})`,
-    `Pending (${filterLoans("Pending")?.length})`,
-    `Active (${filterLoans("Active")?.length})`,
-    `Declined (${filterLoans("Declined")?.length})`,
-    `Completed (${filterLoans("Completed")?.length})`,
-  ]);
-  const [filteredLoans, setFilteredLoans] = useState(loans);
-  const [activeTab, setActiveTab] = useState(tabs[0]);
+  const tabs = [
+    `All (${filterLoans("All")?.length || 0})`,
+    `Pending (${filterLoans("pending")?.length || 0})`,
+    `Active (${filterLoans("active")?.length || 0})`,
+    `Declined (${filterLoans("declined")?.length || 0})`,
+    `Completed (${filterLoans("completed")?.length || 0})`,
+  ];
+  const [filteredLoans, setFilteredLoans] = useState();
+  const [activeTab, setActiveTab] = useState();
+  const [loanSummary, setLoanSummary] = useState({});
 
   const onLoanTypeChange = (item) => {
     setActiveTab(item);
-    if (item.includes("All")) {
-      return setFilteredLoans(loans);
-    }
+    // if (item.includes("All")) {
+    //   return setFilteredLoans(loans?.data);
+    // }
     const formattedItem = item?.split(" ")[0];
     console.log("item is", formattedItem);
     const newFilter = filterLoans(formattedItem);
@@ -81,7 +95,8 @@ const Loan = () => {
   const onApply = () => {
     setActiveModal("ApplyLoanPopUp");
   };
-  const onApplyLoan = () => {
+  const onApplyLoan = (loanDetails) => {
+    setLoanSummary(loanDetails);
     setActiveModal("LoanSummaryPopUp");
   };
   const onGoBackToLoan = () => {
@@ -90,27 +105,62 @@ const Loan = () => {
   const onReadSummary = () => {
     setActiveModal("EnterPinTopup");
   };
-  const onEnterPin = (actions) => {
+  const onEnterPin = async (actions) => {
+    console.log("loan summar", loanSummary);
     actions?.setLoading(true);
-    setTimeout(() => {
-      actions?.setLoading(false);
+    const respData = await createLoan(loanSummary);
+    if (respData.status) {
       setActiveModal("SuccessTopup");
-    }, 2000);
+      fetchBuildStoreLoans();
+      if (loanSummary?.loanType == "personal") {
+        setActiveLoanType("Personal Loans");
+      } else {
+        setActiveLoanType("Corporate Loans");
+      }
+    } else {
+      toast.error(respData?.message || "Problem requesting loan, please try again later or contact support!");
+    }
+    actions?.setLoading(false);
   };
+
+  const onActiveLoanTypeChange = (item) => {
+    setActiveLoanType(item);
+  };
+  const fetchBuildStoreLoans = async () => {
+    const respData = await getAllLoans();
+    if (respData?.status) {
+      setLoans({ data: respData?.data?.data, hash: buildDataIdHash(respData?.data?.data) });
+    }
+  };
+
+  useEffect(() => {
+    if (!loans.data) {
+      fetchBuildStoreLoans();
+    }
+  }, []);
+  useEffect(() => {
+    setFilteredLoans(filterLoans("All"));
+    setActiveTab(tabs[0]);
+  }, [activeLoanType]);
+  useEffect(() => {
+    setFilteredLoans(filterLoans("All"));
+    setActiveTab(tabs[0]);
+    console.log("loan chage");
+  }, [loans?.data]);
 
   return (
     <>
       <Dialog scroll="body" onClose={handleClose} open={open}>
         {activeModal == "EligibilityPopUp" && <EligibilityPopUp onApply={onApply}></EligibilityPopUp>}
-        {activeModal == "ApplyLoanPopUp" && <ApplyLoanPopUp onApplyLoan={onApplyLoan}></ApplyLoanPopUp>}
-        {activeModal == "LoanSummaryPopUp" && <LoanSummaryPopUp onReadSummary={onReadSummary} onGoBack={onGoBackToLoan} onClose={handleClose}></LoanSummaryPopUp>}
+        {activeModal == "ApplyLoanPopUp" && <ApplyLoanPopUp loanDetails={loanSummary} onApplyLoan={onApplyLoan}></ApplyLoanPopUp>}
+        {activeModal == "LoanSummaryPopUp" && <LoanSummaryPopUp loanSummary={loanSummary} onReadSummary={onReadSummary} onGoBack={onGoBackToLoan} onClose={handleClose}></LoanSummaryPopUp>}
         {activeModal == "EnterPinTopup" && <EnterPinPopUp onAction={onEnterPin} actionText={"Apply"}></EnterPinPopUp>}
         {activeModal == "SuccessTopup" && <SuccessPopUp onAction={handleClose} actionText={"Ok"} caption={"Application successfully sent and waiting approval."}></SuccessPopUp>}
       </Dialog>
       <AppLayout>
         <MobileContainer>
           <div className="flex items-center flex-wrap justify-between mb-[3rem]">
-            <TabLightV2 items={["Personal Loans", "Corporate Loans"]}></TabLightV2>
+            <TabLightV2 onChange={onActiveLoanTypeChange} active={activeLoanType} items={["Personal Loans", "Corporate Loans"]}></TabLightV2>
             <Button
               onClick={() => {
                 openModal("EligibilityPopUp");
@@ -120,12 +170,16 @@ const Loan = () => {
               Check Eligibility
             </Button>
           </div>
+
           <TabLight onChange={onLoanTypeChange} active={activeTab} items={tabs}></TabLight>
-          <div className="mt-[3.2rem] grid grid-cols-[repeat(auto-fill,_minmax(330px,_1fr))] gap-[1.6rem]">
-            {filteredLoans?.map((loan, i) => {
-              return <LoanCard loan={loan} key={i}></LoanCard>;
-            })}
-          </div>
+          {(!filteredLoans || filteredLoans?.length < 1) && <EmptyState className={"min-h-[75vh]"} caption={`No ${activeTab?.split(" ")[0]} plan.`} img={"/empty-savings.png"}></EmptyState>}
+          {filteredLoans && filteredLoans?.length > 0 && (
+            <div className="mt-[3.2rem] grid grid-cols-[repeat(auto-fill,_minmax(330px,_1fr))] gap-[1.6rem]">
+              {filteredLoans?.map((loan, i) => {
+                return <LoanCard loan={loan} key={i}></LoanCard>;
+              })}
+            </div>
+          )}
         </MobileContainer>
       </AppLayout>
     </>

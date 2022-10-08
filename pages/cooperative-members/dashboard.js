@@ -43,7 +43,7 @@ const Dashboard = () => {
         <SavingAnalytics></SavingAnalytics>
 
         <div className="">
-          <InvestApplication className={"mb-[3rem]"}></InvestApplication>
+          <InvestApplication className={"mb-[1.2rem] md:mb-[3rem]"}></InvestApplication>
           <LoanApplication></LoanApplication>
         </div>
       </section>

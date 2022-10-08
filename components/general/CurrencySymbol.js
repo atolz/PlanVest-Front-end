@@ -1,7 +1,7 @@
 import React from "react";
 
-const CurrencySymbol = () => {
-  return <span className=" font-rubik">&#x20A6;</span>;
+const CurrencySymbol = ({ className }) => {
+  return <span className={`font-rubik ${className}`}>&#x20A6;</span>;
 };
 
 export default CurrencySymbol;

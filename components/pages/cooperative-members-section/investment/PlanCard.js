@@ -13,7 +13,7 @@ const PlanCard = ({ plan, ...props }) => {
     Conservative: "blue",
   };
   return (
-    <PlainContainer className={"shadow"}>
+    <PlainContainer isStrechedMobile={false} className={"shadow"}>
       <div className="flex items-center justify-between mb-[1.2rem]">
         <img src={"/cassava.png"} className="w-[3.7rem] h-[3.7rem] rounded-full"></img>
 
