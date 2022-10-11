@@ -15,7 +15,7 @@ const LoanCard = ({ loan, ...props }) => {
     active: "active",
   };
   return (
-    <PlainContainer isStrechedMobile={false} className={"shadow !h-auto"}>
+    <PlainContainer isStrechedMobile={false} className={"shadow !h-auto flex flex-col"}>
       <div className="flex items-center justify-between mb-[1.2rem]">
         <p className=" font-rubik font-medium text-[1.8rem]">{loan?.companyName ?? "Personal"}</p>
         <Label type={colorTypesStatusMap[loan?.coopApprovalStatus]} text={loan?.coopApprovalStatus}></Label>

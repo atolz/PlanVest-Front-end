@@ -96,3 +96,19 @@ export const getSingleLoan = async (id) => {
   const respData = await fetchData(`/loan/single?id=${id}`);
   return respData;
 };
+
+//Investment
+export const createInvestment = async (data = {}) => {
+  const respData = await postData("/investments/", data);
+  return respData;
+};
+
+export const getAllInvestmentApplications = async () => {
+  const respData = await postData("/investments/all?page=1&size=1000000");
+  return respData;
+};
+
+export const getSingleInvestmentApplication = async (id) => {
+  const respData = await fetchData(`/investments/single?id=${id}`);
+  return respData;
+};

@@ -11,6 +11,7 @@ const Upload = ({
   boxClassName,
   displayImgContClass,
   showDisplayImgs = false,
+  uploadImg,
 }) => {
   const fileInputRef = useRef(null);
   const [fileUrls, setFileUrls] = useState([]);
@@ -54,7 +55,7 @@ const Upload = ({
         onClick={accessibilityClick}
         className={`grid justify-items-center justify-center content-center items-center p-[3.7rem] bg-pv_bg rounded-primary cursor-pointer  mb-[2rem] ${boxClassName}`}
       >
-        <SvgIconWrapper className={"w-[3.8rem] h-[3.8rem]"} iconName={"upload-grey"}></SvgIconWrapper>
+        {uploadImg ? uploadImg : <SvgIconWrapper className={"w-[3.8rem] h-[3.8rem]"} iconName={"upload-grey"}></SvgIconWrapper>}
 
         {/* Button Element for keyboard focus/tab accessibility */}
         <button className=" border-none cursor-pointer mt-[1.6rem] mb-[.8rem]">

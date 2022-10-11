@@ -15,7 +15,7 @@ const CreateValidationSchema = yup.object({
   savingType: yup.string("Select saving type").required("Select saving type"),
   title: yup.string("Enter saving title").required("This field is required"),
   startDate: yup.date("").required("Enter a start date").typeError("Enter a valid date"),
-  endDate: yup.date("").required("Enter an end date").typeError("Enter a valid date"),
+  endDate: yup.date("").min(yup.ref("startDate"), "End date can not be less than start date").required("Enter an end date").typeError("Enter a valid date"),
   amount: yup.number().min(100, "Min amount 100.").required("Pls enter an amount").typeError("Enter a valid number"),
   //   amountTobeSaved: yup.number().min(100, "Min amount 100.").required("Pls enter an amount").typeError("Enter a valid number"),
 });
