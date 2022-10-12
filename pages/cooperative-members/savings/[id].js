@@ -66,7 +66,7 @@ const SavingDetails = () => {
                 <Transactions></Transactions>
               </div>
               <div>
-                <SavingsInfo></SavingsInfo>
+                <SavingsInfo saving={saving}></SavingsInfo>
                 <Details saving={saving}></Details>
               </div>
             </main>

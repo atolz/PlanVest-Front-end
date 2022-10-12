@@ -14,6 +14,7 @@ const StatActionBox = ({ saving }) => {
         value={
           <span>
             <CurrencySymbol />
+            &nbsp;
             {formatNumberWithCommas(saving?.balance) || 0}
           </span>
         }

@@ -20,11 +20,11 @@ const Details = ({ saving }) => {
       <div className=" grid grid-cols-2 grid-flow-row gap-[.8rem] mt-[2.4rem]">
         <Box title="Interest" subTitle={`${saving?.interestPercent || 0}%`}></Box>
         <Box
-          title="Target Amount"
+          title={saving?.targetAmount ? "Target Amount" : "Amount to be Saved"}
           subTitle={
             <span>
               <CurrencySymbol />
-              {formatNumberWithCommas(saving?.targetAmount) ?? 0}
+              {formatNumberWithCommas(saving?.targetAmount ? saving?.targetAmount : saving.amountTobeSaved) ?? 0}
             </span>
           }
         ></Box>

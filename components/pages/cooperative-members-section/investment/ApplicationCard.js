@@ -19,9 +19,19 @@ const ApplicationCard = ({ application, ...props }) => {
         <Label type={colorTypesStatusMap[application?.planvestApprovalStatus]} text={application?.planvestApprovalStatus}></Label>
       </div>
       <div className=" text-label text-[1.5rem] font-medium">
-        <span>{application?.description} </span>
+        <span
+          style={{
+            display: "-webkit-box",
+            "-webkit-line-clamp": "2",
+            "-webkit-box-orient": "vertical",
+            "text-overflow": "ellipsis",
+            overflow: "hidden",
+          }}
+        >
+          {application?.description}{" "}
+        </span>
         <Link href={`/cooperative-members/investment/applications/${application?.id}?status=${application?.planvestApprovalStatus}&label=${colorTypesStatusMap[application?.planvestApprovalStatus]}`}>
-          <a className=" text-pv_primary">Read More</a>
+          <a className=" text-pv_primary text-end block">Read More</a>
         </Link>
       </div>
       <Hrule className={"my-[1.6rem]"}></Hrule>

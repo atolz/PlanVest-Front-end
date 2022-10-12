@@ -13,6 +13,7 @@ import EnterPinPopUp from "../../../components/pages/cooperative-members-section
 import LoanSummaryPopUp from "../../../components/pages/cooperative-members-section/popups/LoanSummaryPopUp";
 import SuccessPopUp from "../../../components/pages/cooperative-members-section/popups/SuccessPopUp";
 import { MembersContext } from "../../../context/MembersProvider";
+import useFetchDataBuildHashStoreToState from "../../../hooks/useFetchDataBuildHashStoreToState";
 import { buildDataIdHash, createLoan, getAllLoans } from "../../../services/cooperative-members.js";
 
 const Loan = () => {
@@ -47,6 +48,7 @@ const Loan = () => {
   //   },
   // ];
   const { loans, setLoans } = useContext(MembersContext);
+  const { fetchDataBuildHashStoreToState } = useFetchDataBuildHashStoreToState(getAllLoans, setLoans);
   console.log("loan render", loans);
   const [activeLoanType, setActiveLoanType] = useState("Personal Loans");
 
@@ -111,7 +113,7 @@ const Loan = () => {
     const respData = await createLoan(loanSummary);
     if (respData.status) {
       setActiveModal("SuccessTopup");
-      fetchBuildStoreLoans();
+      fetchDataBuildHashStoreToState();
       if (loanSummary?.loanType == "personal") {
         setActiveLoanType("Personal Loans");
       } else {
@@ -126,15 +128,9 @@ const Loan = () => {
   const onActiveLoanTypeChange = (item) => {
     setActiveLoanType(item);
   };
-  const fetchBuildStoreLoans = async () => {
-    const respData = await getAllLoans();
-    if (respData?.status) {
-      setLoans({ data: respData?.data?.data, hash: buildDataIdHash(respData?.data?.data) });
-    }
-  };
 
   useEffect(() => {
-    fetchBuildStoreLoans();
+    fetchDataBuildHashStoreToState();
     // if (!loans.data) {
     //   fetchBuildStoreLoans();
     // }

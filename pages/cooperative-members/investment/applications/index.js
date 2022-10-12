@@ -9,11 +9,13 @@ import MobileContainer from "../../../../components/layouts/MobileContainer";
 import ApplicationCard from "../../../../components/pages/cooperative-members-section/investment/ApplicationCard";
 import LoanCard from "../../../../components/pages/cooperative-members-section/loan/LoanCard";
 import { MembersContext } from "../../../../context/MembersProvider";
+import useFetchDataBuildHashStoreToState from "../../../../hooks/useFetchDataBuildHashStoreToState";
 import { buildDataIdHash, getAllInvestmentApplications } from "../../../../services/cooperative-members.js";
 
 const Applications = () => {
   const router = useRouter();
   const { investmentApplications, setInvestmentApplications } = useContext(MembersContext);
+  const { fetchDataBuildHashStoreToState } = useFetchDataBuildHashStoreToState(getAllInvestmentApplications, setInvestmentApplications);
   const filterApplications = (status) => {
     if (status.includes("All")) {
       return investmentApplications?.data;
@@ -74,18 +76,8 @@ const Applications = () => {
   };
   const [page, setPage] = useState("Applications");
 
-  const fetchBuildStoreApplications = async () => {
-    const respData = await getAllInvestmentApplications();
-    if (respData?.status) {
-      setInvestmentApplications({ data: respData?.data?.data, hash: buildDataIdHash(respData?.data?.data) });
-    }
-  };
-
   useEffect(() => {
-    fetchBuildStoreApplications();
-    // if (!loans.data) {
-    //   fetchBuildStoreLoans();
-    // }
+    fetchDataBuildHashStoreToState();
   }, []);
   useEffect(() => {
     setFilteredApplications(filterApplications("All"));

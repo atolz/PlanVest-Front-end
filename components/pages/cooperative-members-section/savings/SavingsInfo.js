@@ -1,10 +1,12 @@
 import { Dialog } from "@mui/material";
 import React, { useState } from "react";
+import formatDate from "../../../../utils/formatDate";
+import CurrencySymbol from "../../../general/CurrencySymbol";
 import SvgIconWrapper from "../../../general/SvgIconWrapper";
 import PlainContainer from "../../../layouts/PlainContainer";
 import AutoSavePopUp from "../popups/AutoSavePopUp";
 
-const SavingsInfo = () => {
+const SavingsInfo = ({ saving }) => {
   const [open, setOpen] = useState(false);
   const handleClose = () => {
     setOpen(false);
@@ -23,13 +25,16 @@ const SavingsInfo = () => {
           <div className="flex items-center mb-[.8rem] justify-between">
             <span className=" text-[1.4rem] font-medium text-label">AutoSave Deposit</span>
           </div>
-          <p className=" font-medium text-[1.6rem] text-pv_dark">N10,000/month</p>
+          <p className=" font-medium text-[1.6rem] text-pv_dark">
+            <CurrencySymbol />
+            0/month
+          </p>
         </div>
         <div className={" rounded-secondary p-[1.6rem] bg-[rgba(181,72,198,0.14)]"}>
           <div className="flex items-center mb-[.8rem] justify-between">
             <span className=" text-[1.4rem] font-medium text-label">Next Withdrawal</span>
           </div>
-          <p className=" font-medium text-[1.6rem] text-pv_dark">4th Sep 2022</p>
+          <p className=" font-medium text-[1.6rem] text-pv_dark">{formatDate(saving?.endDate, true)}</p>
         </div>
         <div className=" border-0 border-t border-border border-solid mt-[2rem] pt-[2rem] flex items-center justify-center overflow-scroll scroll_hide">
           <SvgIconWrapper iconName={"power"}></SvgIconWrapper>

@@ -10,6 +10,8 @@ import PopupLayout from "../../../layouts/PopupLayout";
 import { createFixedSavings, createGoalSavings, createPersonalFixedSavings, createPersonalGoalSavings } from "../../../../services/cooperative-members.js";
 import toast from "react-hot-toast";
 import { SavingsTypes } from "../../../../pages/cooperative-members/savings";
+import Hrule from "../../../general/Hrule";
+import PLVSwitch from "../../../general/PLVSwitch";
 
 const CreateValidationSchema = yup.object({
   savingType: yup.string("Select saving type").required("Select saving type"),
@@ -22,6 +24,8 @@ const CreateValidationSchema = yup.object({
 
 const CreateSavingsPopup = ({ onClose = () => {}, onAddCard = () => {}, onCreateSavings = () => {} }) => {
   const [loading, setLoading] = useState(false);
+  const [autoSave, setAutoSave] = useState(true);
+  // const [savingType, setSaving]
 
   const onCreate = async (values) => {
     console.log(values);
@@ -110,32 +114,36 @@ const CreateSavingsPopup = ({ onClose = () => {}, onAddCard = () => {}, onCreate
                 id="amount"
                 label="Amount to be saved"
                 variant="filled"
-              /> */}
-              {/* <PLVMenu className=" bg-input"></PLVMenu>
-      <Hrule className={"mt-[1.4rem]"}></Hrule>
-      <div className="flex items-center justify-between">
-        <p className=" text-label text-[1.6rem]">Auto debit option</p>
+              /> 
+              */}
+              {values.savingType == "Goal Savings" && (
+                <>
+                  <Hrule className={"mt-[1.4rem]"}></Hrule>
+                  <div className="flex items-center justify-between">
+                    <p className=" text-label text-[1.6rem]">Auto debit option</p>
 
-        <PLVSwitch
-          label={autoSave ? "On" : "Off"}
-          checked={autoSave}
-          onChange={() => {
-            setAutoSave(!autoSave);
-          }}
-          inputProps={{ "aria-label": "controlled" }}
-        ></PLVSwitch>
-      </div>
-      <TextField
-        InputProps={{
-          startAdornment: <InputAdornment position="start">&#8358;</InputAdornment>,
-        }}
-        name="Amount to save per time"
-        type={"number"}
-        id="Amount to save per time"
-        label="Amount to save per time"
-        variant="filled"
-      />
-      <PLVDesktopDatePicker label="Select debit date"></PLVDesktopDatePicker> */}
+                    <PLVSwitch
+                      label={autoSave ? "On" : "Off"}
+                      checked={autoSave}
+                      onChange={() => {
+                        setAutoSave(!autoSave);
+                      }}
+                      inputProps={{ "aria-label": "controlled" }}
+                    ></PLVSwitch>
+                  </div>
+                  <TextField
+                    InputProps={{
+                      startAdornment: <InputAdornment position="start">&#8358;</InputAdornment>,
+                    }}
+                    name="Amount to save per time"
+                    type={"number"}
+                    id="Amount to save per time"
+                    label="Amount to save per time"
+                    variant="filled"
+                  />
+                  <PLVDesktopDatePicker label="Select debit date"></PLVDesktopDatePicker>
+                </>
+              )}
               <LoadingButton type="submit" loading={isSubmitting} variant="contained" sx={{ mt: 3 }}>
                 Create
               </LoadingButton>

@@ -15,6 +15,7 @@ import { MembersContext } from "../../../../../context/MembersProvider";
 import { getSingleInvestmentApplication } from "../../../../../services/cooperative-members.js";
 import formatNumberWithCommas from "../../../../../utils/addCommas";
 import formatDate from "../../../../../utils/formatDate";
+import getTimeAgo from "../../../../../utils/getTimeAgo";
 
 const Title = ({ text, className }) => {
   return <p className={` text-pv_dark text-[1.6rem] leading-[29px] font-medium mb-[1.6rem] ${className}`}>{text}</p>;
@@ -102,7 +103,7 @@ const ApplicationDetails = () => {
             </div>
             <div className="bg-[#E7EBED] rounded-primary h-[7.5rem] p-[1.6rem] text-[1.4rem] font-medium flex items-center">
               <span className="text-pv_dark mr-3 w-full max-w-[410px] md:mr-[8rem]">Application has been sent</span>
-              <span className="text-text whitespace-nowrap">30 mins ago</span>
+              <span className="text-text whitespace-nowrap">{getTimeAgo(new Date(application?.createdAt).getTime())} </span>
             </div>
           </PlainContainer>
         )}
