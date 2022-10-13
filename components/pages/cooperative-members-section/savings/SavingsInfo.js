@@ -1,5 +1,6 @@
 import { Dialog } from "@mui/material";
 import React, { useState } from "react";
+import formatNumberWithCommas from "../../../../utils/addCommas";
 import formatDate from "../../../../utils/formatDate";
 import CurrencySymbol from "../../../general/CurrencySymbol";
 import SvgIconWrapper from "../../../general/SvgIconWrapper";
@@ -19,7 +20,7 @@ const SavingsInfo = ({ saving }) => {
       <PlainContainer isStrechedMobile={false} className={" !p-[2.4rem] mb-[1.6rem]"}>
         <header className="flex items-center justify-between mb-[1rem]">
           <h3 className=" text-pv_dark font-medium">Savings Info</h3>
-          <span className=" text-text text-[1.4rem] font-semibold">Autosave is OFF</span>
+          <span className=" text-text text-[1.4rem] font-semibold">Autosave is {saving?.autoDebit ? "ON" : "OFF"}</span>
         </header>
         <div className={" rounded-secondary p-[1.6rem]  mb-[.8rem] bg-[rgba(58,117,236,0.14)]"}>
           <div className="flex items-center mb-[.8rem] justify-between">
@@ -27,7 +28,8 @@ const SavingsInfo = ({ saving }) => {
           </div>
           <p className=" font-medium text-[1.6rem] text-pv_dark">
             <CurrencySymbol />
-            0/month
+            &nbsp;
+            {formatNumberWithCommas(saving?.amountSavedPerTime) || 0}/{saving?.savingFrequency}
           </p>
         </div>
         <div className={" rounded-secondary p-[1.6rem] bg-[rgba(181,72,198,0.14)]"}>
@@ -44,7 +46,7 @@ const SavingsInfo = ({ saving }) => {
             }}
             className=" text-text font-semibold text-[1.6rem] ml-[.8rem] cursor-pointer"
           >
-            Turn On Autosave
+            Turn {saving?.autoDebit ? "Off" : "On"} Autosave
           </span>
         </div>
       </PlainContainer>

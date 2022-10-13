@@ -112,3 +112,9 @@ export const getSingleInvestmentApplication = async (id) => {
   const respData = await fetchData(`/investments/single?id=${id}`);
   return respData;
 };
+
+// Profile
+export const updateProfile = async (data = {}) => {
+  const respData = await postData("/auth/profile-update", data);
+  return respData;
+};

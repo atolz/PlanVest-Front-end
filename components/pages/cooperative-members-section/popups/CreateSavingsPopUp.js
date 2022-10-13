@@ -12,13 +12,23 @@ import toast from "react-hot-toast";
 import { SavingsTypes } from "../../../../pages/cooperative-members/savings";
 import Hrule from "../../../general/Hrule";
 import PLVSwitch from "../../../general/PLVSwitch";
+import TabFilled from "../../../general/TabFilled";
 
 const CreateValidationSchema = yup.object({
   savingType: yup.string("Select saving type").required("Select saving type"),
   title: yup.string("Enter saving title").required("This field is required"),
   startDate: yup.date("").required("Enter a start date").typeError("Enter a valid date"),
   endDate: yup.date("").min(yup.ref("startDate"), "End date can not be less than start date").required("Enter an end date").typeError("Enter a valid date"),
+  debitDate: yup.date("").when("autoDebit", {
+    is: true,
+    then: yup.date("").required("Enter a debit date").typeError("Enter a valid date"),
+  }),
   amount: yup.number().min(100, "Min amount 100.").required("Pls enter an amount").typeError("Enter a valid number"),
+  autoDebit: yup.boolean(),
+  amountSavedPerTime: yup.number().when("autoDebit", {
+    is: true,
+    then: yup.number().required("Required field").min(100, "Min amount per time 100").typeError("Enter a valid number"),
+  }),
   //   amountTobeSaved: yup.number().min(100, "Min amount 100.").required("Pls enter an amount").typeError("Enter a valid number"),
 });
 
@@ -33,6 +43,10 @@ const CreateSavingsPopup = ({ onClose = () => {}, onAddCard = () => {}, onCreate
     if (values.savingType == "Goal Savings") {
       data = await createPersonalGoalSavings({ ...values, targetAmount: values.amount });
     } else {
+      delete values.amountSavedPerTime;
+      delete values.debitDate;
+      delete values.savingFrequency;
+      delete values.autoDebit;
       data = await createPersonalFixedSavings({ ...values, amountTobeSaved: values.amount });
     }
     console.log("Data", data);
@@ -54,6 +68,10 @@ const CreateSavingsPopup = ({ onClose = () => {}, onAddCard = () => {}, onCreate
           savingType: "",
           duration: "",
           amount: "",
+          amountSavedPerTime: "",
+          savingFrequency: "Daily",
+          debitDate: new Date(),
+          autoDebit: true,
         }}
         validationSchema={CreateValidationSchema}
         onSubmit={onCreate}
@@ -65,8 +83,13 @@ const CreateSavingsPopup = ({ onClose = () => {}, onAddCard = () => {}, onCreate
                 <PLVMenu
                   onChange={(val) => {
                     setFieldValue("savingType", val);
+                    if (val == "Fixed Savings") {
+                      setFieldValue("autoDebit", false);
+                    } else {
+                      setFieldValue("autoDebit", true);
+                    }
                   }}
-                  error={errors.savingType}
+                  error={submitCount >= 1 && errors.savingType}
                   initText={"Select Savings Type"}
                   items={["Goal Savings", "Fixed Savings"]}
                   className=" bg-input"
@@ -123,25 +146,50 @@ const CreateSavingsPopup = ({ onClose = () => {}, onAddCard = () => {}, onCreate
                     <p className=" text-label text-[1.6rem]">Auto debit option</p>
 
                     <PLVSwitch
-                      label={autoSave ? "On" : "Off"}
-                      checked={autoSave}
+                      label={values.autoDebit ? "On" : "Off"}
+                      checked={values.autoDebit}
                       onChange={() => {
-                        setAutoSave(!autoSave);
+                        setFieldValue("autoDebit", !values.autoDebit);
+                        if (!values.autoDebit == false) {
+                          setFieldValue("amountSavedPerTime", 0);
+                        }
                       }}
                       inputProps={{ "aria-label": "controlled" }}
                     ></PLVSwitch>
                   </div>
-                  <TextField
-                    InputProps={{
-                      startAdornment: <InputAdornment position="start">&#8358;</InputAdornment>,
-                    }}
-                    name="Amount to save per time"
-                    type={"number"}
-                    id="Amount to save per time"
-                    label="Amount to save per time"
-                    variant="filled"
-                  />
-                  <PLVDesktopDatePicker label="Select debit date"></PLVDesktopDatePicker>
+                  {values.autoDebit && (
+                    <>
+                      <Field
+                        as={TextField}
+                        InputProps={{
+                          startAdornment: <InputAdornment position="start">&#8358;</InputAdornment>,
+                        }}
+                        error={errors?.amountSavedPerTime && touched.amountSavedPerTime}
+                        helperText={touched.amountSavedPerTime && errors?.amountSavedPerTime}
+                        name="amountSavedPerTime"
+                        type={"number"}
+                        id="Amount to save per time"
+                        label="Amount to save per time"
+                        variant="filled"
+                      />
+                      <span className=" text-label flex">How frequent would you prefer to save</span>
+                      <TabFilled
+                        onChange={(item) => {
+                          setFieldValue("savingFrequency", item);
+                        }}
+                        active={values.savingFrequency}
+                        items={["Daily", "Weekly", "Monthly"]}
+                      ></TabFilled>
+                      <PLVDesktopDatePicker
+                        onChange={(date) => {
+                          setFieldValue("debitDate", date);
+                        }}
+                        error={errors?.debitDate && submitCount >= 1}
+                        helperText={submitCount >= 1 && errors?.debitDate}
+                        label="Select debit date"
+                      ></PLVDesktopDatePicker>
+                    </>
+                  )}
                 </>
               )}
               <LoadingButton type="submit" loading={isSubmitting} variant="contained" sx={{ mt: 3 }}>

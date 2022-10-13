@@ -1,16 +1,81 @@
+import { LoadingButton } from "@mui/lab";
 import { Button, TextField } from "@mui/material";
-import React, { useRef, useState } from "react";
+import { Field, Form, Formik } from "formik";
+import React, { useContext, useRef, useState } from "react";
+import { NigeriaStates } from "../../../../consts/NigeriaStates";
+import { AuthContext } from "../../../../context/AuthContextProvider";
 import useHandleFileUpload from "../../../../hooks/useHandleFileUpload";
+import { getUserProfile, updateProfile } from "../../../../services/cooperative-members.js";
 import PLVMenu from "../../../form-elements/PLVMenu";
 import PLVRadio from "../../../form-elements/PLVRadio";
 import SvgIconWrapper from "../../../general/SvgIconWrapper";
 import Upload from "../../../general/Upload";
+import * as yup from "yup";
 import PlainContainer from "../../../layouts/PlainContainer";
+import { uploadFile } from "../../../../services/generalService";
+import toast from "react-hot-toast";
 
 const PersonalInfo = () => {
   const { fileObjs, fileUrls, fileInputRef, handleFileUpload, filePickerTrigger } = useHandleFileUpload();
   const [idType, setIdType] = useState("NIN");
   const [uploadedImgsUrls, setUploadedImgsUrls] = useState([]);
+  const { user, setUser } = useContext(AuthContext);
+  const PersonalInfoInitialValue = {
+    email: user?.email || "",
+    firstName: user?.firstName || "",
+    lastName: user?.lastName || "",
+    middleName: user?.middleName || "",
+    phoneNumber: user?.phoneNumber || "",
+    phoneNumber: "90889989999",
+    transactionPin: "",
+    gender: user?.gender || "",
+    state: user?.state || "",
+    lga: null,
+    address: user?.address || "",
+    driverLicense: user?.driverLicense || "",
+    nin: user?.nin || "",
+    voterCard: user?.voterCard || "",
+    internationalPasspord: user?.internationalPasspord || "",
+  };
+  const documentTypes = ["NIN", "Drivers Lincense", "Passport", "Voters Card Back"];
+
+  const docFieldsHash = {
+    NIN: "nin",
+    "Drivers Lincense": "driverLicense",
+    Passport: "internationalPasspord",
+    "Voters Card Back": "voterCard",
+  };
+
+  const personalValidationSchema = yup.object({
+    email: yup.string("Enter your email").email("Enter a valid email").required("Email is required"),
+    // phoneNumber: yup.string().required("Phone number is required"),
+    firstName: yup.string("Enter your firstName").required("Firstname is required"),
+    lastName: yup.string("Enter your lastName").required("Lastname is required"),
+  });
+
+  const onUpdate = async (values) => {
+    const data = await updateProfile(values);
+    if (data.status) {
+      toast.success(data?.message, { duration: 5000 });
+    } else {
+      toast.error(data?.message, { duration: 5000 });
+    }
+    const userRespData = await getUserProfile();
+    if (userRespData?.status) {
+      setUser(userRespData?.data);
+    }
+  };
+
+  const onUploadFile = async (fileObj, type) => {
+    const uploadDataResp = await uploadFile(fileObj, type);
+    if (uploadDataResp.success) {
+      toast.success(uploadDataResp?.message, { duration: 5000 });
+    } else {
+      toast.error(uploadDataResp?.message, { duration: 5000 });
+    }
+
+    const updateDataResp = await onUpdate({ [docFieldsHash[type]]: uploadDataResp.data.path });
+  };
 
   return (
     <div className="grid gap-[1.6rem]">
@@ -33,50 +98,98 @@ const PersonalInfo = () => {
       </PlainContainer>
 
       {/* Form Main */}
-      <PlainContainer>
-        <div className="grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))] gap-[1.7rem]">
-          <TextField label="First name" name="First name" id="First name"></TextField>
-          <TextField label="Middle Name (optional)" name="Middle Name (optional)" id="Middle Name (optional)"></TextField>
-          <TextField label="Last name" name="Last name" id="Last name"></TextField>
-          <TextField label="Email (optional)" name="Email (optional)" id="Email (optional)"></TextField>
-          <TextField label="Address" name="Address" id="Address"></TextField>
-          <PLVMenu items={["Gender"]}></PLVMenu>
-          <PLVMenu items={["State"]}></PLVMenu>
-          <TextField type={"number"} label="BVN" name="BVN" id="BVN"></TextField>
-        </div>
-      </PlainContainer>
+      <Formik enableReinitialize={true} initialValues={PersonalInfoInitialValue} validationSchema={personalValidationSchema} onSubmit={onUpdate}>
+        {({ isSubmitting, errors, touched, handleChange, values, setFieldValue }) => {
+          return (
+            <Form>
+              <PlainContainer className={" mb-[1.6rem]"}>
+                <div className="grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))] gap-[1.7rem]">
+                  <Field
+                    as={TextField}
+                    error={touched.firstName && errors.firstName}
+                    helperText={touched.firstName && errors.firstName}
+                    name="firstName"
+                    type={"text"}
+                    id="firstName"
+                    label="First Name"
+                    variant="filled"
+                  />
+                  <Field as={TextField} label="Middle Name (optional)" name={"middleName"} id="Middle Name (optional)" />
+                  <Field
+                    as={TextField}
+                    error={touched.lastName && errors.lastName}
+                    helperText={touched.lastName && errors.lastName}
+                    name="lastName"
+                    type={"text"}
+                    id="lastName"
+                    label="Last Name"
+                    variant="filled"
+                  />
+                  <Field disabled={true} as={TextField} error={touched.email && errors.email} helperText={touched.email && errors.email} name="email" type={"email"} id="Email" label="Email" />
+                  <Field as={TextField} label="Address" name="address" id="Address" />
+                  <PLVMenu
+                    initText={values?.gender || "Gender"}
+                    onChange={(val) => {
+                      setFieldValue("gender", val);
+                    }}
+                    items={["Male", "Female"]}
+                  ></PLVMenu>
+                  <PLVMenu
+                    initText={values?.state || "State"}
+                    onChange={(val) => {
+                      setFieldValue("state", val);
+                    }}
+                    items={NigeriaStates}
+                  ></PLVMenu>
+                  <Field as={TextField} type={"number"} label="BVN" name="bvn" id="BVN" />
+                </div>
+              </PlainContainer>
 
-      {/* ID */}
-      <PlainContainer>
-        <div className="grid grid-cols-[repeat(auto-fit,_minmax(200px,_1fr))] gap-[1rem] mb-[1.6rem]">
-          {["NIN", "Drivers Lincense", "Passport", "Voters Card Back"].map((el, i) => {
-            return (
-              <div
-                onClick={() => {
-                  setIdType(el);
-                  setUploadedImgsUrls([]);
-                }}
-                className="h-[5.6rem] rounded-primary bg-pv_bg flex items-center justify-between p-[1.6rem] cursor-pointer"
-                key={i}
-              >
-                <span className="text-label text-[1.6rem]">{el}</span>
-                <PLVRadio isChecked={idType == el}></PLVRadio>
-              </div>
-            );
-          })}
-        </div>
-        <div className="grid grid-cols-2 gap-[1.6rem]">
-          {uploadedImgsUrls[0] && <img className="h-[14.9rem] w-full object-cover rounded-primary" alt="uploads" src={uploadedImgsUrls[0]} />}
-          <Upload
-            onUpload={(fileObjs, fileUrls) => {
-              setUploadedImgsUrls(fileUrls);
-            }}
-            boxClassName={"!h-[14.9rem] "}
-            caption={<span>Click this area to upload {idType}</span>}
-          ></Upload>
-        </div>
-      </PlainContainer>
-      <Button className="max-w-[20.6rem] mt-[2rem]">Update</Button>
+              {/* ID */}
+              <PlainContainer>
+                <div className="grid grid-cols-[repeat(auto-fit,_minmax(200px,_1fr))] gap-[1rem] mb-[1.6rem]">
+                  {documentTypes.map((el, i) => {
+                    return (
+                      <div
+                        onClick={() => {
+                          setIdType(el);
+                          setUploadedImgsUrls([]);
+                        }}
+                        className="h-[5.6rem] rounded-primary bg-pv_bg flex items-center justify-between p-[1.6rem] "
+                        key={i}
+                      >
+                        <a
+                          href={values[docFieldsHash[el]] || "#"}
+                          rel="noopener"
+                          target={values[docFieldsHash[el]] ? "_blank" : ""}
+                          className={`text-label text-[1.6rem]  ${values[docFieldsHash[el]] ? "cursor-pointer underline underline-offset-1" : " cursor-default"}`}
+                        >
+                          {el}
+                        </a>
+                        <PLVRadio isChecked={idType == el}></PLVRadio>
+                      </div>
+                    );
+                  })}
+                </div>
+                <div className="grid grid-cols-2 gap-[1.6rem]">
+                  {uploadedImgsUrls[0] && <img className="h-[14.9rem] w-full object-cover rounded-primary" alt="uploads" src={uploadedImgsUrls[0]} />}
+                  <Upload
+                    onUpload={(fileObjs, fileUrls) => {
+                      onUploadFile(fileObjs[0], idType);
+                      setUploadedImgsUrls(fileUrls);
+                    }}
+                    boxClassName={"!h-[14.9rem] "}
+                    caption={<span>Click this area to upload {idType}</span>}
+                  ></Upload>
+                </div>
+              </PlainContainer>
+              <LoadingButton loading={isSubmitting} type="submit" className="max-w-[20.6rem] mt-[2rem]">
+                Update
+              </LoadingButton>
+            </Form>
+          );
+        }}
+      </Formik>
     </div>
   );
 };

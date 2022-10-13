@@ -20,12 +20,17 @@ export default async function postData(url, data, config) {
       //   console.log(error.response.status);
       //   console.log(error.response.headers);
       console.log("in post datta util", error.response);
-      return { ...error.response.data, status: false, message: error.response.data?.message ?? "Something went wrong. Pls try again later - No server error message" };
+      return {
+        ...error.response.data,
+        status: false,
+        message: error.response.data?.message ?? "Something went wrong. Pls try again later - No server error message",
+        statusCode: error.response.status,
+      };
     } else if (error.request) {
       // The request was made but no response was received
       // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
       // http.ClientRequest in node.js
-      console.log(error.request);
+      console.log("The request was made but no response was received", error.request);
       return { status: false, message: "Request was made but no response was received. Pls check your internet or try again." };
     } else {
       // Something happened in setting up the request that triggered an Error

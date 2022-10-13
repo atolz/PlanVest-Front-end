@@ -44,8 +44,8 @@ const LoanSummaryPopUp = ({ onClose = () => {}, onGoBack = () => {}, onReadSumma
 
   delete filteredLoans.cooperativeId;
   delete filteredLoans.documents;
-  delete filteredLoans.uploadedVCFrontFilesObj;
-  delete filteredLoans.uploadedVCBackFilesObj;
+  delete filteredLoans.pitchDeck;
+  delete filteredLoans.CAC;
 
   let nameAlias = {
     loanType: "Loan Type",

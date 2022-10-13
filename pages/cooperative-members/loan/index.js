@@ -15,6 +15,7 @@ import SuccessPopUp from "../../../components/pages/cooperative-members-section/
 import { MembersContext } from "../../../context/MembersProvider";
 import useFetchDataBuildHashStoreToState from "../../../hooks/useFetchDataBuildHashStoreToState";
 import { buildDataIdHash, createLoan, getAllLoans } from "../../../services/cooperative-members.js";
+import { uploadFile } from "../../../services/generalService";
 
 const Loan = () => {
   // const loans = [
@@ -110,7 +111,43 @@ const Loan = () => {
   const onEnterPin = async (actions) => {
     console.log("loan summar", loanSummary);
     actions?.setLoading(true);
-    const respData = await createLoan(loanSummary);
+
+    // upload cac and pitch deck before creation
+    // After upload get the file url and type
+    // build documents array: [{url:"", type: cac|pitchDeck}]
+    let docs = [];
+    const pitchDeckFileRespData = await uploadFile(loanSummary?.pitchDeck, "pitchDeck");
+    console.log("pitchDeckFileRespData", pitchDeckFileRespData);
+    if (pitchDeckFileRespData?.success) {
+      docs.push(pitchDeckFileRespData.data);
+    } else {
+      if (pitchDeckFileRespData.statusCode == 0) {
+        toast.error("Pitch Deck file too Large");
+      } else {
+        toast.error("Problem uploading Pithc Deck file. Pls try again later or contact support.");
+      }
+      actions?.setLoading(false);
+      return;
+    }
+
+    // -----------------------------------
+    const CACRespData = await uploadFile(loanSummary?.CAC, "CAC");
+    if (CACRespData?.success) {
+      docs.push(CACRespData.data);
+    } else {
+      if (pitchDeckFileRespData.statusCode == 0) {
+        toast.error("CAC file too Large");
+      } else {
+        toast.error("Problem uploading CAC file. Pls try again later or contact support.");
+      }
+      actions?.setLoading(false);
+      return;
+    }
+
+    console.log("docs are", docs);
+    let loanDetails = { ...loanSummary, documents: docs };
+
+    const respData = await createLoan(loanDetails);
     if (respData.status) {
       setActiveModal("SuccessTopup");
       fetchDataBuildHashStoreToState();

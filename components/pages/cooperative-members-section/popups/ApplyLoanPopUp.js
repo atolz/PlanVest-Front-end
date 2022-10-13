@@ -35,8 +35,8 @@ const ApplyLoanPopUp = ({ onClose, onApplyLoan = () => {}, loanDetails }) => {
     typeOfBusiness: loanDetails?.typeOfBusiness || "",
     businessDesc: loanDetails?.businessDesc || "",
     documents: [],
-    uploadedVCFrontFilesObj: null,
-    uploadedVCBackFilesObj: null,
+    pitchDeck: null,
+    CAC: null,
   };
 
   const onProceed = (values) => {
@@ -74,7 +74,7 @@ const ApplyLoanPopUp = ({ onClose, onApplyLoan = () => {}, loanDetails }) => {
                   <Field as={TextField} label="Business Description" name="businessDesc" multiline={true} minRows={3} maxRows={6} />
                   <Upload
                     onUpload={(fileObjs) => {
-                      setFieldValue("uploadedVCFrontFilesObj", fileObjs[0]);
+                      setFieldValue("pitchDeck", fileObjs[0]);
                     }}
                     specCaption={"700px by 1500px JPEG or PNG "}
                     accept="image/png,  image/jpeg"
@@ -85,7 +85,7 @@ const ApplyLoanPopUp = ({ onClose, onApplyLoan = () => {}, loanDetails }) => {
                   ></Upload>
                   <Upload
                     onUpload={(fileObjs) => {
-                      setFieldValue("uploadedVCBackFilesObj", fileObjs[0]);
+                      setFieldValue("CAC", fileObjs[0]);
                     }}
                     specCaption={"700px by 1500px JPEG or PNG "}
                     accept="image/png,  image/jpeg"
