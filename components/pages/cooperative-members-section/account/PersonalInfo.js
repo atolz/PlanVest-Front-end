@@ -160,7 +160,7 @@ const PersonalInfo = () => {
                       >
                         <a
                           href={values[docFieldsHash[el]] || "#"}
-                          rel="noopener"
+                          rel="noreferrer"
                           target={values[docFieldsHash[el]] ? "_blank" : ""}
                           className={`text-label text-[1.6rem]  ${values[docFieldsHash[el]] ? "cursor-pointer underline underline-offset-1" : " cursor-default"}`}
                         >
