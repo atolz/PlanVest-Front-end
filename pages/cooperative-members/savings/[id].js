@@ -66,7 +66,7 @@ const SavingDetails = () => {
                 <Transactions></Transactions>
               </div>
               <div>
-                <SavingsInfo saving={saving}></SavingsInfo>
+                {saving?.amountSavedPerTime != null && <SavingsInfo saving={saving}></SavingsInfo>}
                 <Details saving={saving}></Details>
               </div>
             </main>

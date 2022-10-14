@@ -18,6 +18,7 @@ import toast from "react-hot-toast";
 const PersonalInfo = () => {
   const { fileObjs, fileUrls, fileInputRef, handleFileUpload, filePickerTrigger } = useHandleFileUpload();
   const [idType, setIdType] = useState("NIN");
+  const [uploading, setUploading] = useState(false);
   const [uploadedImgsUrls, setUploadedImgsUrls] = useState([]);
   const { user, setUser } = useContext(AuthContext);
   const PersonalInfoInitialValue = {
@@ -26,8 +27,7 @@ const PersonalInfo = () => {
     lastName: user?.lastName || "",
     middleName: user?.middleName || "",
     phoneNumber: user?.phoneNumber || "",
-    phoneNumber: "90889989999",
-    transactionPin: "",
+
     gender: user?.gender || "",
     state: user?.state || "",
     lga: null,
@@ -67,14 +67,18 @@ const PersonalInfo = () => {
   };
 
   const onUploadFile = async (fileObj, type) => {
-    const uploadDataResp = await uploadFile(fileObj, type);
-    if (uploadDataResp.success) {
-      toast.success(uploadDataResp?.message, { duration: 5000 });
-    } else {
-      toast.error(uploadDataResp?.message, { duration: 5000 });
+    console.log("fileob", fileObj);
+    if (fileObj) {
+      setUploading(true);
+      const uploadDataResp = await uploadFile(fileObj, type);
+      if (uploadDataResp.success) {
+        toast.success(uploadDataResp?.message, { duration: 5000 });
+      } else {
+        toast.error(uploadDataResp?.message, { duration: 5000 });
+      }
+      setUploading(false);
+      const updateDataResp = await onUpdate({ [docFieldsHash[type]]: uploadDataResp.data.path });
     }
-
-    const updateDataResp = await onUpdate({ [docFieldsHash[type]]: uploadDataResp.data.path });
   };
 
   return (
@@ -141,7 +145,7 @@ const PersonalInfo = () => {
                     }}
                     items={NigeriaStates}
                   ></PLVMenu>
-                  <Field as={TextField} type={"number"} label="BVN" name="bvn" id="BVN" />
+                  <Field as={TextField} type={"number"} label="Phone Number" name="phoneNumber" id="phone" />
                 </div>
               </PlainContainer>
 
@@ -179,7 +183,11 @@ const PersonalInfo = () => {
                       setUploadedImgsUrls(fileUrls);
                     }}
                     boxClassName={"!h-[14.9rem] "}
-                    caption={<span>Click this area to upload {idType}</span>}
+                    caption={
+                      <span>
+                        Click this area to upload {idType} {uploading ? <span className=" font-semibold block">Uploading...</span> : ""}
+                      </span>
+                    }
                   ></Upload>
                 </div>
               </PlainContainer>

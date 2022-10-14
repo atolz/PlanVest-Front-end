@@ -58,7 +58,7 @@ const Upload = ({
         {uploadImg ? uploadImg : <SvgIconWrapper className={"w-[3.8rem] h-[3.8rem]"} iconName={"upload-grey"}></SvgIconWrapper>}
 
         {/* Button Element for keyboard focus/tab accessibility */}
-        <button className=" border-none cursor-pointer mt-[1.6rem] mb-[.8rem]">
+        <button type="button" className=" border-none cursor-pointer mt-[1.6rem] mb-[.8rem]">
           <span className="text-pv_primary text-[1.6rem] inline-flex">{caption}</span>
         </button>
 

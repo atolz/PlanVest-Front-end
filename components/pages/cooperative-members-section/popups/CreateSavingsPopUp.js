@@ -70,7 +70,7 @@ const CreateSavingsPopup = ({ onClose = () => {}, onAddCard = () => {}, onCreate
           amount: "",
           amountSavedPerTime: "",
           savingFrequency: "Daily",
-          debitDate: new Date(),
+          debitDate: "",
           autoDebit: true,
         }}
         validationSchema={CreateValidationSchema}

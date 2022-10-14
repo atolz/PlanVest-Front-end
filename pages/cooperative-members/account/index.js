@@ -18,6 +18,7 @@ const Account = () => {
           setActiveTab(item);
         }}
         className={"mb-[2.8rem]"}
+        active={activeTab}
         items={["Personal Info", "Next of Kin", "Settings", "Referrals"]}
       ></TabLight>
       <main className=" mt-[4.6rem]">

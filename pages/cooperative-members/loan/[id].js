@@ -111,13 +111,15 @@ const LoanDetails = () => {
         </PlainContainer>
 
         {/* Docs */}
-        <PlainContainer>
-          <Title text={"Documents"}></Title>
-          <div className="grid grid-cols-[repeat(auto-fill,_minmax(280px,_1fr))] gap-[1.6rem]">
-            <DocBox title={"Pitch Deck"}></DocBox>
-            <DocBox title={"CAC"}></DocBox>
-          </div>
-        </PlainContainer>
+        {loan?.loanType != "personal" && (
+          <PlainContainer>
+            <Title text={"Documents"}></Title>
+            <div className="grid grid-cols-[repeat(auto-fill,_minmax(280px,_1fr))] gap-[1.6rem]">
+              <DocBox title={"Pitch Deck"}></DocBox>
+              <DocBox title={"CAC"}></DocBox>
+            </div>
+          </PlainContainer>
+        )}
 
         {/* Payment BreakDown */}
         <PlainContainer className={"overflow-x-scroll scroll_hide"}>
