@@ -1,14 +1,23 @@
 import { LoadingButton } from '@mui/lab';
 import { Dialog, Radio, Stack, TextField } from '@mui/material';
+import { Formik } from 'formik';
 import React, {useState} from 'react';
 import AddMediaFileCard from '../../cards/AddMediaFileCard';
+import Upload from '../../general/Upload';
 
 const ModeOfIdentificationModal = ({toggle, open, onClick, onClickBack}) => {
-
-  const [license, setLicense] = useState(false);
+  
   const [nin, setNin] = useState(false);
-  const [voterCard, setVoterCard] = useState(false);
+  const [license, setLicense] = useState(false);
   const [passport, setPassport] = useState(false);
+  const [voterCard, setVoterCard] = useState(false);
+  const [selectValue, setSelectValue] = useState({
+    
+    uploadedVCFrontFilesObj: null,
+    uploadedVCBackFilesObj: null,
+  });
+
+
   function toggleLincense(){
     setLicense(!license);
   }
@@ -22,8 +31,11 @@ const ModeOfIdentificationModal = ({toggle, open, onClick, onClickBack}) => {
     setPassport(!passport);
   }
   return (
-    <Dialog onClose={toggle} open={open}>
-        <div className="py-[1rem] px-[auto] rounded-[8px] md:w-[450px] w-full h-[600px] ">
+    <Dialog onClose={toggle} open={open} className='m-[auto] flex '>
+       <Formik enableReinitialize={true} initialValues={selectValue}  >
+        {({ isSubmitting, errors, touched, handleChange, values, setFieldValue, submitCount }) => {
+          return (
+        <div className="py-[1rem] px-[auto] rounded-[8px] md:w-[400px] w-full h-[500px] ">
           <div className="flex px-[4rem] flex-row  items-center   ">
               <p>Mode of Identification- Step 2 of 3</p>
               <span onClick={toggle} className="text text-[28px] text-black ml-[auto] cursor-pointer">&#215;</span>
@@ -74,6 +86,17 @@ const ModeOfIdentificationModal = ({toggle, open, onClick, onClickBack}) => {
                   </div>
                   {nin && <div className=' flex flex-col gap-[1.5rem]'>
                     <hr className='w-[100%] mx-[auto] my-[1rem]  border-solid border border-gray-200' />
+                    {/* <Upload
+                    onUpload={(fileObjs) => {
+                      setFieldValue("uploadedVCFrontFilesObj", fileObjs[0]);
+                    }}
+                    specCaption={"700px by 1500px JPEG or PNG "}
+                    accept="image/png,  image/jpeg"
+                    displayImgContClass={"grid-cols-[repeat(auto-fit,_minmax(100px,_1fr))]"}
+                    showDisplayImgs={true}
+                    boxClassName={"mb-0"}
+                    caption="Click this area to upload Voter’s card front"
+                  ></Upload> */}
                     <AddMediaFileCard uploading='true'  />
                     <AddMediaFileCard  toUpload='true' fileType='Nin’s card back' />
                   </ div>}
@@ -126,7 +149,7 @@ const ModeOfIdentificationModal = ({toggle, open, onClick, onClickBack}) => {
                     <AddMediaFileCard  toUpload='true' fileType='Int Passport’s card back' />
                   </ div>}
                 </div>
-            <div className='w-[100%] gap-[2rem] flex flex-row'>
+            <div className='w-[100%] gap-[2rem] my-[2rem] flex flex-row'>
             <LoadingButton
                     onClick={onClickBack}
                     variant="contained"
@@ -144,6 +167,9 @@ const ModeOfIdentificationModal = ({toggle, open, onClick, onClickBack}) => {
             </div>
         </ Stack>
         </div>
+         );
+        }}
+      </Formik>
    </ Dialog>
   )
 }

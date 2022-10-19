@@ -1,18 +1,18 @@
-import React, { useContext, useState } from "react";
-import { LoadingButton } from "@mui/lab";
-import { Button, TextField } from "@mui/material";
-import OnboardingLayout from "../components/layouts/OnboardingLayout";
-import ShowPassword from "../components/form-elements/ShowPassword";
-import { useRouter } from "next/router";
-import Link from "next/link";
-import SignupWIthButton from "../components/form-elements/SignupWIthButton";
-import Hrule from "../components/general/Hrule";
-import { Formik, Field, Form } from "formik";
 import * as yup from "yup";
-import { login as userLogin } from "../services/cooperative-members.js";
+import Link from "next/link";
 import toast from "react-hot-toast";
+import { useRouter } from "next/router";
+import { LoadingButton } from "@mui/lab";
+import { Formik, Field, Form } from "formik";
+import Hrule from "../components/general/Hrule";
+import { Button, TextField } from "@mui/material";
+import React, { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContextProvider";
 import { adminLogin } from "../services/cooperative-admin.js";
+import ShowPassword from "../components/form-elements/ShowPassword";
+import OnboardingLayout from "../components/layouts/OnboardingLayout";
+import { login as userLogin } from "../services/cooperative-members.js";
+import SignupWIthButton from "../components/form-elements/SignupWIthButton";
 
 const Signin = () => {
   const [activeType, setActiveType] = useState("User");
@@ -34,7 +34,7 @@ const Signin = () => {
       setUser(data?.data);
       setExpiresOnLogIn(data?.accessToken);
       toast.success(data?.message ?? "Login successful!", { duration: 3000, id: "status" });
-      activeType == "User" ? router.push("cooperative-members/dashboard") : router.push("cooperative-admin/dashboard");
+      activeType == "User" ? router.push("cooperative-members/dashboard") : router.push("cooperative/dashboard");
     } else {
       toast.error(data?.message, { duration: 8000, id: "status" });
     }
@@ -108,7 +108,7 @@ const Signin = () => {
                 </LoadingButton>
                 <p className=" text-pv_dark font-medium">
                   Don’t have an account?
-                  <Link href={activeType == "Cooperative" ? "cooperative-admin/register" : "cooperative-members/register"}>
+                  <Link href={activeType == "Cooperative" ? "cooperative/register" : "cooperative-members/register"}>
                     <a className=" text-pv_primary cursor-pointer"> Register</a>
                   </Link>
                 </p>

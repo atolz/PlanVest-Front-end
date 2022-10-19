@@ -1,7 +1,10 @@
 import { useState } from "react";
 import LabelTag from "../../buttons/LabelTag";
 
-const MembersTable = ({viewClick, editClick}) => {
+const MembersTable = ({members, viewClick, editClick}) => {
+
+  // console.log(members, "MEMBERS IN TABLE")
+
   
   return (
     <div className=" bg-white p-[2.4rem] rounded-[1.2rem]">
@@ -25,66 +28,21 @@ const MembersTable = ({viewClick, editClick}) => {
             </tr>
           </thead>
           <tbody className="text-[#666668] whitespace-nowrap !gap-8  ">
-            <tr className="h-[52px] border-solid border border-gray-200 px-[0.4rem]">
+            {members?.map(({firstName, lastName,id, gender})=>(<tr key={id} className="h-[52px] border-solid border border-gray-200 px-[0.4rem]">
               <td className="px-[16px] text-left ">
-                <p className="h-full flex items-center">Winner Okpere</p>
-              </td>
-              <td className="px-[16px] text-left ">
-                <p className="">Female</p>
+                <p className="h-full flex items-center">{firstName +" "+ lastName}</p>
               </td>
               <td className="px-[16px] text-left ">
-                <LabelTag text='Active' status='success'></LabelTag> 
-              </td>
-              <td className="p-[16px]   flex flex-row gap-[2rem] ">
-                <p onClick={viewClick} className="underline cursor-pointer text-[#137C4B]">View</p>
-                <p onClick={editClick} className="underline cursor-pointer text-[#FF7115]">Edit</p>
-              </td>
-            </tr>
-            <tr className="h-[52px] border-solid border border-gray-200 px-[0.4rem]">
-              <td className="px-[16px] text-left ">
-                <p className="h-full flex items-center">Winner Okpere</p>
-              </td>
-              <td className="px-[16px] text-left ">
-                <p className="">Female</p>
-              </td>
-              <td className="px-[16px] text-left ">
-                <LabelTag text='Inactive' status='error'></LabelTag> 
-              </td>
-              <td className="p-[16px]   flex flex-row gap-[2rem] ">
-                <p onClick={viewClick} className="underline cursor-pointer text-[#137C4B]">View</p>
-                <p onClick={editClick} className="underline cursor-pointer text-[#FF7115]">Edit</p>
-              </td>
-            </tr>
-            <tr className="h-[52px] border-solid border border-gray-200 px-[0.4rem]">
-              <td className="px-[16px] text-left ">
-                <p className="h-full flex items-center">Winner Okpere</p>
-              </td>
-              <td className="px-[16px] text-left ">
-                <p className="">Male</p>
+                <p className="">{gender}</p>
               </td>
               <td className="px-[16px] text-left ">
                  <LabelTag text='Active' status='success'></LabelTag> 
               </td>
               <td className="p-[16px]   flex flex-row gap-[2rem] ">
-                <p onClick={viewClick} className="underline cursor-pointer text-[#137C4B]">View</p>
-                <p onClick={editClick} className="underline cursor-pointer text-[#FF7115]">Edit</p>
+                <p onClick={()=>viewClick(id)} className="underline cursor-pointer text-[#137C4B]">View</p>
+                <p onClick={()=>editClick(id)} className="underline cursor-pointer text-[#FF7115]">Edit</p>
               </td>
-            </tr>
-            <tr className="h-[52px] border-solid border border-gray-200 px-[0.4rem]">
-              <td className="px-[16px] text-left ">
-                <p className="h-full flex items-center">Winner Okpere</p>
-              </td>
-              <td className="px-[16px] text-left ">
-                <p className="">Male</p>
-              </td>
-              <td className="px-[16px] text-left ">
-                 <LabelTag text='Active' status='success'></LabelTag> 
-              </td>
-              <td className="p-[16px]   flex flex-row gap-[2rem] ">
-                <p onClick={viewClick} className="underline cursor-pointer text-[#137C4B]">View</p>
-                <p onClick={editClick} className="underline cursor-pointer text-[#FF7115]">Edit</p>
-              </td>
-            </tr>
+            </tr>))}
           </tbody>
         </table>
       </div>

@@ -18,11 +18,6 @@ export const adminLogin = async (data = {}) => {
   console.log("register resp data", respData);
   return respData;
 };
-// export const login = async (data = {}) => {
-//   const respData = await postData("/auth/login?type=coop", data);
-//   console.log("register resp data", respData);
-//   return respData;
-// };
 
 // goal savings
 export const createGoalSavings = async (data = {}) => {
@@ -34,9 +29,9 @@ export const createGoalSavings = async (data = {}) => {
     throw error
   }
 };
-export const displayGoalSavings = async (data = {}) => {
+export const displayGoalSavings = async () => {
   try {
-    const respData = await fetchData("/goal-savings?size=80&&page=1", data);
+    const respData = await fetchData("/goal-savings?size=50&&page=1");
     console.log("fetch goal savings data", respData);
     return respData;
   } catch (error) {
@@ -54,16 +49,6 @@ export const displaySingleGoalSavings = async (id) => {
   }
 };
 
-// Get all goal savings on admin
-// export const displayAllGoalSavings = async (data = {}) => {
-//   try {
-//     const respData = await fetchData("/goal-savings/all", data);
-//     console.log("display all goal savings data", respData);
-//     return respData;
-//   } catch (error) {
-//     throw error
-//   }
-// };
 export const updateGoalSavings = async (data = {}) => {
   try {
     const respData = await postData("/goal-savings/update", data);
@@ -114,16 +99,107 @@ export const displaySingleFixedSavings = async (id) => {
     throw error
   }
 };
-// members creation
+// cooperative admin loan 
 
-export const addCoopMember = async (data = {}) => {
+// export const createLoan = async (data = {}) => {
+//   const respData = await postData("/cooperative/add-members", data);
+//   console.log("create loan data", respData);
+//   return respData;
+// };
+
+export const displaySingleLoan = async (id) => {
+  const respData = await fetchData(`/loan/single?id=${id}`, data);
+  console.log("get each loan", respData);
+  return respData;
+};
+export const displayAllLoan = async (data = {}) => {
+  const respData = await postData("/loan/coop?size=1000&&page=1", data);
+  console.log("get all created loan data", respData);
+  return respData;
+};
+
+// cooperative investments
+
+export const displaySingleInvestment = async (id) => {
+  const respData = await fetchData(`/investments/single?id=${id}`);
+  console.log("get individual investment data", respData);
+  return respData;
+};
+export const displayAllInvestment = async () => {
+  const respData = await fetchData("/investments/all-investment?size=1000&&page=1");
+  console.log("get all investment data", respData);
+  return respData;
+};
+export const displayAllInvestmentss = async () => {
+  const respData = await fetchData("/investments/all?size=1000&&page=1");
+  console.log("get all investment data", respData);
+  return respData;
+};
+export const displayAllCoopInvestment = async (data = {}) => {
+  const respData = await postData("/investments/coop?size=1000&&page=1", data);
+  console.log("get all cooperative investment data", respData);
+  return respData;
+};
+export const approveInvestment = async (id) => {
+  const respData = await postData(`/investments/approve?id=${id}`);
+  console.log("approve a cooperative investment", respData);
+  return respData;
+};
+export const updateInvestment = async (id) => {
+  const respData = await postData(`/investments/update?id=${id}`);
+  console.log("update cooperative investment data", respData);
+  return respData;
+};
+export const deleteInvestment = async (id) => {
+  const respData = await postData(`/investments/delete?id=${id}`);
+  console.log("delete a cooperative investment data", respData);
+  return respData;
+};
+
+// Members creation
+
+// add private members to coop
+export const      addCoopMember = async (data = {}) => {
   const respData = await postData("/cooperative/add-members", data);
   console.log("add member data", respData);
   return respData;
 };
-export const addGoalSavingsMember = async (data = {}) => {
-  const respData = await postData("/cooperative/goal-savings-members", data);
+
+// add new members to coop DONE
+export const addNewCoopMember = async (data = {}) => {
+  try {
+    const respData = await postData("/cooperative/add-new-members", data);
+   return respData;
+  } catch (error) {
+    throw error
+  }
+
+};
+
+// add member to a goal savings
+export const addGoalSavingsMember = async (id, data = {}) => {
+  const respData = await postData(`/cooperative/goal-savings-members?id=${id}`, data);
   console.log("add goal savings member data", respData);
+  return respData;
+};
+
+// to get a cooperative member DONE
+export const getCoopMember = async (id) => {
+  const respData = await fetchData(`/cooperative/coopMember?id=${id}`);
+  console.log("this is to view a coop member", respData);
+  return respData;
+};
+
+// updating a cooperative member NOT WORKING
+export const updateCoopMember = async (id) => {
+  const respData = await postData(`/cooperative/updateCoopMember?id=${id}`);
+  console.log("update a coop member data", respData);
+  return respData;
+};
+// get member of a cooperative TODO: DONE BUT RETURNS ONE INSTEAD OF ALL
+export const getAllCoopMember = async () => {
+  const respData = await fetchData(`/cooperative/all?size=1000&&page=1`);
+  console.log("get all member of a coop", respData);
   return respData;
 };
 

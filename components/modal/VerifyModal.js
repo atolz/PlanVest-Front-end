@@ -24,7 +24,7 @@ const VerifyModal = ({ email, onAction, onCancel = () => {}, onRegister = () => 
 
     if (data.status) {
       toast.success(data?.message, { duration: 10000 });
-      router.push("/cooperative-admin/signin");
+      router.push("/signin");
     } else {
       toast.error(data?.message, { duration: 10000 });
     }
