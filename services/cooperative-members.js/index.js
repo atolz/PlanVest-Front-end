@@ -118,3 +118,8 @@ export const updateProfile = async (data = {}) => {
   const respData = await postData("/auth/profile-update", data);
   return respData;
 };
+// Dashboard
+export const getUserDashboard = async () => {
+  const respData = await fetchData("/dashboard/private");
+  return respData;
+};

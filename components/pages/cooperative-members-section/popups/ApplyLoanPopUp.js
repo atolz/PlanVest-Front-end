@@ -2,7 +2,9 @@ import { Button, InputAdornment, TextField } from "@mui/material";
 import { Field, Form, Formik } from "formik";
 import React, { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { NumericFormat } from "react-number-format";
 import { AuthContext } from "../../../../context/AuthContextProvider";
+import NumberFormatCustom from "../../../form-elements/NumberFormatCustom";
 import PLVDesktopDatePicker from "../../../form-elements/PLVDesktopDatePicker";
 import PLVMenu from "../../../form-elements/PLVMenu";
 import Hrule from "../../../general/Hrule";
@@ -49,7 +51,7 @@ const ApplyLoanPopUp = ({ onClose, onApplyLoan = () => {}, loanDetails }) => {
         return;
       }
     }
-
+    values.loanAmount = values.loanAmount?.split(",").join("");
     onApplyLoan(values);
   };
   return (
@@ -104,8 +106,33 @@ const ApplyLoanPopUp = ({ onClose, onApplyLoan = () => {}, loanDetails }) => {
               )}
               <Hrule className={"mt-[1.4rem]"}></Hrule>
 
+              {/* <TextField
+                // as={TextField}
+                value={values.loanAmount}
+                onChange={handleChange}
+                InputProps={{
+                  inputComponent: NumberFormatCustom,
+                  startAdornment: <InputAdornment position="start">&#8358;</InputAdornment>,
+                  endAdornment: (
+                    <InputAdornment position="start">
+                      <span className="text-text">Max: 30,000,000</span>
+                    </InputAdornment>
+                  ),
+                }}
+                name="loanAmount"
+                // type={"number"}
+                id="Loan Amount"
+                label="Loan Amount"
+                variant="filled"
+              /> */}
               <Field
-                as={TextField}
+                as={NumericFormat}
+                isAllowed={(values) => {
+                  const { formattedValue, floatValue } = values;
+                  return formattedValue === "" || floatValue <= 30000000;
+                }}
+                inputProps={{ maxlength: 10 }}
+                allowNegative={false}
                 InputProps={{
                   startAdornment: <InputAdornment position="start">&#8358;</InputAdornment>,
                   endAdornment: (
@@ -115,10 +142,12 @@ const ApplyLoanPopUp = ({ onClose, onApplyLoan = () => {}, loanDetails }) => {
                   ),
                 }}
                 name="loanAmount"
-                type={"number"}
                 id="Loan Amount"
                 label="Loan Amount"
-                variant="filled"
+                thousandSeparator
+                // valueIsNumericString={true}
+                value={values.loanAmount}
+                customInput={TextField}
               />
               <PLVDesktopDatePicker
                 initialDate={values.dateNeeded}

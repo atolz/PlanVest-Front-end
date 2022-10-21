@@ -13,6 +13,7 @@ import { SavingsTypes } from "../../../../pages/cooperative-members/savings";
 import Hrule from "../../../general/Hrule";
 import PLVSwitch from "../../../general/PLVSwitch";
 import TabFilled from "../../../general/TabFilled";
+import { NumericFormat } from "react-number-format";
 
 const CreateValidationSchema = yup.object({
   savingType: yup.string("Select saving type").required("Select saving type"),
@@ -23,7 +24,7 @@ const CreateValidationSchema = yup.object({
     is: true,
     then: yup.date("").required("Enter a debit date").typeError("Enter a valid date"),
   }),
-  amount: yup.number().min(100, "Min amount 100.").required("Pls enter an amount").typeError("Enter a valid number"),
+  amount: yup.string().required("Pls enter an amount"),
   autoDebit: yup.boolean(),
   amountSavedPerTime: yup.number().when("autoDebit", {
     is: true,
@@ -39,6 +40,7 @@ const CreateSavingsPopup = ({ onClose = () => {}, onAddCard = () => {}, onCreate
 
   const onCreate = async (values) => {
     console.log(values);
+    values.amount = values.amount?.split(",").join("");
     let data;
     if (values.savingType == "Goal Savings") {
       data = await createPersonalGoalSavings({ ...values, targetAmount: values.amount });
@@ -113,18 +115,22 @@ const CreateSavingsPopup = ({ onClose = () => {}, onAddCard = () => {}, onCreate
                 label="End date"
               ></PLVDesktopDatePicker>
               <Field
-                as={TextField}
+                as={NumericFormat}
+                allowNegative={false}
+                thousandSeparator
                 error={errors?.amount && touched.amount}
                 helperText={touched.amount && errors?.amount}
                 InputProps={{
                   startAdornment: <InputAdornment position="start">&#8358;</InputAdornment>,
                 }}
                 name="amount"
-                type={"number"}
+                // type={"number"}
                 id="amount"
                 label="Target Amount"
                 variant="filled"
+                customInput={TextField}
               />
+
               {/* <Field
                 as={TextField}
                 error={errors?.amountTobeSaved}

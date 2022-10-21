@@ -11,6 +11,8 @@ export const MembersContext = createContext({
   setLoans: () => {},
   investmentApplications: {},
   setInvestmentApplications: () => {},
+  userDashboard: {},
+  setUserDashboard: () => {},
 });
 
 const MembersContextProvider = ({ children }) => {
@@ -19,13 +21,29 @@ const MembersContextProvider = ({ children }) => {
   const [groupSavings, setGroupSavings] = useState({ data: null, hash: {} });
   const [loans, setLoans] = useState({ data: null, hash: {} });
   const [investmentApplications, setInvestmentApplications] = useState({ data: null, hash: {} });
+  const [userDashboard, setUserDashboard] = useState({ data: null });
 
   useEffect(() => {
     console.log("changein context", loans, fixedSavings, goalSavings);
   }, [fixedSavings, goalSavings]);
 
   return (
-    <MembersContext.Provider value={{ fixedSavings, setFixedSavings, goalSavings, setGoalSavings, groupSavings, setGroupSavings, loans, setLoans, investmentApplications, setInvestmentApplications }}>
+    <MembersContext.Provider
+      value={{
+        fixedSavings,
+        setFixedSavings,
+        goalSavings,
+        setGoalSavings,
+        groupSavings,
+        setGroupSavings,
+        loans,
+        setLoans,
+        investmentApplications,
+        setInvestmentApplications,
+        userDashboard,
+        setUserDashboard,
+      }}
+    >
       {children}
     </MembersContext.Provider>
   );
