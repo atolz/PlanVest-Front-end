@@ -36,6 +36,7 @@ export const resetPassword = async (data = {}, token) => {
 };
 
 // Savings
+
 export const createPersonalFixedSavings = async (data = {}) => {
   const respData = await postData("/personal-fixed-savings/", data);
   return respData;

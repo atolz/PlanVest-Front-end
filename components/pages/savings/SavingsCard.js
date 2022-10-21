@@ -1,4 +1,7 @@
-import React from 'react'
+import React from 'react';
+import formatDate from '../../../utils/formatDate';
+import formatNumberWithCommas from '../../../utils/addCommas';
+import CurrencySymbol from '../../general/CurrencySymbol';
 
 const SavingsCard = ({
     startDate,
@@ -12,33 +15,20 @@ const SavingsCard = ({
     debitDate,
     frequencyOfSavings,
 }) => {
-    // setInputValue({
-    //     title:"",
-    //     startDate,
-    //     endDate: null,
-    //     amountTobeSaved:"",
-    //   })
-    //   ({
-    //     title:"",
-    //     startDate: null,
-    //     endDate: null,
-    //     savingType,
-    //     targetAmount:"",
-    //     duration: "",
-    //     debitDate: null,
-    //     frequencyOfSavings:"",
-    // });
+
+    // formatDate(startDate)
+    // formatDate(endDate)
   return (
     <div className='w-full bg-white p-[3rem] rounded-xl flex flex-col md:flex-row my-[3rem] '>
 
             <div className='md:w-[30%] flex flex-col gap-[1rem] mt-[1rem] '>
                 <div className='flex flex-row md:flex-col gap-[1rem] md:gap-0'>
                     <p className='text-[#9999B4]'>Target Amount</p>
-                    <p>{targetAmount}</p>
+                    <p><CurrencySymbol/>{formatNumberWithCommas(targetAmount)}</p>
                 </div>
                 <div className='flex flex-row md:flex-col gap-[1rem] md:gap-0'>
                     <p className='text-[#9999B4]'>Amount saved </p>
-                    <p>{amountSaved}</p>
+                    <p><CurrencySymbol/>{formatNumberWithCommas(amountSaved)}</p>
                 </div>
                 <div className='flex flex-row md:flex-col gap-[1rem] md:gap-0'>
 
@@ -51,16 +41,16 @@ const SavingsCard = ({
             <div className='md:w-[30%] flex flex-col gap-[1rem] mt-[1rem] border-r border-gray-200'>
                 <div className='flex flex-row md:flex-col gap-[1rem] md:gap-0'>
                     <p className='text-[#9999B4]'>Interest Earned - {interestPercent}%</p>
-                    <p>N{interestEarned}</p>
+                    <p><CurrencySymbol/>{interestEarned}</p>
                 </div>
                 <div className='flex flex-row md:flex-col gap-[1rem] md:gap-0'>
                     <p className='text-[#9999B4]'>Start Date </p>
-                    <p>{startDate}</p>
+                    <p>{formatDate(startDate)}</p>
                 </div>
                 <div className='flex flex-row md:flex-col gap-[1rem] md:gap-0'>
 
                     <p className='text-[#9999B4]'>End Date </p>
-                    <p>{endDate}</p>
+                    <p>{formatDate(endDate)}</p>
                     {/* <p>30/11/2021</p> */}
                 </div>
             </div>
@@ -75,12 +65,12 @@ const SavingsCard = ({
                 <div className='flex flex-row md:flex-col gap-[1rem] md:gap-0'>
                     <p className='text-[#9999B4]'>Debit Date/Time</p>
                     {/* <p>21st of every month by 4pm</p> */}
-                    <p>{debitDate}</p>
+                    <p>{formatDate(debitDate)}</p>
                 </div>
                 <div className='flex flex-row md:flex-col gap-[1rem] md:gap-0'>
 
                     <p className='text-[#9999B4]'>Amount to be paid</p>
-                    <p>{amountPaid}</p>
+                    <p><CurrencySymbol/>{formatNumberWithCommas(amountPaid)}</p>
                 </div>
                 
             </div>

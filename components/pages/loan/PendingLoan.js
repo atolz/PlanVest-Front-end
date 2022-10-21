@@ -5,7 +5,7 @@ import InvestmentCard from '../../cards/InvestmentCard';
 const PendingLoan = () => {
   const router = useRouter();
   function view(){
-      router.push('/cooperative-admin/loan/view-personal')
+      router.push('/cooperative/loan/view-personal')
   }
   return (
     <div className='flex flex-wrap gap-[1rem]'>

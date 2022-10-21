@@ -7,7 +7,7 @@ const NotificationDropdown = () => {
   const router = useRouter();
   const [first, setFirst] = useState(false);
   function viewNotification(){
-    router.push('/cooperative-admin/notification')
+    router.push('/cooperative/notification')
   }
   return (
     <div className='relative'>

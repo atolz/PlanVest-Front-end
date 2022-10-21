@@ -5,7 +5,7 @@ import InvestmentCard from '../../../cards/InvestmentCard';
 const DeclinedCorporateLoan = () => {
   const router = useRouter();
   function view(){
-      router.push('/cooperative-admin/loan/view-corporate')
+      router.push('/cooperative/loan/view-corporate')
   }
   return (
     <div className='flex flex-wrap gap-[1rem]'>

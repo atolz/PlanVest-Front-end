@@ -35,7 +35,7 @@ const DeclineModal = ({toggle, open}) => {
                     defaultValue="Type Here"
                     variant="filled"
                     className='border border-solid border-green-400 '
-                    />
+                    />reasonsForDecline
             </Box>    */}
             <TextareaAutosize placeholder='Type Here' 
                 className='w-full !h-[200px] bg-[#F0F2F3] rounded-xl p-[2rem]'
