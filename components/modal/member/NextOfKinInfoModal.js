@@ -16,13 +16,13 @@ const NextOfKinInfoModal = ({toggle, open, onClick, onClickBack, memberData, set
     const [nokRelationship, setNokRelationship] =useState(memberData.nokRelationship);
 
     const registerValidationSchema = yup.object({
-      nokFirstName: yup.string(),
-      nokLastName: yup.string(),
-      nokAddress: yup.string(),
-      nokLocation: yup.string(),
-      nokEmail: yup.string("Enter your email").email("Enter a valid email"),
-      nokRelationship: yup.string("How do you relate?"),
-      nokPhone: yup.string(),
+      nokFirstName: yup.string().required("Please add your next of kin first name"),
+      nokLastName: yup.string().required("Please add your next of kin last name"),
+      nokAddress: yup.string().required("Please add your next of kin Adddress"),
+      nokLocation: yup.string().required("Please add your next of kin Location"),
+      nokEmail: yup.string("Enter your email").email("Enter a valid email").required("Please add your next of kin Email"),
+      nokRelationship: yup.string("How do you relate?").required("Please add your relationship with your next of kin "),
+      nokPhone: yup.string().required("Please add your next of kin Phone number"),
     });
 
     useEffect(() => {

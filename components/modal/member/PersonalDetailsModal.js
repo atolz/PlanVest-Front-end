@@ -21,13 +21,13 @@ const PersonalDetailsModal = ({toggle, open, onClick, memberData, setMemberData,
   const [state, setState] =useState(memberData.state);
 
   const registerValidationSchema = yup.object({
-    firstName: yup.string("Enter your first name"),
-    lastName: yup.string("Enter your last name"),
-    address: yup.string("Enter your Address"),
-    state: yup.string("Enter your State"),
-    gender: yup.string(),
-    email: yup.string("Enter your email").email("Enter a valid email"),
-    phoneNumber: yup.string(),
+    firstName: yup.string("Enter your first name").required("Please add your first name"),
+    lastName: yup.string("Enter your last name").required("Please add your last name"),
+    address: yup.string("Enter your Address").required("Please add an address"),
+    state: yup.string("Enter your State").required("Please add an email"),
+    gender: yup.string().required("Please select your gender"),
+    email: yup.string("Enter your email").email("Enter a valid email").required("Please add an email"),
+    phoneNumber: yup.string().required("Please add your Phone number"),
   });
   const handleSubmit=()=>{
     // registerValidationSchema
