@@ -120,23 +120,25 @@ export const displayAllLoan = async (data = {}) => {
 
 // cooperative investments
 
+
 export const displaySingleInvestment = async (id) => {
   const respData = await fetchData(`/investments/single?id=${id}`);
   console.log("get individual investment data", respData);
   return respData;
 };
-export const displayAllInvestment = async () => {
-  const respData = await fetchData("/investments/all-investment?size=1000&&page=1");
-  console.log("get all investment data", respData);
-  return respData;
-};
-export const displayAllInvestmentss = async () => {
-  const respData = await fetchData("/investments/all?size=1000&&page=1");
-  console.log("get all investment data", respData);
-  return respData;
-};
-export const displayAllCoopInvestment = async (data = {}) => {
-  const respData = await postData("/investments/coop?size=1000&&page=1", data);
+// export const displayAllInvestment = async () => {
+//   const respData = await fetchData("/investments/all-investment?size=1000&&page=1");
+//   console.log("get all investment data", respData);
+//   return respData;
+// };
+// export const displayAllInvestmentss = async () => {
+//   const respData = await fetchData("/investments/all?size=1000&&page=1");
+//   console.log("get all investment data", respData);
+//   return respData;
+// };
+
+export const displayAllCoopInvestment = async () => {
+  const respData = await fetchData("/investments/coop?size=1000&&page=1");
   console.log("get all cooperative investment data", respData);
   return respData;
 };
@@ -161,7 +163,7 @@ export const deleteInvestment = async (id) => {
 // add private members to coop
 export const      addCoopMember = async (data = {}) => {
   const respData = await postData("/cooperative/add-members", data);
-  console.log("add member data", respData);
+  console.log("add existing member data", respData);
   return respData;
 };
 

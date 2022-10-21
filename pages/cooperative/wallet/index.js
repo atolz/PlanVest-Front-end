@@ -84,7 +84,9 @@ const Wallet = () => {
           <p className=" font-medium text-[2.8rem] leading-[38px] text-white">N300,000</p>
 
           <div className=" absolute top-0 right-0 h-full">
-            <img className="h-[8rem] w-auto scale-[1.4] absolute -left-[1.7rem] top-0" src="/images/card-path.png"></img>
+
+            <img className="h-[8rem] w-auto scale-[1.4] absolute -left-[1.7rem] top-0" src="/images/card-path.png" alt='image'></img>
+
             <div style={{ background: "rgba(255, 255, 255, 0.3)", borderRadius: "40px 8px 8px 40px" }} className="w-[20.5rem] rounded-xl h-full flex justify-center">
                 <Button
                 onClick={setWithDraw}

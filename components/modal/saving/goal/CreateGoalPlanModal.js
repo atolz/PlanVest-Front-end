@@ -1,19 +1,29 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Image from 'next/image';
 import toast from "react-hot-toast";
+import Checkbox from '@mui/material/Checkbox';
 import { useRouter } from "next/router";
 import { LoadingButton } from "@mui/lab";
-import PillOnSelect from '../../../form-elements/PillOnSelect';
-import { Button, Dialog, Select, Stack, TextField } from '@mui/material';
+
+import { Button, Dialog, Autocomplete, Stack, TextField } from '@mui/material';
 import PLVDesktopDatePicker from '../../../form-elements/PLVDesktopDatePicker';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import CheckboxesTags from '../../../form-elements/MultiSelectSearch';
-import {createGoalSavings, addGoalSavingsMember} from '../../../../services/cooperative-admin.js';
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import {createGoalSavings,getAllCoopMember, addGoalSavingsMember} from '../../../../services/cooperative-admin.js';
+
 
 const CreateGoalPlanModal = ({activeTab, toggle, name, trigger, setTrigger}) => {
     const router = useRouter();
     // alaf state and activetab
     const state= (activeTab === name);
     const [loading, setLoading] = useState(false);
+
+  const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
+  const checkedIcon = <CheckBoxIcon fontSize="small" />;
+  const [skills,setSkills] = useState([])
+    const [existingMember, SetExistingMember] = useState([]);
+    const [fetchingMembers, setFetchingMembers] = useState(false);
     const [inputValue, setInputValue] =useState({
           title:"",
           startDate: null,
@@ -31,7 +41,7 @@ const CreateGoalPlanModal = ({activeTab, toggle, name, trigger, setTrigger}) => 
 
     const handleSubmit = async () => {
         try {
-            await createGoalSavings(inputValue);
+            await createGoalSavings({...inputValue, skills});
             console.log('this is goal savings?')
             toggle(!toggle);
             setInputValue({
@@ -51,7 +61,29 @@ const CreateGoalPlanModal = ({activeTab, toggle, name, trigger, setTrigger}) => 
         } catch (error) {
             toast.error(inputValue?.message, { duration: 10000 });
         }}
-        
+
+        const handleSelectChange=(e,value)=>{
+            SetExistingMember(value)
+          }
+        useEffect(()=>{
+  
+            (async () => {
+              try {
+                setFetchingMembers(true);
+                const res = await getAllCoopMember() ;
+                // console.log(res, "RES")
+                setSkills(res.data.data)
+                
+              } catch (error) {
+                console.log(error.message, "ERR in skills")
+              } finally{
+                setFetchingMembers(false)
+                // console.log(skills, "SKIIII")
+              }
+            })()
+          
+          },[])
+
     return (
 
       <Dialog onClose={()=>toggle("")} open={state} scroll="body" sx={{ boxShadow: "none" }} className='scroll_hide'>
@@ -85,7 +117,33 @@ const CreateGoalPlanModal = ({activeTab, toggle, name, trigger, setTrigger}) => 
                  <hr className='w-full border-solid border-gray-200' />
                  <p className='text-[#9999B4]  '>Add  members</p>
                 <div className='w-[100%]'>
-                <CheckboxesTags />
+
+                {/* <CheckboxesTags /> */}
+                {!fetchingMembers?   <Autocomplete
+                        multiple
+                        id="checkboxes-tags-demo"
+                        defaultValue={existingMember}
+                        onChange={handleSelectChange}
+                        options={skills}
+                        disableCloseOnSelect
+                        getOptionLabel={(option) => (option.firstName + " " + option.lastName)}
+                        renderOption={(props, option, { selected }) => (
+                            <li {...props}>
+                            <Checkbox
+                                icon={icon}
+                                checkedIcon={checkedIcon}
+                                style={{ marginRight: 8 }}
+                                checked={selected}
+                            />
+                            {(option.firstName + " " + option.lastName)}
+                            </li>
+                        )}
+                        style={{ width: '100%' }}
+                        renderInput={(params) => (
+                            <TextField sx={{'& .MuiInputBase-root': {paddingTop:0}}} {...params} placeholder="Select members"  />
+                        )}
+                        /> : <>loading...</>}
+
                 {/* <PillOnSelect items={["Michael Kennedy", "Melissa Russell", "Latifa Melek", "Joshua Patt", "Danny Yen"]} label={"Select Members"} /> */}
                 
                 <LoadingButton
