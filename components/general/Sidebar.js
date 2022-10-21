@@ -68,16 +68,13 @@ const Sidebar = ({ setIsMobileNavOpened, isMobileNavOpened }) => {
     if (isActive("/cooperative-members")) {
       setActiveNav(userNavs);
       activeNav = userNavs;
-    }
-    if (isActive("/cooperative")) {
+    } else if (isActive("/cooperative")) {
       setActiveNav(coopAdminNavs);
       activeNav = coopAdminNavs;
-    }
-    if (isActive("/private-members")) {
+    } else if (isActive("/private-members")) {
       setActiveNav(privateNavs);
       activeNav = privateNavs;
-    }
-    if (isActive("/admin")) {
+    } else if (isActive("/admin")) {
       setActiveNav(adminNavs);
       activeNav = adminNavs;
     }
