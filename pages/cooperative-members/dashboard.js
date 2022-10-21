@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import AppLayout from "../../components/layouts/AppLayout";
 import PLVMenu from "../../components/form-elements/PLVMenu";
 import PlainContainer from "../../components/layouts/PlainContainer";
@@ -9,6 +9,10 @@ import InvestApplication from "../../components/pages/cooperative-members-sectio
 import LoanApplication from "../../components/pages/cooperative-members-section/dashboard/LoanApplication";
 import { AuthContext } from "../../context/AuthContextProvider";
 import MobileContainer from "../../components/layouts/MobileContainer";
+import CurrencySymbol from "../../components/general/CurrencySymbol";
+import formatNumberWithCommas from "../../utils/addCommas";
+import { MembersContext } from "../../context/MembersProvider";
+import { getUserDashboard } from "../../services/cooperative-members.js";
 
 const Dashboard = () => {
   // let stats = [
@@ -17,6 +21,30 @@ const Dashboard = () => {
   //   { title: "Total Loan", value: "0" },
   // ];
   const { user } = useContext(AuthContext);
+  const { setUserDashboard, userDashboard } = useContext(MembersContext);
+  const hasFetched = useRef(false);
+  const [prev, setPrev] = useState(1);
+
+  const getSetUserDashboard = async () => {
+    const respData = await getUserDashboard();
+    console.log(respData);
+    if (respData.status) {
+      setUserDashboard(respData?.data);
+    }
+  };
+
+  useEffect(() => {
+    console.log("Preve state is ", prev);
+    setPrev((val) => val + 1);
+    if (!hasFetched.current) {
+      getSetUserDashboard();
+      hasFetched.current = true;
+    }
+
+    return () => {
+      console.log("unmounts");
+    };
+  }, []);
   return (
     <AppLayout>
       <div className=" bg-white md:bg-transparent mb-[1.2rem] md:mb-[3.2rem] py-[1.5rem] md:py-0">
@@ -31,10 +59,41 @@ const Dashboard = () => {
         </MobileContainer>
         <MobileContainer className={" pr-0"}>
           <section className="grid grid-flow-col gap-[1.54rem] overflow-x-scroll  scroll_hide ">
-            <StatCard className={""} bgColor="linear-gradient(263.28deg, #2A9D8F 1.44%, #2A9D8F 1.45%, #41C768 100%)" title={"Amount saved"} value={"N500,000"}></StatCard>
-            <StatCard bgColor="linear-gradient(263.32deg, #051EA4 0.96%, #1A8EF0 100%)" title={"Amount invested"} value={"N200,000"}></StatCard>
+            <StatCard
+              className={""}
+              bgColor="linear-gradient(263.28deg, #2A9D8F 1.44%, #2A9D8F 1.45%, #41C768 100%)"
+              title={"Amount saved"}
+              value={
+                <span>
+                  <CurrencySymbol />
+                  &nbsp;
+                  {formatNumberWithCommas(0)}
+                </span>
+              }
+            ></StatCard>
+            <StatCard
+              bgColor="linear-gradient(263.32deg, #051EA4 0.96%, #1A8EF0 100%)"
+              title={"Amount invested"}
+              value={
+                <span>
+                  <CurrencySymbol />
+                  &nbsp;
+                  {formatNumberWithCommas(0)}
+                </span>
+              }
+            ></StatCard>
             <StatCard bgColor="linear-gradient(263.39deg, #9811AD 0%, #E363D6 100%)" title={"Total Loan"} value={"0"}></StatCard>
-            <StatCard bgColor="linear-gradient(263.39deg, #230B34 0%, #8B31CA 100%)" title={"Repayment Balance"} value={"N300,000"}></StatCard>
+            <StatCard
+              bgColor="linear-gradient(263.39deg, #230B34 0%, #8B31CA 100%)"
+              title={"Repayment Balance"}
+              value={
+                <span>
+                  <CurrencySymbol />
+                  &nbsp;
+                  {formatNumberWithCommas(0)}
+                </span>
+              }
+            ></StatCard>
           </section>
         </MobileContainer>
       </div>
