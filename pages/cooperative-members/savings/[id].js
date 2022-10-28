@@ -20,16 +20,20 @@ const SavingDetails = () => {
   // console.log("savings is", saving, router?.query?.type, fixedSavings, SavingsTypes.FIXED);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const fetchSaving = async () => {
-      const respData = router?.query?.type == SavingsTypes.FIXED ? await getSinglePersonalFixedSavings(router?.query?.id) : await getSinglePersonalGoalSavings(router?.query?.id);
-      if (respData?.status) {
-        router?.query?.type == SavingsTypes.FIXED
-          ? setFixedSavings((val) => ({ ...val, hash: { ...val?.hash, [router?.query?.id]: respData?.data } }))
-          : setGoalSavings((val) => ({ ...val, hash: { ...val?.hash, [router?.query?.id]: respData?.data } }));
-      }
-    };
+  const fetchSaving = async () => {
+    const respData = router?.query?.type == SavingsTypes.FIXED ? await getSinglePersonalFixedSavings(router?.query?.id) : await getSinglePersonalGoalSavings(router?.query?.id);
+    if (respData?.status) {
+      router?.query?.type == SavingsTypes.FIXED
+        ? setFixedSavings((val) => ({ ...val, hash: { ...val?.hash, [router?.query?.id]: respData?.data } }))
+        : setGoalSavings((val) => ({ ...val, hash: { ...val?.hash, [router?.query?.id]: respData?.data } }));
+    }
+  };
 
+  const onUpdateAutoSave = () => {
+    fetchSaving();
+  };
+
+  useEffect(() => {
     if (router?.isReady) {
       if (!saving) {
         setLoading(true);
@@ -66,7 +70,7 @@ const SavingDetails = () => {
                 <Transactions></Transactions>
               </div>
               <div>
-                {saving?.amountSavedPerTime != null && <SavingsInfo saving={saving}></SavingsInfo>}
+                {saving?.targetAmount != null && <SavingsInfo onUpdateAutoSave={onUpdateAutoSave} saving={saving}></SavingsInfo>}
                 <Details saving={saving}></Details>
               </div>
             </main>

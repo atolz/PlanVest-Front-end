@@ -9,6 +9,8 @@ export const MembersContext = createContext({
   setGroupSavings: () => {},
   loans: {},
   setLoans: () => {},
+  allInvestments: {},
+  setAllInvestments: () => {},
   investmentApplications: {},
   setInvestmentApplications: () => {},
   userDashboard: {},
@@ -20,6 +22,7 @@ const MembersContextProvider = ({ children }) => {
   const [goalSavings, setGoalSavings] = useState({ data: null, hash: {} });
   const [groupSavings, setGroupSavings] = useState({ data: null, hash: {} });
   const [loans, setLoans] = useState({ data: null, hash: {} });
+  const [allInvestments, setAllInvestments] = useState({ data: null, hash: {} });
   const [investmentApplications, setInvestmentApplications] = useState({ data: null, hash: {} });
   const [userDashboard, setUserDashboard] = useState({ data: null });
 
@@ -38,6 +41,8 @@ const MembersContextProvider = ({ children }) => {
         setGroupSavings,
         loans,
         setLoans,
+        allInvestments,
+        setAllInvestments,
         investmentApplications,
         setInvestmentApplications,
         userDashboard,

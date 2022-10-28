@@ -13,9 +13,10 @@ import TabLight from "../../../components/general/TabLight";
 import CreateSavingsPopup from "../../../components/pages/cooperative-members-section/popups/CreateSavingsPopUp";
 import EmptyState from "../../../components/general/EmptyState";
 import { MembersContext } from "../../../context/MembersProvider";
-import { buildSavingsHash, getPersonalFixedSavings, getPersonalGoalSavings } from "../../../services/cooperative-members.js";
+import { buildSavingsHash, createPersonalFixedSavings, createPersonalGoalSavings, getPersonalFixedSavings, getPersonalGoalSavings } from "../../../services/cooperative-members.js";
 import toast from "react-hot-toast";
 import MobileContainer from "../../../components/layouts/MobileContainer";
+import SavingSummaryPopUp from "../../../components/pages/cooperative-members-section/popups/SavingSummaryPopUp";
 
 export const SavingsTypes = {
   GOAL: "Goal Saving",
@@ -33,6 +34,8 @@ const Savings = () => {
   const [autoSave, setAutoSave] = useState(false);
   const [showSavingDetails, setShowSavingDetails] = useState(false);
   const { fixedSavings, setFixedSavings, goalSavings, setGoalSavings, groupSavings, setGroupSavings } = useContext(MembersContext);
+  const [savingSummary, setSavingSummary] = useState({});
+  const [activeModal, setActiveModal] = useState("");
 
   const handleClose = () => {
     setOpen(false);
@@ -94,15 +97,45 @@ const Savings = () => {
         setActiveTab(type);
       }
     } else {
-      toast.error("Error getting savings. Try again later");
+      // toast.error("Error getting savings. Try again later");
     }
 
     setLoading(false);
   };
 
-  const onCreateSavings = (type) => {
-    fetchBuildStoreSavings(type);
-    handleClose();
+  const onCreateSavings = async (values) => {
+    setActiveModal("SavingSummaryPopUp");
+    setSavingSummary(values);
+    console.log("saving details is ", values);
+  };
+
+  const onGoBackToSavings = async () => {
+    setActiveModal("CreateSavingsPopup");
+  };
+  const onReadSummary = async (actions) => {
+    actions?.setLoading(true);
+    console.log(savingSummary);
+    savingSummary.amount = savingSummary.amount?.split(",").join("");
+    let data;
+    if (savingSummary.savingType == "Goal Savings") {
+      data = await createPersonalGoalSavings({ ...savingSummary, targetAmount: savingSummary.amount });
+    } else {
+      delete savingSummary.amountSavedPerTime;
+      delete savingSummary.debitDate;
+      delete savingSummary.savingFrequency;
+      delete savingSummary.autoDebit;
+      data = await createPersonalFixedSavings({ ...savingSummary, amountTobeSaved: savingSummary.amount });
+    }
+    console.log("Data", data);
+    if (data.status) {
+      toast.success(data?.message, { duration: 8000, id: "status" });
+      fetchBuildStoreSavings(savingSummary.savingType == "Goal Savings" ? SavingsTypes.GOAL : SavingsTypes.FIXED);
+      savingSummary.savingType == "Goal Savings" ? setActiveTab(SavingsTypes.GOAL) : setActiveTab(SavingsTypes.FIXED);
+      handleClose();
+    } else {
+      toast.error(data?.message, { duration: 8000, id: "status" });
+    }
+    actions?.setLoading(false);
   };
 
   useEffect(() => {
@@ -117,7 +150,10 @@ const Savings = () => {
     <AppLayout>
       <MobileContainer>
         <Dialog scroll="body" sx={{ boxShadow: "none" }} onClose={handleClose} open={open}>
-          <CreateSavingsPopup onCreateSavings={onCreateSavings} onClose={handleClose}></CreateSavingsPopup>
+          {activeModal == "CreateSavingsPopup" && <CreateSavingsPopup savingSummary={savingSummary} onCreateSavings={onCreateSavings} onClose={handleClose}></CreateSavingsPopup>}
+          {activeModal == "SavingSummaryPopUp" && (
+            <SavingSummaryPopUp savingSummary={savingSummary} onReadSummary={onReadSummary} onGoBack={onGoBackToSavings} onClose={handleClose}></SavingSummaryPopUp>
+          )}
         </Dialog>
 
         <div className="flex items-center justify-between">
@@ -125,6 +161,7 @@ const Savings = () => {
           <Button
             onClick={() => {
               setOpen(true);
+              setActiveModal("CreateSavingsPopup");
             }}
             sx={{ maxWidth: "18.3rem" }}
             variant="contained"

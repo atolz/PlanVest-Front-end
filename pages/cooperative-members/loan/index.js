@@ -101,6 +101,7 @@ const Loan = () => {
   const onApplyLoan = (loanDetails) => {
     setLoanSummary(loanDetails);
     setActiveModal("LoanSummaryPopUp");
+    console.log("loan details is ", loanDetails);
   };
   const onGoBackToLoan = () => {
     setActiveModal("ApplyLoanPopUp");

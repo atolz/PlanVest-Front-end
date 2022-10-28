@@ -1,15 +1,20 @@
 import { Button, Dialog } from "@mui/material";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import TabLight from "../../../../components/general/TabLight";
 import TabLightV2 from "../../../../components/general/TabLightV2";
 import AppLayout from "../../../../components/layouts/AppLayout";
 import MobileContainer from "../../../../components/layouts/MobileContainer";
 import PlanCard from "../../../../components/pages/cooperative-members-section/investment/PlanCard";
 import LoanCard from "../../../../components/pages/cooperative-members-section/loan/LoanCard";
+import { MembersContext } from "../../../../context/MembersProvider";
+import useFetchDataBuildHashStoreToState from "../../../../hooks/useFetchDataBuildHashStoreToState";
+import { getAllInvestment } from "../../../../services/cooperative-members.js";
 
 const Plans = () => {
   const router = useRouter();
+  const { allInvestments, setAllInvestments } = useContext(MembersContext);
+  const { fetchDataBuildHashStoreToState } = useFetchDataBuildHashStoreToState(getAllInvestment, setAllInvestments);
   const plans = [
     {
       name: "Cashew Nut Investment",
@@ -48,22 +53,21 @@ const Plans = () => {
       type: "Agriculture",
     },
   ];
-  const [filteredPlans, setFilteredPlans] = useState(plans);
+  const [filter, setFilter] = useState(`All (${plans?.length})`);
+  const filteredInvestments = plans?.filter((inv) => {
+    console.log(filter);
+    return filter.includes("All") ? true : filter?.includes(inv?.type);
+  });
   const filterPlans = (type) => {
     return plans?.filter((app) => {
       return app?.type?.includes(type);
     });
   };
-  const onPlanTypeChange = (item) => {
-    if (item.includes("All")) {
-      return setFilteredPlans(plans);
-    }
-    const formattedItem = item?.split(" ")[0];
-    console.log("item is", formattedItem);
-    const newFilter = filterPlans(formattedItem);
-    setFilteredPlans(newFilter);
-  };
   const [page, setPage] = useState("Investment Plans");
+
+  useEffect(() => {
+    fetchDataBuildHashStoreToState();
+  }, []);
 
   return (
     <>
@@ -87,7 +91,10 @@ const Plans = () => {
             </Button>
           </div>
           <TabLight
-            onChange={onPlanTypeChange}
+            active={filter}
+            onChange={(item) => {
+              setFilter(item);
+            }}
             items={[
               `All (${plans?.length})`,
               `Fixed Income (${filterPlans("Fixed Income")?.length})`,
@@ -97,7 +104,7 @@ const Plans = () => {
             ]}
           ></TabLight>
           <div className="mt-[3.2rem] grid grid-cols-[repeat(auto-fill,_minmax(230px,_1fr))] md:grid-cols-[repeat(auto-fill,_minmax(330px,_1fr))] gap-[1.6rem]">
-            {filteredPlans?.map((plan, i) => {
+            {filteredInvestments?.map((plan, i) => {
               return <PlanCard plan={plan} key={i}></PlanCard>;
             })}
           </div>

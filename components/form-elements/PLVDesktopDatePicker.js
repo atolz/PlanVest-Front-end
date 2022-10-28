@@ -35,7 +35,7 @@ const PLVDesktopDatePicker = ({ label = "Date desktop", className, helperText, o
         )}
         components={{
           OpenPickerIcon: () => {
-            return <SvgIconWrapper className={" !text-pv_primary cursor-pointer"} iconName={"calendar"}></SvgIconWrapper>;
+            return <img src={"/svg-icons/calendar.svg"} className={" !text-pv_primary cursor-pointer"} iconName={"calendar"} />;
           },
         }}
         // inputFormat="MM/dd/yyyy"

@@ -45,13 +45,17 @@ export const createPersonalGoalSavings = async (data = {}) => {
   const respData = await postData("/personal-goal-savings/", data);
   return respData;
 };
+export const updatePersonalGoalSavings = async (data = {}, id) => {
+  const respData = await postData(`/personal-goal-savings/update?id=${id}`, data);
+  return respData;
+};
 
 export const getPersonalFixedSavings = async () => {
-  const respData = await fetchData("/personal-fixed-Savings/user?page=1&size=10000");
+  const respData = await fetchData("/personal-fixed-Savings/all?page=1&size=10000");
   return respData;
 };
 export const getPersonalGoalSavings = async () => {
-  const respData = await fetchData("/personal-goal-Savings/user?page=1&size=1000");
+  const respData = await fetchData("/personal-goal-Savings/all?page=1&size=1000");
   return respData;
 };
 export const getSinglePersonalGoalSavings = async (id) => {
@@ -103,7 +107,10 @@ export const createInvestment = async (data = {}) => {
   const respData = await postData("/investments/", data);
   return respData;
 };
-
+export const getAllInvestment = async () => {
+  const respData = await postData("/investments/all-investments?page=1&size=1000000");
+  return respData;
+};
 export const getAllInvestmentApplications = async () => {
   const respData = await postData("/investments/all?page=1&size=1000000");
   return respData;

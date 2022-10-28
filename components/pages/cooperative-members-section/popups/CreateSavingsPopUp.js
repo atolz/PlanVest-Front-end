@@ -1,5 +1,5 @@
 import { LoadingButton } from "@mui/lab";
-import { Button, InputAdornment, TextField } from "@mui/material";
+import { Button, FormControl, FormControlLabel, FormLabel, InputAdornment, Radio, RadioGroup, TextField } from "@mui/material";
 import { Field, Form, Formik } from "formik";
 import * as yup from "yup";
 import React, { useState } from "react";
@@ -14,66 +14,63 @@ import Hrule from "../../../general/Hrule";
 import PLVSwitch from "../../../general/PLVSwitch";
 import TabFilled from "../../../general/TabFilled";
 import { NumericFormat } from "react-number-format";
+import PLVMobileDateTimePicker from "../../../form-elements/PLVMobileDateTimePicker";
+import formatNumberWithCommas from "../../../../utils/addCommas";
+import CurrencySymbol from "../../../general/CurrencySymbol";
 
 const CreateValidationSchema = yup.object({
   savingType: yup.string("Select saving type").required("Select saving type"),
   title: yup.string("Enter saving title").required("This field is required"),
+  duration: yup.string("Select a duration").required("This field is required"),
   startDate: yup.date("").required("Enter a start date").typeError("Enter a valid date"),
-  endDate: yup.date("").min(yup.ref("startDate"), "End date can not be less than start date").required("Enter an end date").typeError("Enter a valid date"),
   debitDate: yup.date("").when("autoDebit", {
     is: true,
     then: yup.date("").required("Enter a debit date").typeError("Enter a valid date"),
   }),
   amount: yup.string().required("Pls enter an amount"),
   autoDebit: yup.boolean(),
-  amountSavedPerTime: yup.number().when("autoDebit", {
-    is: true,
-    then: yup.number().required("Required field").min(100, "Min amount per time 100").typeError("Enter a valid number"),
-  }),
+  // amountSavedPerTime: yup.number().when("autoDebit", {
+  //   is: true,
+  //   then: yup.number().required("Required field").min(100, "Min amount per time 100").typeError("Enter a valid number"),
+  // }),
   //   amountTobeSaved: yup.number().min(100, "Min amount 100.").required("Pls enter an amount").typeError("Enter a valid number"),
 });
 
-const CreateSavingsPopup = ({ onClose = () => {}, onAddCard = () => {}, onCreateSavings = () => {} }) => {
+const CreateSavingsPopup = ({ onClose = () => {}, savingSummary, onAddCard = () => {}, onCreateSavings = () => {} }) => {
   const [loading, setLoading] = useState(false);
   const [autoSave, setAutoSave] = useState(true);
   // const [savingType, setSaving]
 
   const onCreate = async (values) => {
-    console.log(values);
-    values.amount = values.amount?.split(",").join("");
-    let data;
-    if (values.savingType == "Goal Savings") {
-      data = await createPersonalGoalSavings({ ...values, targetAmount: values.amount });
-    } else {
-      delete values.amountSavedPerTime;
-      delete values.debitDate;
-      delete values.savingFrequency;
-      delete values.autoDebit;
-      data = await createPersonalFixedSavings({ ...values, amountTobeSaved: values.amount });
+    onCreateSavings(values);
+    console.log("on create");
+  };
+
+  const calculateBreakDown = (amt, months, frq) => {
+    // console.log(amt, months, frq);
+    if (frq == "Daily") {
+      return amt / (months * 30);
     }
-    console.log("Data", data);
-    if (data.status) {
-      toast.success(data?.message, { duration: 8000, id: "status" });
-      values.savingType == "Goal Savings" ? onCreateSavings(SavingsTypes.GOAL) : onCreateSavings(SavingsTypes.FIXED);
-    } else {
-      toast.error(data?.message, { duration: 8000, id: "status" });
+    if (frq == "Weekly") {
+      return amt / (months * 4);
+    }
+    if (frq == "Monthly") {
+      return amt / months;
     }
   };
   return (
     <PopupLayout title="Create Plan" onClose={onClose}>
       <Formik
         initialValues={{
-          savingType: "",
-          title: "",
-          startDate: "",
-          endDate: "",
-          savingType: "",
-          duration: "",
-          amount: "",
-          amountSavedPerTime: "",
-          savingFrequency: "Daily",
-          debitDate: "",
-          autoDebit: true,
+          savingType: savingSummary?.savingType || "Fixed Savings",
+          title: savingSummary?.title || "",
+          startDate: savingSummary?.startDate,
+          duration: savingSummary?.duration,
+          amount: savingSummary?.amount,
+          // amountSavedPerTime: "",
+          savingFrequency: savingSummary?.savingFrequency || "Daily",
+          debitDate: savingSummary?.debitDate || "",
+          autoDebit: savingSummary?.autoDebit || false,
         }}
         validationSchema={CreateValidationSchema}
         onSubmit={onCreate}
@@ -81,24 +78,41 @@ const CreateSavingsPopup = ({ onClose = () => {}, onAddCard = () => {}, onCreate
         {({ isSubmitting, errors, touched, handleChange, values, setFieldValue, submitCount }) => {
           return (
             <Form className="grid gap-[1.6rem]">
-              <div>
-                <PLVMenu
-                  onChange={(val) => {
-                    setFieldValue("savingType", val);
-                    if (val == "Fixed Savings") {
-                      setFieldValue("autoDebit", false);
-                    } else {
-                      setFieldValue("autoDebit", true);
+              <FormControl>
+                <RadioGroup row aria-labelledby="demo-row-radio-buttons-group-label" name="savingType" defaultValue={values?.savingType || "Fixed Savings"}>
+                  <FormControlLabel
+                    value="Fixed Savings"
+                    control={
+                      <Radio
+                        onChange={(e) => {
+                          setFieldValue("autoDebit", false);
+                          handleChange(e);
+                        }}
+                        color="black"
+                      />
                     }
-                  }}
-                  error={submitCount >= 1 && errors.savingType}
-                  initText={"Select Savings Type"}
-                  items={["Goal Savings", "Fixed Savings"]}
-                  className=" bg-input"
-                ></PLVMenu>
-              </div>
+                    label="Fixed Savings"
+                  />
+                  <FormControlLabel
+                    value="Goal Savings"
+                    control={
+                      <Radio
+                        onChange={(e) => {
+                          console.log("goa called");
+                          setFieldValue("autoDebit", true);
+                          handleChange(e);
+                        }}
+                        color="black"
+                      />
+                    }
+                    label="Goal Savings"
+                  />
+                </RadioGroup>
+              </FormControl>
+
               <Field as={TextField} error={touched.title && errors.title} helperText={touched.title && errors.title} name="title" type={"text"} id="title" label="Title of Savings" variant="filled" />
               <PLVDesktopDatePicker
+                initialDate={values.startDate}
                 error={errors?.startDate && submitCount >= 1}
                 helperText={submitCount >= 1 && errors?.startDate}
                 onChange={(date) => {
@@ -106,20 +120,17 @@ const CreateSavingsPopup = ({ onClose = () => {}, onAddCard = () => {}, onCreate
                 }}
                 label="Start date"
               ></PLVDesktopDatePicker>
-              <PLVDesktopDatePicker
-                error={errors?.endDate && submitCount >= 1}
-                helperText={submitCount >= 1 && errors?.endDate}
-                onChange={(date) => {
-                  setFieldValue("endDate", date);
-                }}
-                label="End date"
-              ></PLVDesktopDatePicker>
+
               <Field
                 as={NumericFormat}
                 allowNegative={false}
                 thousandSeparator
                 error={errors?.amount && touched.amount}
                 helperText={touched.amount && errors?.amount}
+                isAllowed={(values) => {
+                  const { formattedValue, floatValue } = values;
+                  return formattedValue === "" || floatValue >= 0;
+                }}
                 InputProps={{
                   startAdornment: <InputAdornment position="start">&#8358;</InputAdornment>,
                 }}
@@ -130,7 +141,17 @@ const CreateSavingsPopup = ({ onClose = () => {}, onAddCard = () => {}, onCreate
                 variant="filled"
                 customInput={TextField}
               />
-
+              <div>
+                <PLVMenu
+                  onChange={(val) => {
+                    setFieldValue("duration", val);
+                  }}
+                  error={submitCount >= 1 && errors.duration}
+                  initText={values?.duration || "Duration"}
+                  items={["1 months - 13% p.a", "2 months - 20% p.a", "3 months - 20% p.a"]}
+                  className=" bg-input"
+                ></PLVMenu>
+              </div>
               {/* <Field
                 as={TextField}
                 error={errors?.amountTobeSaved}
@@ -154,46 +175,43 @@ const CreateSavingsPopup = ({ onClose = () => {}, onAddCard = () => {}, onCreate
                     <PLVSwitch
                       label={values.autoDebit ? "On" : "Off"}
                       checked={values.autoDebit}
-                      onChange={() => {
-                        setFieldValue("autoDebit", !values.autoDebit);
-                        if (!values.autoDebit == false) {
-                          setFieldValue("amountSavedPerTime", 0);
-                        }
+                      onChange={(e) => {
+                        console.log(e.target?.checked);
+                        setFieldValue("autoDebit", e.target?.checked);
                       }}
                       inputProps={{ "aria-label": "controlled" }}
                     ></PLVSwitch>
                   </div>
                   {values.autoDebit && (
                     <>
-                      <Field
-                        as={TextField}
-                        InputProps={{
-                          startAdornment: <InputAdornment position="start">&#8358;</InputAdornment>,
-                        }}
-                        error={errors?.amountSavedPerTime && touched.amountSavedPerTime}
-                        helperText={touched.amountSavedPerTime && errors?.amountSavedPerTime}
-                        name="amountSavedPerTime"
-                        type={"number"}
-                        id="Amount to save per time"
-                        label="Amount to save per time"
-                        variant="filled"
-                      />
-                      <span className=" text-label flex">How frequent would you prefer to save</span>
                       <TabFilled
                         onChange={(item) => {
                           setFieldValue("savingFrequency", item);
                         }}
-                        active={values.savingFrequency}
+                        active={values?.savingFrequency}
                         items={["Daily", "Weekly", "Monthly"]}
                       ></TabFilled>
-                      <PLVDesktopDatePicker
+                      <PLVMobileDateTimePicker
+                        initialDate={values?.debitDate}
                         onChange={(date) => {
                           setFieldValue("debitDate", date);
                         }}
                         error={errors?.debitDate && submitCount >= 1}
                         helperText={submitCount >= 1 && errors?.debitDate}
-                        label="Select debit date"
-                      ></PLVDesktopDatePicker>
+                        label="Select debit date/time"
+                      />
+                      {values?.duration && values?.amount && (
+                        <div className="flex items-center justify-between">
+                          <p className=" text-label text-[1.6rem]">{values?.savingFrequency} Breakdown</p>
+                          <p className=" text-label text-[1.6rem]">
+                            ~ <CurrencySymbol />{" "}
+                            {formatNumberWithCommas(calculateBreakDown(parseInt(values?.amount?.split(",").join("")), parseInt(values?.duration?.split("m")[0]), values.savingFrequency))}/
+                            {values?.savingFrequency == "Daily" && "day"}
+                            {values?.savingFrequency == "Weekly" && "week"}
+                            {values?.savingFrequency == "Monthly" && "month"}
+                          </p>
+                        </div>
+                      )}
                     </>
                   )}
                 </>
