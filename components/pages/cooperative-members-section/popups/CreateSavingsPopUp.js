@@ -2,7 +2,7 @@ import { LoadingButton } from "@mui/lab";
 import { Button, FormControl, FormControlLabel, FormLabel, InputAdornment, Radio, RadioGroup, TextField } from "@mui/material";
 import { Field, Form, Formik } from "formik";
 import * as yup from "yup";
-import React, { useState } from "react";
+import React, { useContext, useMemo, useState } from "react";
 import PLVDesktopDatePicker from "../../../form-elements/PLVDesktopDatePicker";
 import PLVMenu from "../../../form-elements/PLVMenu";
 import SvgIconWrapper from "../../../general/SvgIconWrapper";
@@ -17,6 +17,7 @@ import { NumericFormat } from "react-number-format";
 import PLVMobileDateTimePicker from "../../../form-elements/PLVMobileDateTimePicker";
 import formatNumberWithCommas from "../../../../utils/addCommas";
 import CurrencySymbol from "../../../general/CurrencySymbol";
+import { AppContext } from "../../../../context/AppContextProvider";
 
 const CreateValidationSchema = yup.object({
   savingType: yup.string("Select saving type").required("Select saving type"),
@@ -39,7 +40,19 @@ const CreateValidationSchema = yup.object({
 const CreateSavingsPopup = ({ onClose = () => {}, savingSummary, onAddCard = () => {}, onCreateSavings = () => {} }) => {
   const [loading, setLoading] = useState(false);
   const [autoSave, setAutoSave] = useState(true);
-  // const [savingType, setSaving]
+  const [activeSetting, setActiveSetting] = useState("Fixed Savings");
+  const { settings } = useContext(AppContext);
+  const activeDurations = useMemo(() => {
+    if (activeSetting == "Fixed Savings") {
+      return settings?.savings?.fixed?.durations?.map((el) => {
+        return `${el?.month} months - ${el?.rate}% p.a`;
+      });
+    } else {
+      return settings?.savings?.goal?.durations?.map((el) => {
+        return `${el?.month} months - ${el?.rate}% p.a`;
+      });
+    }
+  }, [activeSetting]);
 
   const onCreate = async (values) => {
     onCreateSavings(values);
@@ -87,6 +100,7 @@ const CreateSavingsPopup = ({ onClose = () => {}, savingSummary, onAddCard = () 
                         onChange={(e) => {
                           setFieldValue("autoDebit", false);
                           handleChange(e);
+                          setActiveSetting("Fixed Savings");
                         }}
                         color="black"
                       />
@@ -101,6 +115,7 @@ const CreateSavingsPopup = ({ onClose = () => {}, savingSummary, onAddCard = () 
                           console.log("goa called");
                           setFieldValue("autoDebit", true);
                           handleChange(e);
+                          setActiveSetting("Goal Savings");
                         }}
                         color="black"
                       />
@@ -148,7 +163,7 @@ const CreateSavingsPopup = ({ onClose = () => {}, savingSummary, onAddCard = () 
                   }}
                   error={submitCount >= 1 && errors.duration}
                   initText={values?.duration || "Duration"}
-                  items={["1 months - 13% p.a", "2 months - 20% p.a", "3 months - 20% p.a"]}
+                  items={activeDurations}
                   className=" bg-input"
                 ></PLVMenu>
               </div>

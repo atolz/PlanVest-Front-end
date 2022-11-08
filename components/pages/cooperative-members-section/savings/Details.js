@@ -14,10 +14,12 @@ const Box = ({ title, subTitle }) => {
   );
 };
 
-const Details = ({ saving }) => {
+const Details = ({ saving, type }) => {
   return (
     <PlainContainerTitle isStrechedMobile={false} title="Details">
       <div className=" grid grid-cols-2 grid-flow-row gap-[.8rem] mt-[2.4rem]">
+        <Box title="Saving Type" subTitle={type}></Box>
+        <Box title="Duration" subTitle={saving?.duration}></Box>
         <Box title="Interest" subTitle={`${saving?.interestPercent || 0}%`}></Box>
         <Box
           title={saving?.targetAmount ? "Target Amount" : "Amount to be Saved"}

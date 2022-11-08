@@ -19,7 +19,7 @@ const ActionIconContainer = ({ colorClassName, iconName, title, ...props }) => {
     </div>
   );
 };
-const ActionsBox = () => {
+const ActionsBox = ({ saving }) => {
   const [open, setOpen] = useState(false);
   const [activeModal, setActiveModal] = useState("");
   const [openedTab, setOpenedTab] = useState(null);
@@ -98,14 +98,16 @@ const ActionsBox = () => {
       </Dialog>
 
       <div className=" border-0 border-t border-border border-solid mt-[2.4rem] pt-[2.4rem] flex items-center overflow-scroll scroll_hide">
-        <ActionIconContainer
-          onClick={() => {
-            openModal("TopUpPopup");
-          }}
-          title={"Top Up"}
-          colorClassName={" !bg-pv_primary_light"}
-          iconName={"plus"}
-        ></ActionIconContainer>
+        {saving?.targetAmount != null && (
+          <ActionIconContainer
+            onClick={() => {
+              openModal("TopUpPopup");
+            }}
+            title={"Top Up"}
+            colorClassName={" !bg-pv_primary_light"}
+            iconName={"plus"}
+          ></ActionIconContainer>
+        )}
         <ActionIconContainer
           onClick={() => {
             openModal("WithdrawPopUp");

@@ -35,6 +35,19 @@ export const resetPassword = async (data = {}, token) => {
   return respData;
 };
 
+// Transactions
+export const createTransaction = async (data = {}) => {
+  const respData = await postData("/transactions/", data);
+
+  return respData;
+};
+
+export const getAllTransactions = async (page, size) => {
+  const respData = await fetchData(`/transactions/all?page=${page}&size=${size}`);
+
+  return respData;
+};
+
 // Savings
 
 export const createPersonalFixedSavings = async (data = {}) => {

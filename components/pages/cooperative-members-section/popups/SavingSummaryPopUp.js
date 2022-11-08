@@ -1,6 +1,8 @@
 import { LoadingButton } from "@mui/lab";
-import { Button } from "@mui/material";
+import { Button, InputAdornment, TextField } from "@mui/material";
 import React, { useState } from "react";
+import toast from "react-hot-toast";
+import { NumericFormat } from "react-number-format";
 import formatNumberWithCommas from "../../../../utils/addCommas";
 import formatDate from "../../../../utils/formatDate";
 import CurrencySymbol from "../../../general/CurrencySymbol";
@@ -20,17 +22,27 @@ const TextValue = ({ text, value, className }) => {
 
 const SavingSummaryPopUp = ({ onClose = () => {}, onGoBack = () => {}, onReadSummary = () => {}, savingSummary = {} }) => {
   const [loading, setLoading] = useState(false);
-
-  let filteredLoans = { ...savingSummary };
-  if (!filteredLoans?.autoDebit) {
-    delete filteredLoans?.debitDate;
-    filteredLoans.savingFrequency = "Off";
+  const [amountPayNow, setAmountPayNow] = useState();
+  const [paymentType, setPaymentType] = useState("Wallet");
+  let filteredSavings = { ...savingSummary };
+  if (!filteredSavings?.autoDebit) {
+    delete filteredSavings?.debitDate;
+    filteredSavings.savingFrequency = "Off";
   }
-  if (filteredLoans?.savingType == "Fixed Savings") {
-    delete filteredLoans?.savingFrequency;
+  if (filteredSavings?.savingType == "Fixed Savings") {
+    delete filteredSavings?.savingFrequency;
   }
 
-  delete filteredLoans.autoDebit;
+  delete filteredSavings.autoDebit;
+
+  const showPaymentOptions = () => {
+    if (filteredSavings.savingType == "Goal Savings" && parseInt(amountPayNow) > 0) {
+      return true;
+    }
+    if (filteredSavings.savingType != "Goal Savings") {
+      return true;
+    }
+  };
 
   const determineDisplayValue = (key, val) => {
     if (key == "startDate") {
@@ -57,24 +69,57 @@ const SavingSummaryPopUp = ({ onClose = () => {}, onGoBack = () => {}, onReadSum
     startDate: "Start Date",
 
     duration: "Duration",
-    amount: filteredLoans.savingType == "Goal Savings" ? "Target Amount" : "Amount",
+    amount: filteredSavings.savingType == "Goal Savings" ? "Target Amount" : "Amount",
     // amountSavedPerTime: "",
     savingFrequency: "Auto Debit",
     debitDate: "Date/Time",
   };
   return (
     <PopupLayout onClose={onClose} title={"Summary"}>
-      <div className="grid grid-cols-[repeat(auto-fill,_minmax(150px,_1fr))] gap-8 mb-[2.4rem] items-start">
-        {Object.entries(filteredLoans).map(([key, value], i) => {
-          return <GreyBox key={i} title={nameAlias[key]} subTitle={determineDisplayValue(key, value)}></GreyBox>;
+      <div className="grid grid-cols-[repeat(auto-fill,_minmax(150px,_1fr))] gap-4 mb-[2.4rem] items-start">
+        {Object.entries(filteredSavings).map(([key, value], i) => {
+          return <GreyBox className={" rounded-[9px] h-[86px]"} key={i} title={nameAlias[key]} subTitle={determineDisplayValue(key, value)}></GreyBox>;
           // return <TextValue key={i} text={nameAlias[key]} value={determineDisplayValue(key, value)}></TextValue>;
         })}
       </div>
-      <Hrule></Hrule>
+      <Hrule className={"my-[2.4rem]"}></Hrule>
+      {filteredSavings.savingType == "Goal Savings" && (
+        <>
+          <NumericFormat
+            onChange={(e) => {
+              console.log(e.target.value);
+              setAmountPayNow(e.target.value);
+            }}
+            allowNegative={false}
+            thousandSeparator
+            isAllowed={(values) => {
+              const { formattedValue, floatValue } = values;
+              return formattedValue === "" || floatValue >= 0;
+            }}
+            // InputProps={{
+            //   startAdornment: <InputAdornment position="start">&#8358;</InputAdornment>,
+            // }}
+            name="amount"
+            // type={"number"}
+            id="amount"
+            label="Amount to pay now (optional)"
+            variant="filled"
+            customInput={TextField}
+          />
+          <Hrule className={"my-[2.4rem]"}></Hrule>
+        </>
+      )}
 
-      <Hrule className={"mb-[2.4rem]"}></Hrule>
-      <PaymentOptionsTabs></PaymentOptionsTabs>
-      <div className="grid gap-5 grid-flow-col mt-[2.7rem] items-center">
+      {showPaymentOptions() && (
+        <>
+          <PaymentOptionsTabs
+            onSelect={(type, data) => {
+              setPaymentType(type, data);
+            }}
+          ></PaymentOptionsTabs>
+        </>
+      )}
+      <div className="grid gap-5 grid-flow-col mt-[3.8rem] items-center">
         <Button
           onClick={() => {
             onGoBack();
@@ -86,7 +131,13 @@ const SavingSummaryPopUp = ({ onClose = () => {}, onGoBack = () => {}, onReadSum
         <LoadingButton
           loading={loading}
           onClick={() => {
-            onReadSummary({ setLoading });
+            if (paymentType == "Wallet" && filteredSavings.savingType == "Fixed Savings") {
+              return toast.error("Insufficient wallet balance.");
+            }
+            if (paymentType == "Wallet" && filteredSavings.savingType == "Goal Savings" && parseInt(amountPayNow) > 0) {
+              return toast.error("Insufficient wallet balance.");
+            }
+            onReadSummary({ setLoading }, { status: parseInt(amountPayNow) > 0, amount: parseInt(amountPayNow?.split(",").join("")) });
           }}
         >
           Save

@@ -1,12 +1,13 @@
 import React from "react";
 
+export const colorTypes = {
+  warn: "",
+  error: "",
+  success: "",
+  active: "",
+};
+
 const Label = ({ className, text, color, type = "success", hasBg = true, ...props }) => {
-  const colorTypes = {
-    warn: "",
-    error: "",
-    success: "",
-    active: "",
-  };
   const getColor = (type) => {
     if (type == "success") {
       return "var(--color-primary-main)";

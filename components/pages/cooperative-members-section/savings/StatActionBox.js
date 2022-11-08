@@ -21,7 +21,7 @@ const StatActionBox = ({ saving }) => {
         bgColor="linear-gradient(263.32deg, #051EA4 0.96%, #1A8EF0 100%)"
       ></StatCard>
       {/* Action Box */}
-      <ActionsBox></ActionsBox>
+      <ActionsBox saving={saving}></ActionsBox>
     </PlainContainer>
   );
 };

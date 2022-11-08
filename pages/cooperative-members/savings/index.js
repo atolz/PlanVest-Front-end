@@ -13,7 +13,7 @@ import TabLight from "../../../components/general/TabLight";
 import CreateSavingsPopup from "../../../components/pages/cooperative-members-section/popups/CreateSavingsPopUp";
 import EmptyState from "../../../components/general/EmptyState";
 import { MembersContext } from "../../../context/MembersProvider";
-import { buildSavingsHash, createPersonalFixedSavings, createPersonalGoalSavings, getPersonalFixedSavings, getPersonalGoalSavings } from "../../../services/cooperative-members.js";
+import { buildSavingsHash, createPersonalFixedSavings, createPersonalGoalSavings, createTransaction, getPersonalFixedSavings, getPersonalGoalSavings } from "../../../services/cooperative-members.js";
 import toast from "react-hot-toast";
 import MobileContainer from "../../../components/layouts/MobileContainer";
 import SavingSummaryPopUp from "../../../components/pages/cooperative-members-section/popups/SavingSummaryPopUp";
@@ -74,6 +74,25 @@ const Savings = () => {
       }
     }
   };
+  function payWithPaystack(cb) {
+    let handler = PaystackPop.setup({
+      key: "pk_test_a5bb6ca33efd7312d93c54402f6f82f775760636", // Replace with your public key
+      email: "test@gmail.com",
+      amount: 10000,
+      ref: "15f74fe7-0c30-4ee5-8517-6a8694e0e9e2",
+      // label: "Optional string that replaces customer email"
+      onClose: function () {
+        alert("Window closed.");
+      },
+      callback: function (response) {
+        let message = "Payment complete! Reference: " + response.reference;
+        cb();
+        alert(message);
+      },
+    });
+
+    handler.openIframe();
+  }
 
   const fetchBuildStoreSavings = async (type) => {
     setLoading(true);
@@ -112,30 +131,76 @@ const Savings = () => {
   const onGoBackToSavings = async () => {
     setActiveModal("CreateSavingsPopup");
   };
-  const onReadSummary = async (actions) => {
+  const onReadSummary = async (actions, goalOptionalPayNow) => {
     actions?.setLoading(true);
     console.log(savingSummary);
-    savingSummary.amount = savingSummary.amount?.split(",").join("");
-    let data;
-    if (savingSummary.savingType == "Goal Savings") {
-      data = await createPersonalGoalSavings({ ...savingSummary, targetAmount: savingSummary.amount });
-    } else {
-      delete savingSummary.amountSavedPerTime;
-      delete savingSummary.debitDate;
-      delete savingSummary.savingFrequency;
-      delete savingSummary.autoDebit;
-      data = await createPersonalFixedSavings({ ...savingSummary, amountTobeSaved: savingSummary.amount });
+
+    async function createSavings() {
+      savingSummary.amount = savingSummary.amount?.split(",").join("");
+      let data;
+      if (savingSummary.savingType == "Goal Savings") {
+        data = await createPersonalGoalSavings({ ...savingSummary, targetAmount: savingSummary.amount });
+      } else {
+        delete savingSummary.amountSavedPerTime;
+        delete savingSummary.debitDate;
+        delete savingSummary.savingFrequency;
+        delete savingSummary.autoDebit;
+        data = await createPersonalFixedSavings({ ...savingSummary, amountTobeSaved: savingSummary.amount });
+      }
+      console.log("Data", data);
+      if (data.status) {
+        toast.success(data?.message, { duration: 8000, id: "status" });
+        // fetchBuildStoreSavings(savingSummary.savingType == "Goal Savings" ? SavingsTypes.GOAL : SavingsTypes.FIXED);
+        // savingSummary.savingType == "Goal Savings" ? setActiveTab(SavingsTypes.GOAL) : setActiveTab(SavingsTypes.FIXED);
+        return data.data;
+      } else {
+        toast.error(data?.message, { duration: 8000, id: "status" });
+        return null;
+      }
     }
-    console.log("Data", data);
-    if (data.status) {
-      toast.success(data?.message, { duration: 8000, id: "status" });
-      fetchBuildStoreSavings(savingSummary.savingType == "Goal Savings" ? SavingsTypes.GOAL : SavingsTypes.FIXED);
-      savingSummary.savingType == "Goal Savings" ? setActiveTab(SavingsTypes.GOAL) : setActiveTab(SavingsTypes.FIXED);
+
+    async function createSavingsTransaction(type, amount) {
+      const env = process.env.NODE_ENV;
+      let callback_url = "";
+      if (env == "development") {
+        callback_url = `http://${window?.location.hostname}:${window?.location.port}/cooperative-members/savings`;
+      } else if (env == "production") {
+        callback_url = `https://${window?.location.hostname}/cooperative-members/savings`;
+      }
+      let data = {
+        type: "credit",
+        savingType: type,
+        transactionTypeId: createdSavings?.id,
+        amount: amount,
+        callback_url: callback_url,
+      };
+      const respData = await createTransaction(data);
+      if (respData?.status) {
+        router.push(respData?.data?.authorization_url);
+      } else {
+        toast.error("Transaction failed.");
+        actions?.setLoading(false);
+      }
+    }
+
+    const createdSavings = await createSavings();
+
+    if (!createdSavings) {
+      actions?.setLoading(false);
+      return;
+    }
+
+    if (savingSummary?.savingType == "Fixed Savings") {
+      createSavingsTransaction("personalFixedSavings", createdSavings?.amount);
+    } else if (goalOptionalPayNow.status) {
+      createSavingsTransaction("personalGoalSavings", goalOptionalPayNow?.amount);
+    } else if (!goalOptionalPayNow.status) {
+      fetchBuildStoreSavings(SavingsTypes.GOAL);
+      setActiveTab(SavingsTypes.GOAL);
+      actions?.setLoading(false);
       handleClose();
-    } else {
-      toast.error(data?.message, { duration: 8000, id: "status" });
     }
-    actions?.setLoading(false);
+    // payWithPaystack(createSavings);
   };
 
   useEffect(() => {

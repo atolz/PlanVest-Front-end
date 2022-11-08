@@ -66,12 +66,12 @@ const SavingDetails = () => {
 
             <main className="mt-[4.2rem] grid grid-cols-[repeat(auto-fit,_minmax(250px,_1fr))] md:grid-cols-[repeat(auto-fit,_minmax(350px,_1fr))] 2xl:grid-cols-[1.5fr,_1fr] gap-[2.4rem]">
               <div>
-                <StatActionBox></StatActionBox>
+                <StatActionBox saving={saving}></StatActionBox>
                 <Transactions></Transactions>
               </div>
               <div>
                 {saving?.targetAmount != null && <SavingsInfo onUpdateAutoSave={onUpdateAutoSave} saving={saving}></SavingsInfo>}
-                <Details saving={saving}></Details>
+                <Details saving={saving} type={router?.query?.type}></Details>
               </div>
             </main>
           </>
