@@ -13,6 +13,8 @@ import ShowPassword from "../components/form-elements/ShowPassword";
 import OnboardingLayout from "../components/layouts/OnboardingLayout";
 import { login as userLogin } from "../services/cooperative-members.js";
 import SignupWIthButton from "../components/form-elements/SignupWIthButton";
+import fetchData from "../utils/fetchData";
+import { AppContext } from "../context/AppContextProvider";
 
 const Signin = () => {
   const [activeType, setActiveType] = useState("User");
@@ -21,6 +23,7 @@ const Signin = () => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const { setExpiresOnLogIn, setUser } = useContext(AuthContext);
+  const { setSettings } = useContext(AppContext);
 
   const logInValidationSchema = yup.object({
     email: yup.string("Enter your email").email("Enter a valid email").required("Email is required"),
@@ -34,6 +37,13 @@ const Signin = () => {
       setUser(data?.data);
       setExpiresOnLogIn(data?.accessToken);
       toast.success(data?.message ?? "Login successful!", { duration: 3000, id: "status" });
+      const respData = await fetchData("/settings/all?page=1");
+      if (respData?.status) {
+        setSettings(respData?.data);
+        console.log("settings", respData.data);
+      } else {
+        toast.error("problem getting settngs");
+      }
       activeType == "User" ? router.push("cooperative-members/dashboard") : router.push("cooperative/dashboard");
     } else {
       toast.error(data?.message, { duration: 8000, id: "status" });

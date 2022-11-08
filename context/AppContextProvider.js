@@ -17,7 +17,7 @@ const AppContextProvider = ({ children }) => {
       setSettings(respData?.data);
       console.log("settings", respData.data);
     } else {
-      toast.error("problem getting settngs");
+      // toast.error("problem getting settngs");
     }
   };
 

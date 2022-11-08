@@ -74,15 +74,19 @@ const ReUseableTable = ({
       <footer className="flex justify-between items-center text-text font-medium text-[1.4rem] mt-[2.6rem] px-[2rem]">
         <div>Rows per page: {rowPerPage}</div>
         <div>
-          <span className=" text-[2rem] font-medium cursor-pointer" onClick={onPrev}>
-            &laquo;{" "}
-          </span>
+          {currentPage > 1 && (
+            <span className=" text-[2rem] font-medium cursor-pointer" onClick={onPrev}>
+              &laquo;{" "}
+            </span>
+          )}
           <span className="mx-[1.5rem]">
             {currentPage} of {totalPage}
           </span>
-          <span className=" text-[2rem] font-medium cursor-pointer" onClick={onNext}>
-            &raquo;
-          </span>
+          {currentPage < totalPage && (
+            <span className=" text-[2rem] font-medium cursor-pointer" onClick={onNext}>
+              &raquo;
+            </span>
+          )}
         </div>
       </footer>
     </div>
